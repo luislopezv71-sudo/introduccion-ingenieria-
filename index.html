@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Recursos | Introducción a la Ingeniería e IA</title>
+    <title>Portal Hub de Introducción a la Ingeniería | William Osler & UAGRO</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -15,150 +15,237 @@
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-white">
 
-    <!-- Encabezado Institucional Premium -->
-    <header class="bg-slate-950 border-b border-slate-800 shadow-lg sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center">
+    <!-- Encabezado Institucional -->
+    <header class="bg-slate-950 border-b border-slate-800 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center">
             <div class="flex items-center space-x-4">
-                <div class="bg-cyan-600/20 border border-cyan-500/30 p-2.5 rounded-2xl text-cyan-400 font-bold text-sm tracking-wider">
+                <div class="bg-sky-600/20 border border-sky-500/30 p-2.5 rounded-2xl text-sky-400 font-bold text-sm tracking-wider">
                     WM OSLER & UAGRO
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold text-white tracking-wide">Portal de Introducción a la Ingeniería</h1>
-                    <p class="text-xs text-slate-400">Metodología de Proyectos, Formación Vocacional y Prompt Engineering</p>
+                    <h1 class="text-lg font-bold text-white tracking-wide">Portal Hub: Introducción a la Ingeniería</h1>
+                    <p class="text-xs text-slate-400">Programa Académico de Bachillerato • Plataforma de Aprendizaje</p>
                 </div>
             </div>
             <div class="mt-3 md:mt-0 text-right bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-800">
-                <p class="text-xs font-semibold text-cyan-400">Catedrático: L.I. Luis Arturo López Vergara</p>
-                <p class="text-[10px] text-slate-400">Programa Académico de Bachillerato</p>
+                <p class="text-xs font-semibold text-sky-400">Catedrático: L.I. Luis Arturo López Vergara</p>
+                <p class="text-[10px] text-slate-400">Universidad William Osler & UAGRO • 2026</p>
             </div>
         </div>
     </header>
 
-    <!-- Contenido Principal (Portal de Accesos) -->
-    <main class="flex-grow max-w-6xl mx-auto px-6 py-10 w-full space-y-8">
+    <!-- Contenido Principal -->
+    <main class="flex-grow max-w-7xl mx-auto px-6 py-8 w-full space-y-8">
         
-        <!-- Banner de Propósito e Identidad -->
-        <div class="bg-gradient-to-r from-slate-950 via-slate-900 to-cyan-950/40 border border-slate-800 p-8 rounded-3xl shadow-2xl relative overflow-hidden space-y-3">
-            <span class="text-xs font-bold text-cyan-400 uppercase tracking-widest bg-cyan-950/80 px-3 py-1 rounded-full border border-cyan-800/60">
-                Formación Integral del Estudiante
-            </span>
-            <h2 class="text-2xl md:text-3xl font-extrabold text-white">"Vístete del Ingeniero que Quieres Ser"</h2>
-            <p class="text-xs md:text-sm text-slate-300 leading-relaxed max-w-3xl">
-                La ingeniería no solo resuelve problemas: transforma la realidad y exige que descubras tu vocación. Explora las distintas ramas profesionales (Civil, Industrial, Mecánica, Eléctrica, Sistemas, Ambiental y Emergentes), proyecta tu perfil vocacional y simula tus prototipos con ayuda de la Inteligencia Artificial.
+        <!-- BANNER DINÁMICO: Formación Integral del Estudiante -->
+        <div id="banner-contenedor" class="bg-gradient-to-r from-slate-950 via-slate-900 to-sky-950/40 border border-sky-500/30 p-8 rounded-3xl shadow-2xl space-y-4 transition-all duration-300 relative overflow-hidden">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+                <span id="banner-badge" class="text-xs font-bold text-sky-400 uppercase tracking-widest bg-sky-950/80 px-3 py-1 rounded-full border border-sky-800/60">
+                    Formación Integral del Estudiante • Unidad I
+                </span>
+                <span class="text-[11px] text-slate-400 font-medium">Haz clic en cada Unidad para explorar su visión pedagógica ↓</span>
+            </div>
+            
+            <h2 id="banner-titulo" class="text-2xl md:text-3xl font-extrabold text-white">
+                Unidad I: ¿Qué es la Ingeniería?
+            </h2>
+            
+            <p id="banner-desc" class="text-xs md:text-sm text-slate-300 leading-relaxed max-w-4xl">
+                Comprende los fundamentos conceptuales de la ingeniería, su origen, evolución histórica y su rol transformador en la sociedad. Descubre cómo la ciencia y la matemática se aplican creativamente para dar respuesta a necesidades humanas.
             </p>
+
+            <!-- Selector de Unidades dentro del Banner -->
+            <div class="pt-2 flex flex-wrap gap-2">
+                <button onclick="activarUnidad('u1')" id="btn-u1" class="text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-sky-600 text-white shadow-lg transition">Unidad I: ¿Qué es la Ingeniería?</button>
+                <button onclick="activarUnidad('u2')" id="btn-u2" class="text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Unidad II: Proceso de Ingeniería</button>
+                <button onclick="activarUnidad('u3')" id="btn-u3" class="text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Unidad III: Ramas e Identidad</button>
+                <button onclick="activarUnidad('u4')" id="btn-u4" class="text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Unidad IV: Banco de Prompts & IA</button>
+            </div>
         </div>
 
-        <!-- Secciones Principales (Cuadrícula de Accesos) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- CUADRÍCULA ORDENADA POR UNIDADES -->
+        <div class="space-y-4">
+            <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest">Estructura Secuencial del Curso</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-            <!-- TARJETA DESTACADA: Cuestionario Vocacional (NUEVA UNIDAD III) -->
-            <a href="vocacional.html" class="card-hover bg-gradient-to-br from-indigo-950/60 to-slate-800 border border-indigo-500/40 p-6 rounded-3xl shadow-xl flex flex-col justify-between group shadow-indigo-950/30 lg:col-span-1">
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between">
-                        <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-xl border border-indigo-500/30">
-                            👷‍♂️
+                <!-- UNIDAD I: ¿Qué es la Ingeniería? -->
+                <a href="docs/" onclick="activarUnidad('u1')" class="card-hover bg-slate-800 border border-sky-500/40 p-6 rounded-3xl shadow-xl flex flex-col justify-between group shadow-sky-950/20">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="w-12 h-12 rounded-2xl bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-xl border border-sky-500/30">
+                                📘
+                            </div>
+                            <span class="text-[10px] bg-sky-500/20 text-sky-300 font-bold px-2.5 py-1 rounded-full border border-sky-500/30">Unidad I</span>
                         </div>
-                        <span class="text-[10px] bg-indigo-500/20 text-indigo-300 font-bold px-2.5 py-1 rounded-full border border-indigo-500/30">Unidad III</span>
+                        <h4 class="text-base font-bold text-white group-hover:text-sky-400 transition-colors">¿Qué es la Ingeniería?</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Definición, historia, impacto social y principios fundamentales. Comprende cómo piensa y resuelve problemas un ingeniero en la sociedad contemporánea.
+                        </p>
                     </div>
-                    <h3 class="text-base font-bold text-white group-hover:text-indigo-400 transition-colors">Identidad y Test Vocacional</h3>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        ¿Qué ingeniería es para ti? Descubre las ramas de la ingeniería (Civil, Sistemas, Industrial, Mecánica, Ambiental y Emergentes), resuelve el cuestionario y define tu perfil profesional.
-                    </p>
-                </div>
-                <div class="mt-6 flex items-center text-xs font-semibold text-indigo-400 space-x-1">
-                    <span>Realizar Test Vocacional</span>
-                    <span>→</span>
-                </div>
-            </a>
+                    <div class="mt-6 flex items-center text-xs font-semibold text-sky-400 space-x-1">
+                        <span>Ver contenidos teóricos</span>
+                        <span>→</span>
+                    </div>
+                </a>
 
-            <!-- TARJETA: Bitácora y Simulador (UNIDAD II) -->
-            <a href="simulador.html" class="card-hover bg-slate-800 border border-cyan-500/50 p-6 rounded-3xl shadow-xl flex flex-col justify-between group shadow-cyan-950/20 lg:col-span-1">
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between">
-                        <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-xl border border-cyan-500/30">
-                            ⚙️
+                <!-- UNIDAD II: El Proceso de Ingeniería -->
+                <a href="simulador.html" onclick="activarUnidad('u2')" class="card-hover bg-slate-800 border border-cyan-500/40 p-6 rounded-3xl shadow-xl flex flex-col justify-between group shadow-cyan-950/20">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-xl border border-cyan-500/30">
+                                ⚙️
+                            </div>
+                            <span class="text-[10px] bg-cyan-500/20 text-cyan-300 font-bold px-2.5 py-1 rounded-full border border-cyan-500/30">Unidad II</span>
                         </div>
-                        <span class="text-[10px] bg-cyan-500/20 text-cyan-300 font-bold px-2.5 py-1 rounded-full border border-cyan-500/30">Unidad II</span>
+                        <h4 class="text-base font-bold text-white group-hover:text-cyan-400 transition-colors">El Proceso de Ingeniería</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Bitácora interactiva de 5 clases para proyectos en equipo: planteamiento, diseño, requisitos, prototipado/simulación y evaluación continua.
+                        </p>
                     </div>
-                    <h3 class="text-base font-bold text-white group-hover:text-cyan-400 transition-colors">Bitácora y Simulador de Proyectos</h3>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        Desarrolla en equipo tu proyecto escolar recorriendo las 5 clases del proceso de ingeniería. Registra avances, genera prompts específicos y exporta tu reporte.
-                    </p>
-                </div>
-                <div class="mt-6 flex items-center text-xs font-semibold text-cyan-400 space-x-1">
-                    <span>Abrir bitácora de equipo</span>
-                    <span>→</span>
-                </div>
-            </a>
+                    <div class="mt-6 flex items-center text-xs font-semibold text-cyan-400 space-x-1">
+                        <span>Abrir simulador de proyectos</span>
+                        <span>→</span>
+                    </div>
+                </a>
 
-            <!-- TARJETA: Banco de Prompts -->
-            <a href="prompts/" class="card-hover bg-slate-800 border border-slate-700 p-6 rounded-3xl shadow-xl flex flex-col justify-between group lg:col-span-1">
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between">
-                        <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xl border border-emerald-500/30">
-                            🧭
+                <!-- UNIDAD III: Ramas e Identidad Vocacional -->
+                <a href="vocacional.html" onclick="activarUnidad('u3')" class="card-hover bg-slate-800 border border-indigo-500/40 p-6 rounded-3xl shadow-xl flex flex-col justify-between group shadow-indigo-950/20">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-xl border border-indigo-500/30">
+                                👷‍♂️
+                            </div>
+                            <span class="text-[10px] bg-indigo-500/20 text-indigo-300 font-bold px-2.5 py-1 rounded-full border border-indigo-500/30">Unidad III</span>
                         </div>
-                        <span class="text-[10px] bg-emerald-500/20 text-emerald-300 font-bold px-2.5 py-1 rounded-full border border-emerald-500/30">IA + Prompting</span>
+                        <h4 class="text-base font-bold text-white group-hover:text-indigo-400 transition-colors">Ramas de la Ingeniería</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            "Vístete del Ingeniero que quieres ser". Cuestionario vocacional de 6 preguntas, catálogo de 10 especialidades y creador de credencial universitaria.
+                        </p>
                     </div>
-                    <h3 class="text-base font-bold text-white group-hover:text-emerald-400 transition-colors">Banco de Prompts y Framework</h3>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        Aprende a estructurar órdenes efectivas con el framework de 5 elementos (Rol, Tarea, Contexto, Formato, Restricción) adaptado a cada especialidad.
-                    </p>
-                </div>
-                <div class="mt-6 flex items-center text-xs font-semibold text-emerald-400 space-x-1">
-                    <span>Ver guía de prompting</span>
-                    <span>→</span>
-                </div>
-            </a>
+                    <div class="mt-6 flex items-center text-xs font-semibold text-indigo-400 space-x-1">
+                        <span>Realizar test e identidad</span>
+                        <span>→</span>
+                    </div>
+                </a>
 
-            <!-- TARJETA: Documentos y Guías -->
+                <!-- UNIDAD IV: Banco de Prompts y Framework -->
+                <a href="prompts/" onclick="activarUnidad('u4')" class="card-hover bg-slate-800 border border-emerald-500/40 p-6 rounded-3xl shadow-xl flex flex-col justify-between group shadow-emerald-950/20">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xl border border-emerald-500/30">
+                                🤖
+                            </div>
+                            <span class="text-[10px] bg-emerald-500/20 text-emerald-300 font-bold px-2.5 py-1 rounded-full border border-emerald-500/30">Unidad IV</span>
+                        </div>
+                        <h4 class="text-base font-bold text-white group-hover:text-emerald-400 transition-colors">Banco de Prompts y Framework</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Framework de 5 elementos (Rol, Tarea, Contexto, Formato y Restricción) para simular prototipos, auditar proyectos e interactuar con IA.
+                        </p>
+                    </div>
+                    <div class="mt-6 flex items-center text-xs font-semibold text-emerald-400 space-x-1">
+                        <span>Explorar prompts e IA</span>
+                        <span>→</span>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
+        <!-- RECURSOS COMPLEMENTARIOS Y CASOS INTEGRADORES -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+            <!-- Guías y Documentación -->
             <a href="docs/" class="card-hover bg-slate-800 border border-slate-700 p-6 rounded-3xl shadow-xl flex flex-col justify-between group">
                 <div class="space-y-3">
-                    <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xl border border-amber-500/30">
+                    <div class="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-lg border border-amber-500/30">
                         📄
                     </div>
-                    <h3 class="text-base font-bold text-white group-hover:text-amber-400 transition-colors">Guías y Rúbricas (Docs)</h3>
+                    <h4 class="text-base font-bold text-white group-hover:text-amber-400 transition-colors">Documentos y Guías de Actividades</h4>
                     <p class="text-xs text-slate-300 leading-relaxed">
-                        Instrucciones del programa académico, actividades de la Unidad III, rúbricas de evaluación para Classroom y criterios institucionales.
+                        Accede a las rúbricas de evaluación institucionales, manuales de prácticas y guías descargables para las entregas en Classroom.
                     </p>
                 </div>
-                <div class="mt-6 flex items-center text-xs font-semibold text-amber-400 space-x-1">
-                    <span>Consultar documentos</span>
+                <div class="mt-4 flex items-center text-xs font-semibold text-amber-400 space-x-1">
+                    <span>Consultar rúbricas</span>
                     <span>→</span>
                 </div>
             </a>
 
-            <!-- TARJETA: Ejemplos Integradores -->
-            <a href="examples/" class="card-hover bg-slate-800 border border-slate-700 p-6 rounded-3xl shadow-xl flex flex-col justify-between group md:col-span-2 lg:col-span-2">
+            <!-- Ejemplos Integradores -->
+            <a href="examples/" class="card-hover bg-slate-800 border border-slate-700 p-6 rounded-3xl shadow-xl flex flex-col justify-between group">
                 <div class="space-y-3">
-                    <div class="flex items-center justify-between">
-                        <div class="w-12 h-12 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-xl border border-purple-500/30">
-                            🌧️
-                        </div>
-                        <span class="text-[10px] bg-purple-500/20 text-purple-300 font-bold px-2.5 py-1 rounded-full border border-purple-500/30">Casos Reales</span>
+                    <div class="w-10 h-10 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-lg border border-purple-500/30">
+                        🌧️
                     </div>
-                    <h3 class="text-base font-bold text-white group-hover:text-purple-400 transition-colors">Ejemplos e Integradores Interdisciplinarios</h3>
+                    <h4 class="text-base font-bold text-white group-hover:text-purple-400 transition-colors">Ejemplos Integradores Interdisciplinarios</h4>
                     <p class="text-xs text-slate-300 leading-relaxed">
-                        Revisa cómo colaboran diferentes ingenierías en un solo proyecto (ejemplo: captación de agua de lluvia o infraestructura hospitalaria donde intervienen ingenieros civiles, eléctricos, de sistemas y biomédicos).
+                        Análisis de proyectos reales (como la captación de agua de lluvia) donde colaboran ingenieros civiles, eléctricos, de sistemas y ambientales.
                     </p>
                 </div>
-                <div class="mt-6 flex items-center text-xs font-semibold text-purple-400 space-x-1">
-                    <span>Explorar casos de estudio</span>
+                <div class="mt-4 flex items-center text-xs font-semibold text-purple-400 space-x-1">
+                    <span>Ver casos de estudio</span>
                     <span>→</span>
                 </div>
             </a>
-
         </div>
 
     </main>
 
     <!-- Pie Institucional -->
     <footer class="bg-slate-950 border-t border-slate-800 py-6 mt-12">
-        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500">
-            <p>Universidad William Osler & UAGRO • Programa Académico de Bachillerato</p>
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500">
+            <p>Universidad William Osler & Universidad Autónoma de Guerrero (UAGRO)</p>
             <p class="text-slate-400 font-medium">Catedrático: L.I. Luis Arturo López Vergara</p>
         </div>
     </footer>
 
+    <!-- Lógica JavaScript para Cambiar la Información del Banner Dinámico -->
+    <script>
+        const datosUnidades = {
+            u1: {
+                badge: "Formación Integral del Estudiante • Unidad I",
+                titulo: "Unidad I: ¿Qué es la Ingeniería?",
+                desc: "Comprende los fundamentos conceptuales de la ingeniería, su origen, evolución histórica y su rol transformador en la sociedad. Descubre cómo la ciencia y la matemática se aplican creativamente para dar respuesta a necesidades humanas reales.",
+                btnClass: "bg-sky-600 text-white shadow-lg"
+            },
+            u2: {
+                badge: "Formación Integral del Estudiante • Unidad II",
+                titulo: "Unidad II: El Proceso de Ingeniería y Solución de Problemas",
+                desc: "Aplica la metodología sistemática de diseño estructurada en 5 clases: desde el planteamiento del problema en equipo y lluvia de ideas, hasta la definición de restricciones, la construcción de prototipos físicos/virtuales y la evaluación continua.",
+                btnClass: "bg-cyan-600 text-white shadow-lg"
+            },
+            u3: {
+                badge: "Formación Integral del Estudiante • Unidad III",
+                titulo: "Unidad III: Ramas de la Ingeniería e Identidad Vocacional",
+                desc: "'Vístete del Ingeniero que Quieres Ser'. Explora 10 ramas especializadas (Civil, Sistemas, Industrial, Mecánica, Eléctrica, Ambiental, Automotriz, Aeroespacial, Biomédica y Mecatrónica), resuelve el test vocacional de 6 preguntas y genera tu credencial oficial con el casco de la Universidad William Osler.",
+                btnClass: "bg-indigo-600 text-white shadow-lg"
+            },
+            u4: {
+                badge: "Formación Integral del Estudiante • Unidad IV",
+                titulo: "Unidad IV: Banco de Prompts y Framework de Inteligencia Artificial",
+                desc: "Aprende a comunicarte eficazmente con modelos de Inteligencia Artificial mediante el Framework de los 5 elementos (Rol, Tarea, Contexto, Formato y Restricción) para simular prototipos técnicos, auditar proyectos y acelerar tu aprendizaje.",
+                btnClass: "bg-emerald-600 text-white shadow-lg"
+            }
+        };
+
+        function activarUnidad(clave) {
+            const data = datosUnidades[clave];
+            if (!data) return;
+
+            document.getElementById('banner-badge').innerText = data.badge;
+            document.getElementById('banner-titulo').innerText = data.titulo;
+            document.getElementById('banner-desc').innerText = data.desc;
+
+            // Resetear estilos de botones del banner
+            ['u1', 'u2', 'u3', 'u4'].forEach(u => {
+                const btn = document.getElementById('btn-' + u);
+                if (u === clave) {
+                    btn.className = `text-xs px-3.5 py-1.5 rounded-xl font-semibold transition ${data.btnClass}`;
+                } else {
+                    btn.className = "text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+                }
+            });
+        }
+    </script>
 </body>
 </html>
