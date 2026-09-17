@@ -26,23 +26,9 @@ Este repositorio contiene la plataforma interactiva de trabajo para la materia *
 
 ## 📂 2. Estructura del Repositorio
 
-```text
-introduccion-ingenieria-u2/
+```textintroduccion-ingenieria-u2/
 │
 ├── index.html             # 🌐 Portal principal tipo Hub (Menú de navegación general)
 ├── simulador.html         # ⚙️ Bitácora interactiva por etapas (Unidad II: Clases 1 a 5 + Prompts)
 ├── vocacional.html        # 👷‍♂️ Test vocacional y exploración de Ramas de la Ingeniería (Unidad III)[cite: 2]
-│
-├── assets/                # 🖼️ Recursos visuales e infografías oficiales de la materia
-│   └── infografia-u2.png
-│
-├── prompts/               # 🧭 Banco de instrucciones y framework de prompting
-│   └── README.md          # Explicación de los 5 elementos aplicados a prototipos
-│
-├── docs/                  # 📄 Guías pedagógicas, actividades vocacionales y rúbricas[cite: 2]
-│   ├── guia-actividades.md
-│   ├── Actividad_1_Unidad_III.pdf[cite: 2]
-│   └── rubrica.md
-│
-└── examples/              # 🌧️ Casos prácticos e integradores interdisciplinarios[cite: 2]
-    └── caso-clase5.md
+
