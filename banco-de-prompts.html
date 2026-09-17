@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unidad IV: Protocolo de 5 Pasos, Prompts y Verificación | William Osler & UAGro</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Poppins & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', 'Poppins', sans-serif; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 280px;
+        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans leading-relaxed min-h-screen flex flex-col selection:bg-teal-500 selection:text-white">
+
+    <!-- ENCABEZADO INSTITUCIONAL -->
+    <header class="bg-slate-950 border-b border-slate-800 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-teal-600/20 border border-teal-500/30 p-2 rounded-xl text-teal-400 font-bold text-sm tracking-wider">
+                    WM OSLER & UAGRO
+                </div>
+                <div>
+                    <h1 class="font-bold text-base sm:text-lg text-white tracking-wide">Unidad IV: Protocolo de 5 Pasos y Banco de Prompts Académicos</h1>
+                    <p class="text-xs text-slate-400">Verificación Obligatoria de Fuentes y Análisis Multimodal con Imagen</p>
+                </div>
+            </div>
+            <div class="text-right bg-slate-900/80 px-3.5 py-1.5 rounded-xl border border-slate-800 text-xs">
+                <p class="font-semibold text-teal-400">Catedrático: L.I. Luis Arturo López Vergara</p>
+                <p class="text-[10px] text-slate-400">Programa Académico de Bachillerato • Edición 2026</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- BARRA DE NAVEGACIÓN -->
+    <nav class="bg-slate-950/90 border-b border-slate-800 sticky top-[61px] z-40 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex overflow-x-auto space-x-2 py-2.5 text-xs font-semibold scrollbar-none">
+                <a href="index.html" class="py-1.5 px-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition whitespace-nowrap">
+                    🏠 Portal Hub
+                </a>
+                <button type="button" onclick="scrollToSection('protocolo-5')" class="py-1.5 px-3 rounded-lg text-teal-300 bg-teal-950/50 border border-teal-800/60 transition whitespace-nowrap font-bold">
+                    🔄 Protocolo Obligatorio de 5 Pasos
+                </button>
+                <button type="button" onclick="scrollToSection('banco-prompts')" class="py-1.5 px-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition whitespace-nowrap">
+                    💬 Banco de Prompts & Foto
+                </button>
+                <button type="button" onclick="scrollToSection('fact-checking')" class="py-1.5 px-3 rounded-lg text-amber-300 bg-amber-950/40 border border-amber-800/60 transition whitespace-nowrap font-bold">
+                    🔍 Auditoría de Fuentes (Fact-Checking)
+                </button>
+                <button type="button" onclick="scrollToSection('validacion-dual')" class="py-1.5 px-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition whitespace-nowrap">
+                    ⚖️ Validación Dual (ChatGPT vs Gemini)
+                </button>
+                <button type="button" onclick="scrollToSection('compilador-decisiones')" class="py-1.5 px-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition whitespace-nowrap">
+                    📝 Compilador para NotebookLM
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+
+        <!-- BANNER DE PROPÓSITO DE LA UNIDAD IV -->
+        <section class="bg-gradient-to-r from-slate-950 via-slate-900 to-teal-950/50 border border-teal-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+                <span class="bg-teal-500/20 text-teal-300 text-xs font-bold px-3 py-1 rounded-full border border-teal-500/30 uppercase tracking-wider">
+                    Unidad IV • Metodología Universal de Trabajo
+                </span>
+                <span class="text-xs text-slate-400">Modalidad: Trabajo Colaborativo / Individual</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+                "Cualquier investigación o problema exige cumplir el Protocolo de 5 Pasos y la verificación estricta de fuentes"
+            </h2>
+            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-4xl">
+                Toda tarea académica (ya sea resolver un problema técnico, realizar una investigación bibliográfica, diseñar una infografía o analizar un caso) debe seguir rigurosamente el <strong>Protocolo de 5 Pasos</strong>. En problemas físicos o diagramas, ahora puedes <strong>subir la fotografía del problema</strong> para incluir la evidencia visual en el prompt multimodal.
+            </p>
+        </section>
+
+        <!-- SECCIÓN 4.1: EL PROTOCOLO OBLIGATORIO DE 5 PASOS -->
+        <section id="protocolo-5" class="space-y-6 pt-2">
+            <div class="border-l-4 border-teal-500 pl-4">
+                <h3 class="text-xl font-bold text-white">4.1 Protocolo Obligatorio de 5 Pasos para Investigar o Resolver Problemas</h3>
+                <p class="text-xs text-slate-400 mt-1">Este flujo de trabajo es indispensable en todas las entregas escolares de la materia.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-3 text-xs">
+                <div class="bg-slate-800 p-4 rounded-2xl border border-sky-500/40 space-y-2">
+                    <span class="w-7 h-7 rounded-lg bg-sky-500/20 text-sky-400 font-bold flex items-center justify-center text-xs">PASO 1</span>
+                    <h4 class="font-bold text-white text-sm">Planteamiento o Foto</h4>
+                    <p class="text-slate-300">Definir el problema/tema medible o subir la fotografía clara del enunciado/falla técnica[cite: 2, 3].</p>
+                </div>
+
+                <div class="bg-slate-800 p-4 rounded-2xl border border-teal-500/40 space-y-2">
+                    <span class="w-7 h-7 rounded-lg bg-teal-500/20 text-teal-400 font-bold flex items-center justify-center text-xs">PASO 2</span>
+                    <h4 class="font-bold text-white text-sm">Framework de 5 Elementos</h4>
+                    <p class="text-slate-300">Estructurar el prompt con Rol, Contexto, Tarea, Formato y Restricción estricta.</p>
+                </div>
+
+                <div class="bg-slate-800 p-4 rounded-2xl border border-amber-500/40 space-y-2">
+                    <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 font-bold flex items-center justify-center text-xs">PASO 3</span>
+                    <h4 class="font-bold text-amber-300 text-sm">Auditoría de Fuentes</h4>
+                    <p class="text-slate-300">Verificar en fuentes primarias (SciELO, Redalyc, DOF, NOM) que las citas/leyes existan en la realidad[cite: 3].</p>
+                </div>
+
+                <div class="bg-slate-800 p-4 rounded-2xl border border-purple-500/40 space-y-2">
+                    <span class="w-7 h-7 rounded-lg bg-purple-500/20 text-purple-400 font-bold flex items-center justify-center text-xs">PASO 4</span>
+                    <h4 class="font-bold text-white text-sm">Validación Dual Paralela</h4>
+                    <p class="text-slate-300">Consultar exactamente la misma orden en ChatGPT y Gemini para registrar coincidencias[cite: 3].</p>
+                </div>
+
+                <div class="bg-slate-800 p-4 rounded-2xl border border-emerald-500/40 space-y-2">
+                    <span class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-xs">PASO 5</span>
+                    <h4 class="font-bold text-emerald-300 text-sm">Compilación .TXT</h4>
+                    <p class="text-slate-300">Generar el archivo final verificado e importarlo a NotebookLM como fuente limpia[cite: 3].</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4.2: BANCO DE PROMPTS Y SUBIDA DE FOTOGRAFÍA -->
+        <section id="banco-prompts" class="space-y-6 pt-2">
+            <div class="border-l-4 border-teal-500 pl-4">
+                <h3 class="text-xl font-bold text-white">4.2 Generador de Prompts y Módulo de Análisis Fotográfico Multimodal</h3>
+                <p class="text-xs text-slate-400 mt-1">Selecciona el tipo de trabajo académico. Si se trata de un problema físico o ejercicio, sube la foto correspondiente[cite: 2, 3].</p>
+            </div>
+
+            <!-- TABS DE CATEGORÍA DE PROMPT -->
+            <div class="flex flex-wrap gap-2 border-b border-slate-800 pb-3">
+                <button type="button" id="btn-prompt-problemas" onclick="setPromptCategory('problemas')" class="prompt-tab bg-teal-600 text-white font-semibold text-xs px-3.5 py-2 rounded-xl transition shadow">
+                    ⚙️ 1. Solución de Problemas (Con Foto/Imagen)
+                </button>
+                <button type="button" id="btn-prompt-investigacion" onclick="setPromptCategory('investigacion')" class="prompt-tab bg-slate-800 text-slate-300 hover:bg-slate-700 font-semibold text-xs px-3.5 py-2 rounded-xl transition">
+                    📚 2. Investigación y Marco Teórico
+                </button>
+                <button type="button" id="btn-prompt-infografia" onclick="setPromptCategory('infografia')" class="prompt-tab bg-slate-800 text-slate-300 hover:bg-slate-700 font-semibold text-xs px-3.5 py-2 rounded-xl transition">
+                    🎨 3. Creación de Infografías y Esquemas
+                </button>
+                <button type="button" id="btn-prompt-casos" onclick="setPromptCategory('casos')" class="prompt-tab bg-slate-800 text-slate-300 hover:bg-slate-700 font-semibold text-xs px-3.5 py-2 rounded-xl transition">
+                    📊 4. Análisis de Casos de Estudio
+                </button>
+                <button type="button" id="btn-prompt-fuentes" onclick="setPromptCategory('fuentes')" class="prompt-tab bg-slate-800 text-slate-300 hover:bg-slate-700 font-semibold text-xs px-3.5 py-2 rounded-xl transition">
+                    🔍 5. Auditoría de Citas y Fact-Checking
+                </button>
+                <button type="button" id="btn-prompt-dual" onclick="setPromptCategory('dual')" class="prompt-tab bg-slate-800 text-slate-300 hover:bg-slate-700 font-semibold text-xs px-3.5 py-2 rounded-xl transition">
+                    ⚖️ 6. Evaluador Dual (ChatGPT vs Gemini)
+                </button>
+            </div>
+
+            <!-- PANEL DE CARGA DE IMAGEN/FOTOGRAFÍA Y PROMPT GENERADO -->
+            <div class="bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-6">
+                <!-- MÓDULO DE FOTOGRAFÍA DEL PROBLEMA -->
+                <div id="image-upload-wrapper" class="bg-slate-900 p-5 rounded-2xl border border-slate-700 space-y-3">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div>
+                            <span class="text-xs font-bold text-amber-400 uppercase tracking-wider block">Paso 1: Evidencia Visual del Problema</span>
+                            <h4 class="text-sm font-bold text-white">Subir Fotografía del Problema o Diagrama (Multimodal)</h4>
+                        </div>
+                        <span class="text-[11px] text-slate-400 bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700">Formatos: JPG, PNG, WEBP</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+                        <div class="md:col-span-7 space-y-2">
+                            <input type="file" id="problem-photo-input" accept="image/*" class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-teal-600 file:text-white hover:file:bg-teal-500 cursor-pointer" onchange="previewProblemImage(event)">
+                            <p class="text-[11px] text-slate-400">
+                                Sube una foto clara del problema impreso, diagrama técnico, falla del mecanismo o libreta. El prompt incluirá las instrucciones para analizar la imagen en Gemini/ChatGPT.
+                            </p>
+                        </div>
+
+                        <div class="md:col-span-5 flex justify-center">
+                            <div id="photo-preview-container" class="w-full h-28 bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-center overflow-hidden">
+                                <span class="text-xs text-slate-500 text-center px-2">Sin imagen cargada</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MÓDULO DE PROMPT GENERADO -->
+                <div class="space-y-3">
+                    <div class="flex flex-wrap justify-between items-center gap-3 border-b border-slate-700 pb-3">
+                        <div>
+                            <span id="prompt-cat-badge" class="text-[10px] font-bold text-teal-400 bg-teal-950 px-2.5 py-0.5 rounded uppercase border border-teal-800">Categoría Seleccionada</span>
+                            <h4 id="prompt-cat-title" class="font-bold text-white text-sm sm:text-base mt-1">Prompt para Solución de Problemas (Multimodal)</h4>
+                        </div>
+                        <div class="text-xs text-slate-400">
+                            Ajusta los corchetes con los datos específicos de tu actividad.
+                        </div>
+                    </div>
+
+                    <div id="prompt-box" class="bg-slate-950 p-4 rounded-2xl border border-slate-800 text-slate-200 font-mono text-xs sm:text-sm leading-relaxed overflow-x-auto min-h-[140px]">
+                        <!-- Dynamic Prompt text appears here -->
+                    </div>
+
+                    <div class="flex flex-wrap justify-between items-center gap-3 text-xs">
+                        <span id="prompt-destination-hint" class="text-teal-400 font-medium">📍 Destino: Adjunta la foto en Gemini/ChatGPT y pega este prompt.</span>
+                        <button type="button" onclick="copyPromptToClipboard()" class="bg-teal-600 hover:bg-teal-500 text-white font-semibold px-4 py-2 rounded-xl transition shadow flex items-center gap-2 cursor-pointer">
+                            <span id="copy-icon">📋</span> <span id="copy-text">Copiar Prompt</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4.3: PROTOCOLO DE VERIFICACIÓN FÍSICO-ACADÉMICA (FACT-CHECKING AUDITOR) -->
+        <section id="fact-checking" class="space-y-6 pt-2">
+            <div class="border-l-4 border-amber-500 pl-4">
+                <h3 class="text-xl font-bold text-white">4.3 Auditoría de Fuentes (Paso 3 Obligatorio en Todos los Casos)</h3>
+                <p class="text-xs text-slate-400 mt-1">
+                    <strong>REGLA DE ORO DE INGENIERÍA:</strong> <em>Ninguna cita, autor, ley o norma dada por una IA se da por cierta sin comprobar su existencia física en repositorios oficiales reales.</em>
+                </p>
+            </div>
+
+            <!-- EXPLICACIÓN EXPLÍCITA DE MOTORES OFICIALES -->
+            <div class="bg-amber-950/30 border border-amber-500/40 p-5 rounded-3xl space-y-3">
+                <div class="flex items-center gap-2 text-amber-400 font-bold text-sm">
+                    <span>⚠️</span> Comprobación obligatoria anti-alucinaciones
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                    Toda respuesta dada por la IA (incluyendo soluciones a problemas o investigaciones) debe ser auditada en buscadores primarios antes de integrarla a tu informe:
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs pt-1">
+                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 space-y-1">
+                        <span class="font-bold text-amber-300 block">📚 Artículos y Libros</span>
+                        <p class="text-slate-400 text-[11px]">Búscalos por título exacto en <strong>Google Académico, SciELO, Redalyc o Dialnet</strong>.</p>
+                    </div>
+                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 space-y-1">
+                        <span class="font-bold text-amber-300 block">⚖️ Leyes y Reglamentos</span>
+                        <p class="text-slate-400 text-[11px]">Verifica artículos en el <strong>Diario Oficial de la Federación (DOF) o Semanario Judicial</strong>.</p>
+                    </div>
+                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 space-y-1">
+                        <span class="font-bold text-amber-300 block">⚙️ Normas Técnicas (NOM/ISO)</span>
+                        <p class="text-slate-400 text-[11px]">Consulta el catálogo oficial de la <strong>Secretaría de Economía o ISO.org</strong>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MÓDULO INTERACTIVO DE AUDITORÍA DE FUENTES MULTIFUENTE -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- FORMULARIO DE AUDITORÍA -->
+                <div class="lg:col-span-7 bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-700 pb-3">
+                        <div>
+                            <h4 class="font-bold text-white text-sm">Auditoría Individual de Fuentes Entregadas por la IA</h4>
+                            <p class="text-[11px] text-slate-400">Evalúa las citas obtenidas con el Prompt de Auditoría.</p>
+                        </div>
+                        <button type="button" onclick="addSourceAuditCard()" class="bg-slate-900 hover:bg-slate-700 text-white font-semibold px-3 py-1.5 rounded-xl text-xs transition border border-slate-700 cursor-pointer">
+                            ➕ Agregar Fuente
+                        </button>
+                    </div>
+
+                    <div id="sources-audit-container" class="space-y-4">
+                        <!-- Dynamic Cards Rendered via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- RESUMEN DE DICTAMEN DE FUENTES -->
+                <div class="lg:col-span-5 bg-slate-950 p-6 rounded-3xl border border-slate-800 flex flex-col justify-between space-y-4 shadow-xl">
+                    <div>
+                        <span class="text-[10px] font-bold text-amber-400 uppercase tracking-widest block mb-1">Dictamen Auditor</span>
+                        <h4 class="text-lg font-bold text-white">Estatus de Fuentes para el Informe</h4>
+                        <p class="text-xs text-slate-400 mt-1">Sólo las fuentes con 5/5 criterios verificados se guardarán en tu escrito final.</p>
+                    </div>
+
+                    <div id="sources-summary-display" class="space-y-3">
+                        <!-- Dynamic Summary Rendered via JavaScript -->
+                    </div>
+
+                    <button type="button" onclick="transferVerifiedSourcesToCompiler()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl shadow transition text-xs flex items-center justify-center gap-2 cursor-pointer">
+                        📌 Enviar Fuentes Aprobadas al Compilador (Sección 4.5)
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4.4: VALIDACIÓN DUAL CRUZADA (CHATGPT VS GEMINI) -->
+        <section id="validacion-dual" class="space-y-6 pt-2">
+            <div class="border-l-4 border-purple-500 pl-4">
+                <h3 class="text-xl font-bold text-white">4.4 Laboratorio de Validación Dual (Paso 4 Obligatorio: ChatGPT vs Gemini)</h3>
+                <p class="text-xs text-slate-400 mt-1">Ingresa exactamente el mismo prompt en dos motores de IA para identificar coincidencias o posibles alucinaciones.</p>
+            </div>
+
+            <!-- GRÁFICO COMPARATIVO RADAR -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center bg-slate-800 p-6 rounded-3xl border border-slate-700">
+                <div class="lg:col-span-5 space-y-3">
+                    <span class="text-xs font-bold text-purple-400 uppercase tracking-widest">Matriz Táctica</span>
+                    <h4 class="text-lg font-bold text-white">Perfil Comparativo de IAs</h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        <strong>ChatGPT:</strong> Sobresale en razonamiento estructurado, redacción analítica, desgloses y sintaxis de prompts.<br>
+                        <strong>Gemini:</strong> Sobresale en búsqueda web contextualizada, análisis de imágenes/fotos y conectividad con datos en tiempo real.
+                    </p>
+                </div>
+
+                <div class="lg:col-span-7 flex justify-center">
+                    <div class="chart-container">
+                        <canvas id="aiToolsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REGISTRO INTERACTIVO DE COMPARACIÓN -->
+            <div class="bg-slate-800 rounded-3xl border border-slate-700 overflow-hidden text-xs">
+                <div class="p-4 bg-slate-900 border-b border-slate-700 flex justify-between items-center">
+                    <span class="font-bold text-white uppercase tracking-wider">Matriz de Evaluación Paralela de Respuestas</span>
+                    <span class="text-slate-400">Consulta empleada: <strong>Prompt Categoria 6</strong></span>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-950 text-slate-300 border-b border-slate-800 font-bold">
+                                <th class="p-3.5 w-1/4">Aspecto Evaluado</th>
+                                <th class="p-3.5 w-3/8 text-sky-400 bg-sky-950/20">ChatGPT (OpenAI)</th>
+                                <th class="p-3.5 w-3/8 text-teal-400 bg-teal-950/20">Gemini (Google)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-700 text-slate-200">
+                            <tr>
+                                <td class="p-3.5 font-semibold bg-slate-900/50">
+                                    Puntos Principales / Soluciones
+                                    <span class="block text-[10px] text-slate-400 font-normal mt-0.5">¿Qué ideas o soluciones propuso?</span>
+                                </td>
+                                <td class="p-3">
+                                    <textarea id="comp-gpt-solutions" oninput="checkMatrixCompletion()" placeholder="Ej: Propuso 3 argumentos teóricos estructurados..." class="w-full p-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-slate-200 focus:ring-1 focus:ring-sky-500"></textarea>
+                                </td>
+                                <td class="p-3">
+                                    <textarea id="comp-gemini-solutions" oninput="checkMatrixCompletion()" placeholder="Ej: Analizó la fotografía adjunta identificando 2 fallas técnicas..." class="w-full p-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-slate-200 focus:ring-1 focus:ring-teal-500"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-3.5 font-semibold bg-slate-900/50">
+                                    Coincidencias Validadas
+                                    <span class="block text-[10px] text-slate-400 font-normal mt-0.5">¿En qué coinciden ambas IAs?</span>
+                                </td>
+                                <td colspan="2" class="p-3">
+                                    <textarea id="comp-coincidences" placeholder="Ej: Ambas IAs coinciden en la causa técnica principal del problema y las 2 fuentes institucionales citadas." class="w-full p-2 bg-slate-950 border border-slate-700 rounded-lg text-xs text-slate-200 focus:ring-1 focus:ring-purple-500"></textarea>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4.5: COMPILADOR DEL INFORME TÉCNICO FINAL -->
+        <section id="compilador-decisiones" class="space-y-6 pt-2">
+            <div class="border-l-4 border-teal-500 pl-4">
+                <h3 class="text-xl font-bold text-white">4.5 Compilador del Informe Final (Paso 5 Obligatorio para NotebookLM)</h3>
+                <p class="text-xs text-slate-400 mt-1">Sintetiza las respuestas verificadas. El sistema generará el archivo fuente .TXT listo para importar a NotebookLM.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- FORMULARIO DE ENTRADA -->
+                <div class="lg:col-span-5 bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-4 text-xs">
+                    <h4 class="font-bold text-white text-sm">✍️ Datos e Integración del Trabajo</h4>
+
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block font-semibold text-slate-300 mb-1">Nombre del Estudiante / Equipo:</label>
+                            <input type="text" id="doc-authors" placeholder="Ej: Maria López y Juan Pérez" class="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-200 focus:ring-2 focus:ring-teal-500">
+                        </div>
+
+                        <div>
+                            <label class="block font-semibold text-slate-300 mb-1">Título / Problema del Trabajo:</label>
+                            <input type="text" id="doc-problem" placeholder="Ej: Análisis del circuito impreso (con evidencia fotográfica)" class="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-200 focus:ring-2 focus:ring-teal-500">
+                        </div>
+
+                        <div>
+                            <label class="block font-semibold text-slate-300 mb-1">EVIDENCIA FOTOGRÁFICA REGISTRADA:</label>
+                            <input type="text" id="doc-photo-status" readonly value="Sin imagen adjunta" class="w-full p-2 bg-slate-900 border border-slate-800 rounded-xl text-amber-400 font-mono text-[11px]">
+                        </div>
+
+                        <div>
+                            <label class="block font-semibold text-slate-300 mb-1">SÍNTESIS DEL TRABAJO / RESULTADOS (Obtenidos con los Prompts):</label>
+                            <textarea id="doc-body" rows="5" oninput="checkCompilerCompletion()" placeholder="Pega aquí el desarrollo o solución investigada y resuelta con ayuda de la IA..." class="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-200 font-mono text-xs focus:ring-2 focus:ring-teal-500"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block font-semibold text-slate-300 mb-1">FUENTES COMPROBADAS Y AUDITADAS (Fase 3):</label>
+                            <textarea id="doc-sources" rows="3" placeholder="Las fuentes aprobadas en la Sección 4.3 se enviarán aquí automáticamente..." class="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-200 font-mono text-xs focus:ring-2 focus:ring-teal-500"></textarea>
+                        </div>
+
+                        <button type="button" onclick="compileDocument()" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-2.5 rounded-xl shadow transition cursor-pointer">
+                            ⚡ Generar Documento Fuente (.TXT)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PREVISUALIZACIÓN Y EXPORTACIÓN -->
+                <div class="lg:col-span-7 bg-slate-950 p-6 rounded-3xl border border-slate-800 flex flex-col justify-between space-y-4 shadow-xl">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                        <div>
+                            <span class="text-[10px] font-bold text-teal-400 uppercase tracking-widest block">Vista Previa</span>
+                            <h4 class="text-sm font-bold text-white">Archivo Listo para Cargar en NotebookLM</h4>
+                        </div>
+                        <div class="flex gap-2">
+                            <button type="button" onclick="copyCompiledText()" class="bg-slate-800 hover:bg-slate-700 text-teal-300 border border-teal-500/30 px-3 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer">
+                                📋 Copiar Texto
+                            </button>
+                            <button type="button" onclick="downloadCompiledText()" class="bg-teal-600 hover:bg-teal-500 text-white font-semibold px-3 py-1.5 rounded-lg text-xs shadow transition cursor-pointer">
+                                📥 Descargar .TXT
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="compiled-preview" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 font-mono text-xs text-slate-300 leading-relaxed overflow-y-auto max-h-[350px] whitespace-pre-wrap">
+                        <!-- Compiled Text Appears Here -->
+                    </div>
+
+                    <p class="text-[11px] text-slate-400">
+                        📌 Importa este archivo .TXT como <strong>Fuente (Source)</strong> en tu libreta de NotebookLM para generar resúmenes de audio o mapas de conceptos.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- EVALUADOR DE SUFICIENCIA -->
+        <section id="evaluador-suficiencia" class="bg-slate-800 border border-slate-700 p-6 sm:p-8 rounded-3xl shadow-xl space-y-6">
+            <div class="space-y-2">
+                <div class="flex justify-between items-center text-xs font-bold">
+                    <span class="text-white">Nivel de Cumplimiento del Protocolo de 5 Pasos:</span>
+                    <span id="readiness-percentage" class="text-teal-400 font-extrabold text-base">0%</span>
+                </div>
+                <div class="w-full bg-slate-900 h-3 rounded-full overflow-hidden border border-slate-700">
+                    <div id="readiness-bar" class="bg-gradient-to-r from-amber-500 to-emerald-500 h-full w-0 transition-all duration-500"></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                <label class="flex items-start gap-3 p-3.5 bg-slate-900 rounded-2xl border border-slate-700 cursor-pointer">
+                    <input type="checkbox" id="check-1" onchange="calculateReadiness()" class="readiness-check rounded text-teal-500 focus:ring-teal-500 mt-1">
+                    <div>
+                        <span class="font-bold text-white block">PASO 1 & 2. Planteamiento / Foto + Framework 5 Elementos</span>
+                        <span class="text-slate-400">Se definió el problema o subió la foto y se estructuró el prompt con Rol, Contexto, Tarea, Formato y Restricción.</span>
+                    </div>
+                </label>
+
+                <label class="flex items-start gap-3 p-3.5 bg-slate-900 rounded-2xl border border-slate-700 cursor-pointer">
+                    <input type="checkbox" id="check-2" onchange="calculateReadiness()" class="readiness-check rounded text-teal-500 focus:ring-teal-500 mt-1">
+                    <div>
+                        <span class="font-bold text-white block">PASO 3. Verificación Físico-Académica de Fuentes</span>
+                        <span class="text-slate-400">Se comprobó la existencia real de al menos 2 referencias en repositorios primarios oficiales.</span>
+                    </div>
+                </label>
+
+                <label class="flex items-start gap-3 p-3.5 bg-slate-900 rounded-2xl border border-slate-700 cursor-pointer">
+                    <input type="checkbox" id="check-3" onchange="calculateReadiness()" class="readiness-check rounded text-teal-500 focus:ring-teal-500 mt-1">
+                    <div>
+                        <span class="font-bold text-white block">PASO 4. Validación Dual Paralela</span>
+                        <span class="text-slate-400">Se ingresó la consulta en ChatGPT y Gemini registrando las coincidencias en la matriz.</span>
+                    </div>
+                </label>
+
+                <label class="flex items-start gap-3 p-3.5 bg-slate-900 rounded-2xl border border-slate-700 cursor-pointer">
+                    <input type="checkbox" id="check-4" onchange="calculateReadiness()" class="readiness-check rounded text-teal-500 focus:ring-teal-500 mt-1">
+                    <div>
+                        <span class="font-bold text-white block">PASO 5. Archivo Fuente Compilado para NotebookLM</span>
+                        <span class="text-slate-400">Se generó y guardó el documento .TXT con los hallazgos verificados.</span>
+                    </div>
+                </label>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- PIE INSTITUCIONAL -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-6 mt-12 text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p>Universidad William Osler & Universidad Autónoma de Guerrero (UAGRO)</p>
+            <p class="text-slate-400 font-medium">Catedrático: L.I. Luis Arturo López Vergara • Zihuatanejo, Guerrero</p>
+        </div>
+    </footer>
+
+    <!-- LÓGICA JAVASCRIPT DEL PROTOCOLO DE 5 PASOS Y FOTOGRAFÍA -->
+    <script>
+        let hasUploadedPhoto = false;
+        let uploadedPhotoName = "";
+
+        const promptCategories = {
+            problemas: {
+                badge: "Categoría 1: Solución de Problemas (Multimodal con Foto)",
+                title: "Prompt Multimodal para Solución de Problemas con Fotografía / Imagen",
+                hint: "📍 Destino: Adjunta la fotografía del problema en Gemini o ChatGPT y pega este prompt.",
+                text: `[ROL] Actúa como un ingeniero consultor especialista en solución de problemas técnicos.
+[CONTEXTO] Te adjunto una fotografía/imagen que muestra el problema o diagrama a analizar: "[DESCRITA EN LA FOTO ADJUNTA]".
+[TAREA] 
+1. Realiza una inspección visual de la fotografía adjunta y describe las evidencias o componentes observados.
+2. Identifica la causa técnica principal del problema mostrado.
+3. Propón 3 alternativas lógicas de solución considerando viabilidad, tiempo de ejecución y costo estimado.
+4. Proporciona 2 referencias bibliográficas o normas técnicas reales (NOM/ISO/Libros) que respalden este análisis.
+[FORMATO] 
+- Sección A: Diagnóstico Visual de la Imagen Adjunta
+- Sección B: Tabla Comparativa de Soluciones (Alternativa | Ventajas | Desventajas | Costo Aprox)
+- Sección C: Fuentes y Normatividad Comprobable
+[RESTRICCIÓN] REGLA ABSOLUTA: No inventes normas ni referencias bibliográficas no existentes. Si no puedes confirmar que la fuente existe en el mundo real, indícalo explícitamente.`
+            },
+            investigacion: {
+                badge: "Categoría 2: Investigación y Marco Teórico",
+                title: "Prompt para Investigación Bibliográfica y Conceptos Clave",
+                hint: "📍 Destino: Cópialo a Gemini/ChatGPT para estructurar los conceptos fundamentales de tu tema.",
+                text: `[ROL] Actúa como un docente investigador universitario de metodología.
+[CONTEXTO] Alumnos de preparatoria están iniciando su trabajo de investigación sobre: "[ESCRIBE AQUÍ EL TEMA DE TU PROYECTO]".
+[TAREA] Explica detalladamente los 4 conceptos teóricos indispensables para comprender este objeto de estudio. Proporciona además 3 fuentes bibliográficas reales.
+[FORMATO] Organiza la respuesta en 4 bloques con: Concepto -> Definición Académica -> Ejemplo -> Fuente Comprobable.
+[RESTRICCIÓN] REGLA ESTRICTA DE VERIFICACIÓN: Usa un lenguaje riguroso. No inventes autores ni citas sin referencia en repositorios reales (SciELO, Redalyc, Dialnet).`
+            },
+            infografia: {
+                badge: "Categoría 3: Creación de Infografías y Didáctica Visual",
+                title: "Prompt para Estructuración de Infografías (Canva / Piktochart)",
+                hint: "📍 Destino: Utiliza el esquema generado para construir tu infografía visual en Canva.",
+                text: `[ROL] Actúa como un diseñador de información técnica y comunicador visual educativo.
+[CONTEXTO] Necesito diseñar una infografía educativa e impactante sobre el tema: "[ESCRIBE AQUÍ EL TEMA DE LA INFOGRAFÍA]".
+[TAREA] Crea la estructura completa para organizar la infografía en Canva/Piktochart, dividiéndola en 4 bloques visuales secuenciales e incluye 2 referencias reales para colocar como créditos al pie.
+[FORMATO] Para cada bloque proporciona: Titular -> Texto breve (máx 25 palabras) -> Ícono sugerido -> Paleta de color recomendada.
+[RESTRICCIÓN] Evita párrafos largos. Todo debe ser extremadamente visual y sustentado en fuentes verificables.`
+            },
+            casos: {
+                badge: "Categoría 4: Análisis de Casos de Estudio",
+                title: "Prompt para Análisis de Caso de Estudio y Toma de Decisiones",
+                hint: "📍 Destino: Aplícalo para evaluar un proyecto real o caso práctico planteado por el docente.",
+                text: `[ROL] Actúa como un analista senior de proyectos y toma de decisiones.
+[CONTEXTO] Estamos analizando el siguiente caso real: "[ESCRIBE O PEGA EL CASO DE ESTUDIO]".
+[TAREA] Realiza un diagnóstico situacional identificando el problema de fondo, 2 riesgos críticos, la recomendación técnica fundamentada y 2 citas doctrinales/legales reales.
+[FORMATO] Estructura en 3 secciones: A) Diagnóstico del Problema | B) Matriz de Riesgos | C) Dictamen Recomendado y Fuentes.
+[RESTRICCIÓN] Basa tus conclusiones en lógica técnica y fuentes comprobables en repositorios oficiales.`
+            },
+            fuentes: {
+                badge: "Categoría 5: Auditoría y Fact-Checking de Fuentes",
+                title: "Prompt para Solicitud de Referencias Comprobables",
+                hint: "📍 Destino: Audita cada fuente resultante en la Sección 4.3 (Fact-Checking) en SciELO, Redalyc o DOF.",
+                text: `[ROL] Actúa como un bibliotecario académico y auditor de referencias.
+[CONTEXTO] Necesito fuentes confiables que respalden la investigación o solución sobre: "[ESCRIBE TU TEMA O SOLUCIÓN]".
+[TAREA] Proporciona 3 referencias de libros, artículos de revistas arbitradas (SciELO, Redalyc, Dialnet) o normas oficiales (NOM/ISO) reales.
+[FORMATO] Para cada fuente lista: Autor/Organismo, Año, Título Exacto de la Publicación, Revista/Gaceta y Nombre del Repositorio Real donde buscarla.
+[RESTRICCIÓN] REGLA ABSOLUTA: No inventes fuentes bibliográficas ni enlaces ficticios. Si no estás seguro de que la fuente existe físicamente en el mundo real, no la incluyas.`
+            },
+            dual: {
+                badge: "Categoría 6: Evaluador Dual (ChatGPT vs Gemini)",
+                title: "Prompt Paralelo para Evaluación Cruzada entre dos IAs",
+                hint: "📍 Destino: Ingresa exactamente este prompt en ChatGPT Y Gemini. Compara las respuestas en la Sección 4.4.",
+                text: `[ROL] Actúa como un auditor técnico evaluador de proyectos.
+[CONTEXTO] Queremos evaluar la viabilidad de la siguiente propuesta o investigación: "[DESCRIPCIÓN DE TU IDEA O SOLUCIÓN]".
+[TAREA] Identifica 3 fortalezas técnicas, 2 posibles fallas o sesgos de esta propuesta y sugiere una mejora concreta sustentada en fuentes.
+[FORMATO] Organiza en: 1. Fortalezas -> 2. Posibles Fallas o Riesgos -> 3. Propuesta de Mejora y Fuentes Comprobables.
+[RESTRICCIÓN] Mantén un criterio sumamente riguroso, neutral e imparcial.`
+            }
+        };
+
+        let currentPromptCategory = 'problemas';
+        let sourceAuditList = [];
+        let compiledText = "";
+
+        document.addEventListener("DOMContentLoaded", () => {
+            initAiChart();
+            setPromptCategory('problemas');
+            addSourceAuditCard();
+            addSourceAuditCard();
+            compileDocument();
+        });
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // CONTROL DE SUBIDA DE IMAGEN
+        function previewProblemImage(event) {
+            const file = event.target.files[0];
+            const container = document.getElementById('photo-preview-container');
+            const statusInput = document.getElementById('doc-photo-status');
+
+            if (file) {
+                hasUploadedPhoto = true;
+                uploadedPhotoName = file.name;
+                statusInput.value = `📸 Imagen Cargada: ${file.name}`;
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    container.innerHTML = `<img src="${e.target.result}" class="max-h-full max-w-full object-contain rounded-lg">`;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                hasUploadedPhoto = false;
+                uploadedPhotoName = "";
+                statusInput.value = "Sin imagen adjunta";
+                container.innerHTML = `<span class="text-xs text-slate-500 text-center px-2">Sin imagen cargada</span>`;
+            }
+
+            compileDocument();
+        }
+
+        function setPromptCategory(catKey) {
+            currentPromptCategory = catKey;
+            const cat = promptCategories[catKey];
+            if (!cat) return;
+
+            // Reset tab styles
+            document.querySelectorAll('.prompt-tab').forEach(tab => {
+                tab.className = "prompt-tab bg-slate-800 text-slate-300 hover:bg-slate-700 font-semibold text-xs px-3.5 py-2 rounded-xl transition";
+            });
+
+            const activeBtn = document.getElementById('btn-prompt-' + catKey);
+            if (activeBtn) {
+                activeBtn.className = "prompt-tab bg-teal-600 text-white font-semibold text-xs px-3.5 py-2 rounded-xl transition shadow";
+            }
+
+            // Mostrar/Ocultar uploader de imagen solo si es relevante o mantenerlo disponible
+            const wrapper = document.getElementById('image-upload-wrapper');
+            if (catKey === 'problemas') {
+                wrapper.classList.remove('opacity-50');
+            } else {
+                wrapper.classList.add('opacity-50');
+            }
+
+            document.getElementById('prompt-cat-badge').innerText = cat.badge;
+            document.getElementById('prompt-cat-title').innerText = cat.title;
+            document.getElementById('prompt-destination-hint').innerText = cat.hint;
+            document.getElementById('prompt-box').innerText = cat.text;
+
+            document.getElementById('copy-text').innerText = "Copiar Prompt";
+            document.getElementById('copy-icon').innerText = "📋";
+        }
+
+        function copyPromptToClipboard() {
+            const text = document.getElementById('prompt-box').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                document.getElementById('copy-text').innerText = "¡Copiado!";
+                document.getElementById('copy-icon').innerText = "✅";
+                setTimeout(() => {
+                    document.getElementById('copy-text').innerText = "Copiar Prompt";
+                    document.getElementById('copy-icon').innerText = "📋";
+                }, 2000);
+            });
+        }
+
+        // AUDITORÍA MULTIFUENTE (FACT-CHECKING)
+        function addSourceAuditCard() {
+            const id = Date.now() + Math.floor(Math.random() * 1000);
+            sourceAuditList.push({ id, title: '', checks: [false, false, false, false, false] });
+            renderSourceAuditCards();
+        }
+
+        function removeSourceAuditCard(id) {
+            if (sourceAuditList.length <= 1) return;
+            sourceAuditList = sourceAuditList.filter(s => s.id !== id);
+            renderSourceAuditCards();
+        }
+
+        function updateSourceTitle(id, val) {
+            const item = sourceAuditList.find(s => s.id === id);
+            if (item) { item.title = val; updateSourceSummaryDisplay(); }
+        }
+
+        function updateSourceCheck(id, idx, checked) {
+            const item = sourceAuditList.find(s => s.id === id);
+            if (item) { item.checks[idx] = checked; updateSourceSummaryDisplay(); }
+        }
+
+        function renderSourceAuditCards() {
+            const container = document.getElementById('sources-audit-container');
+            container.innerHTML = sourceAuditList.map((s, idx) => `
+                <div class="bg-slate-900 p-4 rounded-2xl border border-slate-700 space-y-3 text-xs">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-amber-400 uppercase tracking-wider">Fuente #${idx + 1} a Verificar</span>
+                        ${sourceAuditList.length > 1 ? `<button onclick="removeSourceAuditCard(${s.id})" class="text-red-400 hover:text-red-300 font-semibold cursor-pointer">Eliminar</button>` : ''}
+                    </div>
+
+                    <div>
+                        <label class="block text-slate-300 font-semibold mb-1">Cita, Autor, Libro o Ley entregada por la IA:</label>
+                        <input type="text" value="${s.title}" oninput="updateSourceTitle(${s.id}, this.value)" placeholder="Ej: SciELO - García, R. (2023). Análisis de Fallas Mecánicas..." class="w-full p-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-200">
+                    </div>
+
+                    <div class="space-y-1.5 pt-1">
+                        <span class="text-[11px] font-bold text-slate-400 block">5 Criterios de Comprobación Física Obligatorios:</span>
+                        <label class="flex items-start gap-2 text-slate-300 cursor-pointer">
+                            <input type="checkbox" ${s.checks[0] ? 'checked' : ''} onchange="updateSourceCheck(${s.id}, 0, this.checked)" class="rounded text-amber-500 mt-0.5">
+                            <span>1. <strong>Existencia Real:</strong> Comprobé físicamente que existe en SciELO, Redalyc, Dialnet o DOF.</span>
+                        </label>
+                        <label class="flex items-start gap-2 text-slate-300 cursor-pointer">
+                            <input type="checkbox" ${s.checks[1] ? 'checked' : ''} onchange="updateSourceCheck(${s.id}, 1, this.checked)" class="rounded text-amber-500 mt-0.5">
+                            <span>2. <strong>Título Coincidente:</strong> El nombre y año coinciden exactamente con la publicación oficial.</span>
+                        </label>
+                        <label class="flex items-start gap-2 text-slate-300 cursor-pointer">
+                            <input type="checkbox" ${s.checks[2] ? 'checked' : ''} onchange="updateSourceCheck(${s.id}, 2, this.checked)" class="rounded text-amber-500 mt-0.5">
+                            <span>3. <strong>Veracidad de Contenido:</strong> El texto original trata el tema afirmado por la IA.</span>
+                        </label>
+                        <label class="flex items-start gap-2 text-slate-300 cursor-pointer">
+                            <input type="checkbox" ${s.checks[3] ? 'checked' : ''} onchange="updateSourceCheck(${s.id}, 3, this.checked)" class="rounded text-amber-500 mt-0.5">
+                            <span>4. <strong>Vigencia:</strong> La ley o norma técnica sigue vigente y no ha sido derogada.</span>
+                        </label>
+                        <label class="flex items-start gap-2 text-slate-300 cursor-pointer">
+                            <input type="checkbox" ${s.checks[4] ? 'checked' : ''} onchange="updateSourceCheck(${s.id}, 4, this.checked)" class="rounded text-amber-500 mt-0.5">
+                            <span>5. <strong>Rigurosidad:</strong> Proviene de una fuente académica o gubernamental confiable.</span>
+                        </label>
+                    </div>
+                </div>
+            `).join('');
+
+            updateSourceSummaryDisplay();
+        }
+
+        function updateSourceSummaryDisplay() {
+            const display = document.getElementById('sources-summary-display');
+            let approvedCount = 0;
+
+            display.innerHTML = sourceAuditList.map((s, idx) => {
+                const count = s.checks.filter(Boolean).length;
+                const isApproved = count === 5;
+                if (isApproved) approvedCount++;
+                const titleText = s.title.trim() !== '' ? s.title : `Fuente #${idx + 1}`;
+
+                return `
+                    <div class="p-3 rounded-xl border text-xs ${isApproved ? 'bg-emerald-950/40 border-emerald-500/50 text-emerald-300' : 'bg-slate-900 border-slate-800 text-slate-300'} flex justify-between items-center">
+                        <div class="truncate">
+                            <span class="font-bold block text-white truncate">${idx + 1}. ${titleText}</span>
+                            <span class="text-[10px] ${isApproved ? 'text-emerald-400' : 'text-slate-400'}">
+                                ${isApproved ? '🟢 Aprobada (5/5 criterios verificados)' : `🟡 Evaluación: ${count}/5 criterios`}
+                            </span>
+                        </div>
+                        <span class="text-base">${isApproved ? '✅' : '⏳'}</span>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('check-2').checked = approvedCount >= 2;
+            calculateReadiness();
+        }
+
+        function transferVerifiedSourcesToCompiler() {
+            const approved = sourceAuditList
+                .filter(s => s.checks.filter(Boolean).length === 5 && s.title.trim() !== '')
+                .map((s, idx) => `${idx + 1}. ${s.title.trim()} [VERIFICADA EN FUENTE PRIMARIA]`);
+
+            if (approved.length === 0) {
+                alert("Debes verificar los 5 criterios en al menos una fuente antes de enviarla.");
+                return;
+            }
+
+            document.getElementById('doc-sources').value = approved.join('\n');
+            compileDocument();
+            scrollToSection('compilador-decisiones');
+        }
+
+        function checkMatrixCompletion() {
+            const gpt = document.getElementById('comp-gpt-solutions').value.trim();
+            const gemini = document.getElementById('comp-gemini-solutions').value.trim();
+            document.getElementById('check-3').checked = (gpt.length > 10 && gemini.length > 10);
+            calculateReadiness();
+        }
+
+        function checkCompilerCompletion() {
+            const body = document.getElementById('doc-body').value.trim();
+            document.getElementById('check-1').checked = (body.length > 15);
+            document.getElementById('check-4').checked = (body.length > 15);
+            calculateReadiness();
+        }
+
+        function compileDocument() {
+            const authors = document.getElementById('doc-authors').value || "[Nombre del Estudiante / Equipo]";
+            const problem = document.getElementById('doc-problem').value || "[Título o Problema Analizado]";
+            const photoStatus = hasUploadedPhoto ? `[FOTOGRAFÍA REGISTRADA: ${uploadedPhotoName}]` : "[SIN IMAGEN ADJUNTA]";
+            const body = document.getElementById('doc-body').value || "SÍNTESIS DEL TRABAJO:\n(Describe aquí el contenido resuelto e investigado mediante los Prompts de la materia)";
+            const sources = document.getElementById('doc-sources').value || "FUENTES VERIFICADAS:\n1. [Cita o Ley Comprobada]";
+
+            compiledText = `# INFORME ACADÉMICO PROTOCOLO 5 PASOS
+**Universidad William Osler & UAGRO** • Bachillerato Tecnológico (2026)
+**Catedrático:** L.I. Luis Arturo López Vergara
+**Estudiante / Equipo:** ${authors}
+**Estado de Fotografía:** ${photoStatus}
+**Fecha:** ${new Date().toLocaleDateString('es-MX')}
+
+---
+
+## 1. PASO 1: PROBLEMA / OBJETO DE ESTUDIO
+**Planteamiento:** ${problem}
+
+---
+
+## 2. PASO 2 & 5: SÍNTESIS DE RESULTADOS (OBTENIDOS CON PROMPTS)
+${body}
+
+---
+
+## 3. PASO 4: VALIDACIÓN DUAL PARALELA (ChatGPT vs Gemini)
+- **ChatGPT:** ${document.getElementById('comp-gpt-solutions').value || 'Analizado'}
+- **Gemini:** ${document.getElementById('comp-gemini-solutions').value || 'Analizado'}
+- **Coincidencias Validadas:** ${document.getElementById('comp-coincidences').value || 'Coincidencias registradas'}
+
+---
+
+## 4. PASO 3: FUENTES Y REFERENCIAS VERIFICADAS FÍSICAMENTE
+${sources}
+
+---
+
+## 5. DECLARACIÓN DE ÉTICA Y AUDITORÍA
+"Confirmamos que se cumplieron los 5 pasos de la metodología y que todas las fuentes de este documento fueron comprobadas en repositorios primarios oficiales descartando alucinaciones de la IA."
+`;
+
+            document.getElementById('compiled-preview').innerText = compiledText;
+            checkCompilerCompletion();
+        }
+
+        function copyCompiledText() {
+            if (!compiledText) compileDocument();
+            navigator.clipboard.writeText(compiledText).then(() => {
+                alert("¡Documento copiado al portapapeles!");
+            });
+        }
+
+        function downloadCompiledText() {
+            if (!compiledText) compileDocument();
+            const blob = new Blob([compiledText], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `Informe_Unidad4_Protocolo5Pasos.txt`;
+            link.click();
+            URL.revokeObjectURL(link.href);
+        }
+
+        function calculateReadiness() {
+            const checks = document.querySelectorAll('.readiness-check');
+            let count = 0;
+            checks.forEach(c => { if(c.checked) count++; });
+            const percentage = Math.round((count / checks.length) * 100);
+
+            document.getElementById('readiness-percentage').innerText = `${percentage}%`;
+            document.getElementById('readiness-bar').style.width = `${percentage}%`;
+        }
+
+        function initAiChart() {
+            const ctx = document.getElementById('aiToolsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: [
+                        'Framework de Prompts',
+                        'Análisis de Imagen/Foto',
+                        'Verificación de Datos',
+                        'Infografías y Didáctica',
+                        'Análisis de Casos',
+                        'Redacción Técnica'
+                    ],
+                    datasets: [
+                        {
+                            label: 'ChatGPT',
+                            data: [95, 80, 50, 92, 90, 92],
+                            backgroundColor: 'rgba(56, 189, 248, 0.2)',
+                            borderColor: '#38bdf8',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#38bdf8'
+                        },
+                        {
+                            label: 'Gemini',
+                            data: [88, 96, 78, 85, 86, 85],
+                            backgroundColor: 'rgba(45, 212, 191, 0.2)',
+                            borderColor: '#2dd4bf',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#2dd4bf'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#334155' },
+                            grid: { color: '#1e293b' },
+                            pointLabels: { font: { size: 9, family: 'Inter' }, color: '#94a3b8' },
+                            ticks: { display: false, max: 100 }
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { size: 10 }, color: '#cbd5e1' } }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
