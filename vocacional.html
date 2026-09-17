@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuestionario Vocacional & Avatar "Vístete de Ingeniero" | UAGRO & William Osler</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Poppins', sans-serif; }
+        .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-4px); }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
+
+    <!-- Encabezado Institucional -->
+    <header class="bg-slate-950 border-b border-slate-800 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <div class="bg-indigo-600/20 border border-indigo-500/30 p-2.5 rounded-xl text-indigo-400 font-bold text-sm tracking-wider">
+                    WM OSLER & UAGRO
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-white tracking-wide">Módulo Vocacional: Ramas de la Ingeniería</h1>
+                    <p class="text-xs text-slate-400">Unidad III • "Vístete del Ingeniero que quieres ser"</p>
+                </div>
+            </div>
+            <div class="mt-3 md:mt-0 text-right bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-800">
+                <p class="text-xs font-semibold text-indigo-400">Catedrático: L.I. Luis Arturo López Vergara</p>
+                <p class="text-[10px] text-slate-400">Universidad William Osler & UAGRO • 2026</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navegación Secundaria -->
+    <nav class="bg-slate-950/80 border-b border-slate-800 sticky top-[73px] z-40 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 flex space-x-2 overflow-x-auto py-3">
+            <a href="index.html" class="text-xs md:text-sm font-semibold px-4 py-2 rounded-xl transition-all text-slate-400 hover:bg-slate-800 hover:text-white flex items-center space-x-2 whitespace-nowrap">
+                <span>🏠</span> <span>Portal Hub</span>
+            </a>
+            <button onclick="cambiarSeccion('test')" id="nav-test" class="text-xs md:text-sm font-semibold px-4 py-2 rounded-xl transition-all bg-indigo-600 text-white shadow-lg shadow-indigo-900/40 flex items-center space-x-2 whitespace-nowrap">
+                <span>🧭</span> <span>1. Cuestionario Vocacional (6 Preguntas)</span>
+            </button>
+            <button onclick="cambiarSeccion('estudio')" id="nav-estudio" class="text-xs md:text-sm font-semibold px-4 py-2 rounded-xl transition-all text-slate-400 hover:bg-slate-800 hover:text-white flex items-center space-x-2 whitespace-nowrap">
+                <span>📸</span> <span>2. Credencial "Vístete de Ingeniero"</span>
+            </button>
+            <button onclick="cambiarSeccion('ramas')" id="nav-ramas" class="text-xs md:text-sm font-semibold px-4 py-2 rounded-xl transition-all text-slate-400 hover:bg-slate-800 hover:text-white flex items-center space-x-2 whitespace-nowrap">
+                <span>📚</span> <span>3. Catálogo de Especialidades</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <main class="flex-grow max-w-6xl mx-auto px-6 py-8 w-full">
+
+        <!-- SECCIÓN 1: CUESTIONARIO VOCACIONAL -->
+        <section id="sec-test" class="space-y-6">
+            <div class="bg-slate-800 border border-slate-700 p-8 rounded-3xl shadow-xl space-y-6">
+                <div class="border-b border-slate-700 pb-4">
+                    <span class="text-xs font-bold text-indigo-400 uppercase tracking-widest">Diagnóstico Multidisciplinario</span>
+                    <h2 class="text-2xl font-bold text-white mt-1">Cuestionario Vocacional de Ingeniería</h2>
+                    <p class="text-xs text-slate-300 mt-1">Responde las 6 preguntas para determinar tu especialidad ideal. Tu resultado estampará automáticamente la insignia y casco oficial en tu credencial universitaria de la Universidad William Osler.</p>
+                </div>
+
+                <form id="form-test" class="space-y-6 text-xs text-slate-200">
+                    <!-- Pregunta 1 -->
+                    <div class="bg-slate-900 p-5 rounded-2xl border border-slate-700 space-y-3">
+                        <p class="font-bold text-sm text-indigo-300">1. ¿Qué tipo de proyectos o tecnologías te apasiona más liderar?</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p1" value="civil" class="text-indigo-500">
+                                <span>A) Puentes, rascacielos, carreteras e infraestructura urbana.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p1" value="sistemas" class="text-indigo-500">
+                                <span>B) Plataformas web, redes de datos, ciberseguridad e Inteligencia Artificial.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p1" value="industrial" class="text-indigo-500">
+                                <span>C) Cadenas de suministro, procesos de producción y gestión de calidad.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p1" value="mecanica" class="text-indigo-500">
+                                <span>D) Maquinaria pesada, estructuras termodinámicas y sistemas mecánicos.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p1" value="electrica" class="text-indigo-500">
+                                <span>E) Subestaciones eléctricas, circuitos de alta potencia y redes de energía.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p1" value="ambiental" class="text-indigo-500">
+                                <span>F) Plantas de tratamiento de agua, ecotecnias y gestión de residuos.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p1" value="automotriz" class="text-indigo-500">
+                                <span>G) Vehículos eléctricos, motores de alto rendimiento y aerodinámica automotriz.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p1" value="aeroespacial" class="text-indigo-500">
+                                <span>H) Satélites, cohetes espaciales, drones y sistemas de navegación aérea.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p1" value="biomedica" class="text-indigo-500">
+                                <span>I) Prótesis biónicas, tomógrafos y equipamiento médico hospitalario.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p1" value="mecatronica" class="text-indigo-500">
+                                <span>J) Robots industriales, automatización y brazos mecánicos programables.</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 2 -->
+                    <div class="bg-slate-900 p-5 rounded-2xl border border-slate-700 space-y-3">
+                        <p class="font-bold text-sm text-indigo-300">2. Si participaras en la construcción de un Centro Tecnológico y Espacial, ¿cuál sería tu función?</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p2" value="civil" class="text-indigo-500">
+                                <span>A) Diseñar las pistas de lanzamiento, cimientos resistentes y edificios de control.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p2" value="sistemas" class="text-indigo-500">
+                                <span>B) Programar el software de telemetría, bases de datos y la nube del centro.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p2" value="industrial" class="text-indigo-500">
+                                <span>C) Organizar los turnos de trabajo, presupuestos e inventarios del complejo.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p2" value="mecanica" class="text-indigo-500">
+                                <span>D) Supervisar turbinas, tuberías de presión y mantenimiento mecánico del lugar.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p2" value="electrica" class="text-indigo-500">
+                                <span>E) Garantizar el suministro eléctrico ininterrumpido y tableros de alta tensión.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p2" value="ambiental" class="text-indigo-500">
+                                <span>F) Asegurar el reciclaje de fluidos y neutralizar las emisiones de gases contaminantes.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p2" value="automotriz" class="text-indigo-500">
+                                <span>G) Diseñar los vehículos terrestres todo terreno para explorar áreas de prueba.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p2" value="aeroespacial" class="text-indigo-500">
+                                <span>H) Diseñar el fuselaje, propulsores y la trayectoria orbital de la cápsula.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p2" value="biomedica" class="text-indigo-500">
+                                <span>I) Monitorear los signos vitales de los tripulantes mediante sensores biomédicos.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p2" value="mecatronica" class="text-indigo-500">
+                                <span>J) Desarrollar el brazo robótico autónomo para manipular componentes peligrosos.</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 3 -->
+                    <div class="bg-slate-900 p-5 rounded-2xl border border-slate-700 space-y-3">
+                        <p class="font-bold text-sm text-indigo-300">3. ¿Cuál de los siguientes laboratorios o herramientas te gustaría dominar durante la universidad?</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p3" value="civil" class="text-indigo-500">
+                                <span>A) Prensa hidráulica para pruebas de resistencia de materiales de construcción y AutoCAD.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p3" value="sistemas" class="text-indigo-500">
+                                <span>B) Servidores en la nube, compiladores de código, Python e Inteligencia Artificial.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p3" value="industrial" class="text-indigo-500">
+                                <span>C) Software de simulación de líneas de producción (FlexSim) y tableros Kanban.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p3" value="mecanica" class="text-indigo-500">
+                                <span>D) Tornos CNC, impresoras 3D industriales y simuladores de fluidos mecánicos.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p3" value="electrica" class="text-indigo-500">
+                                <span>E) Osciloscopios, transformadores y generadores de energía trifásica.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p3" value="ambiental" class="text-indigo-500">
+                                <span>F) Espectrofotómetros de laboratorio ambiental y sensores ecotecnológicos.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p3" value="automotriz" class="text-indigo-500">
+                                <span>G) Dinamómetros de chasis, túneles de viento y escáneres de diagnóstico automotriz.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p3" value="aeroespacial" class="text-indigo-500">
+                                <span>H) Software de simulación aerodinámica (ANSYS) y cámaras de prueba de vacío orbital.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p3" value="biomedica" class="text-indigo-500">
+                                <span>I) Sensores EMG/EEG de impulsos bioeléctricos y materiales biocompatibles.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p3" value="mecatronica" class="text-indigo-500">
+                                <span>J) Controladores lógicos programables (PLC), servomotores y controladores Arduino/Raspberry.</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 4 -->
+                    <div class="bg-slate-900 p-5 rounded-2xl border border-slate-700 space-y-3">
+                        <p class="font-bold text-sm text-indigo-300">4. ¿Qué desafío global te motiva más a aportar una solución?</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p4" value="civil" class="text-indigo-500">
+                                <span>A) La falta de viviendas dignas y puentes resistentes a desastres naturales.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p4" value="sistemas" class="text-indigo-500">
+                                <span>B) La brecha digital, los ciberataques y la necesidad de sistemas eficientes.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p4" value="industrial" class="text-indigo-500">
+                                <span>C) El desperdicio de tiempo y materias primas en la industria manufacturera.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p4" value="mecanica" class="text-indigo-500">
+                                <span>D) La ineficiencia del consumo térmico en motores e industrias pesadas.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p4" value="electrica" class="text-indigo-500">
+                                <span>E) Las fallas en la red de transmisión eléctrica y la falta de energía en zonas rurales.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p4" value="ambiental" class="text-indigo-500">
+                                <span>F) El calentamiento global, la escasez de agua potable y la contaminación.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p4" value="automotriz" class="text-indigo-500">
+                                <span>G) La transición hacia vehículos de cero emisiones y transporte inteligente.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p4" value="aeroespacial" class="text-indigo-500">
+                                <span>H) La exploración de nuevas fronteras espaciales y la conectividad global satelital.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p4" value="biomedica" class="text-indigo-500">
+                                <span>I) La falta de prótesis accesibles y tecnología de diagnóstico para salvar vidas.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p4" value="mecatronica" class="text-indigo-500">
+                                <span>J) La automatización de tareas peligrosas mediante robots de alta precisión.</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 5 -->
+                    <div class="bg-slate-900 p-5 rounded-2xl border border-slate-700 space-y-3">
+                        <p class="font-bold text-sm text-indigo-300">5. ¿En qué entorno laboral te imaginas desempeñándote en el futuro?</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p5" value="civil" class="text-indigo-500">
+                                <span>A) Obras de construcción al aire libre, despachos de arquitectura e ingeniería civil.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p5" value="sistemas" class="text-indigo-500">
+                                <span>B) Empresas tecnológicas de software, centros de datos o trabajo remoto global.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p5" value="industrial" class="text-indigo-500">
+                                <span>C) Planta de manufactura, centro logístico de distribución o firmas consultoras.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p5" value="mecanica" class="text-indigo-500">
+                                <span>D) Plantas industriales, talleres de diseño mecánico e industrias de energía.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p5" value="electrica" class="text-indigo-500">
+                                <span>E) Centrales de generación eléctrica, parques eólicos y redes de potencia.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p5" value="ambiental" class="text-indigo-500">
+                                <span>F) Reservas naturales, plantas de tratamiento y dependencias de protección ambiental.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p5" value="automotriz" class="text-indigo-500">
+                                <span>G) Pistas de prueba de vehículos, plantas ensambladoras de autos y escuderías.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p5" value="aeroespacial" class="text-indigo-500">
+                                <span>H) Húngares de aviación, agencias espaciales o laboratorios de desarrollo aeroespacial.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p5" value="biomedica" class="text-indigo-500">
+                                <span>I) Hospitales de alta especialidad, laboratorios de prótesis y tecnología médica.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p5" value="mecatronica" class="text-indigo-500">
+                                <span>J) Laboratorios de robótica, automatización de manufactura inteligente y mecatrónica.</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Pregunta 6 -->
+                    <div class="bg-slate-900 p-5 rounded-2xl border border-slate-700 space-y-3">
+                        <p class="font-bold text-sm text-indigo-300">6. Fuera de las clases, ¿qué pasatiempo o actividad disfrutas más?</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p6" value="civil" class="text-indigo-500">
+                                <span>A) Dibujar maquetas, planos, estructuras o jugar videojuegos de construcción/ciudades.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p6" value="sistemas" class="text-indigo-500">
+                                <span>B) Aprender lenguajes de programación, resolver acertijos de lógica o configurar computadoras.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p6" value="industrial" class="text-indigo-500">
+                                <span>C) Organizar actividades grupales, buscar formas más rápidas de hacer tareas y planificar.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p6" value="mecanica" class="text-indigo-500">
+                                <span>D) Desarmar aparatos mecánicos para ver cómo se mueven los engranajes internamente.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p6" value="electrica" class="text-indigo-500">
+                                <span>E) Reparar conexiones eléctricas, soldar cables o armar circuitos electrónicos sencillos.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p6" value="ambiental" class="text-indigo-500">
+                                <span>F) Proyectos de huertos escolares, compostaje, cuidar la naturaleza y proyectos ecológicos.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p6" value="automotriz" class="text-indigo-500">
+                                <span>G) Leer sobre autos, carreras, modificar motores escala o analizar rendimiento automotriz.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p6" value="aeroespacial" class="text-indigo-500">
+                                <span>H) La astronomía, modelos de aviones, cohetes, drones y videos sobre exploración espacial.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p6" value="biomedica" class="text-indigo-500">
+                                <span>I) Interés en biología, anatomía humana y cómo la tecnología puede sanar personas.</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-2.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 cursor-pointer transition">
+                                <input type="radio" name="p6" value="mecatronica" class="text-indigo-500">
+                                <span>J) Armar kits de robótica (Arduino), programar motores y sensores que reaccionan al entorno.</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="button" onclick="evaluarTest()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3.5 rounded-xl transition text-xs shadow-lg">
+                        ✨ Evaluar Mi Perfil Vocacional (6 Preguntas)
+                    </button>
+                </form>
+
+                <!-- Resultado del Test -->
+                <div id="resultado-test" class="hidden bg-slate-900 border border-indigo-500/50 p-6 rounded-2xl space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-indigo-400 uppercase tracking-widest">Resultado Vocacional Diagnóstico</span>
+                        <span id="res-badge" class="bg-indigo-500/20 text-indigo-300 text-xs px-3 py-1 rounded-full border border-indigo-500/30">Especialidad Detectada</span>
+                    </div>
+                    <h3 id="res-titulo" class="text-xl font-bold text-white">Tu rama recomendada es: ...</h3>
+                    <p id="res-descripcion" class="text-xs text-slate-300 leading-relaxed"></p>
+                    
+                    <button onclick="irAEstudioFotografico()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-5 py-2.5 rounded-xl text-xs transition shadow-lg">
+                        📸 ¡Vístete de esta Ingeniería! Subir Mi Foto →
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: "VÍSTETE DE INGENIERO" (ESTUDIO FOTOGRÁFICO DINÁMICO) -->
+        <section id="sec-estudio" class="hidden space-y-6 max-w-5xl mx-auto">
+            <div class="bg-slate-800 border border-slate-700 p-8 rounded-3xl shadow-xl space-y-6">
+                <div>
+                    <span class="text-xs font-bold text-indigo-400 uppercase tracking-widest">Identidad Profesional Vocacional</span>
+                    <h2 class="text-2xl font-bold text-white mt-1">Estudio Fotográfico: Credencial e Identidad de Ingeniero</h2>
+                    <p class="text-xs text-slate-300 mt-1">Sube la foto de tu rostro. El sistema vestirá tu credencial con el casco universitario de la Universidad William Osler, distintivos y sellos de especialidad.</p>
+                </div>
+
+                <!-- Banner de confirmación de especialidad -->
+                <div class="bg-slate-900 border border-indigo-500/40 p-4 rounded-2xl flex items-center justify-between">
+                    <div>
+                        <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider block">Especialidad Asignada por tu Cuestionario:</span>
+                        <h4 id="estudio-rama-texto" class="text-sm font-bold text-white">Ingeniería Civil 👷‍♂️</h4>
+                    </div>
+                    <button onclick="cambiarSeccion('test')" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700 transition">
+                        🔄 Repetir Cuestionario
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+                    <!-- Panel de Controles -->
+                    <div class="md:col-span-5 space-y-4 bg-slate-900 p-5 rounded-2xl border border-slate-700">
+                        <div>
+                            <label class="block text-xs font-semibold text-indigo-300 mb-1">1. Tu Nombre Completo</label>
+                            <input id="foto-nombre" type="text" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200" placeholder="Ej: Carlos Ruiz López" oninput="renderizarCredencial()">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-indigo-300 mb-1">2. Carga la Foto de tu Rostro</label>
+                            <input type="file" id="foto-input" accept="image/*" class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 cursor-pointer" onchange="cargarImagenUsuario(event)">
+                        </div>
+
+                        <div class="pt-2 space-y-2">
+                            <span class="text-[11px] font-semibold text-slate-400 block">Ajustes del Rostro:</span>
+                            <div class="flex space-x-2">
+                                <button onclick="ajustarZoom(0.1)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3 py-1.5 rounded-lg border border-slate-700">🔍 Zoom +</button>
+                                <button onclick="ajustarZoom(-0.1)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3 py-1.5 rounded-lg border border-slate-700">🔍 Zoom -</button>
+                                <button onclick="resetearFoto()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3 py-1.5 rounded-lg border border-slate-700">🔄 Reset</button>
+                            </div>
+                        </div>
+
+                        <button onclick="descargarCredencial()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 rounded-xl transition text-xs shadow-lg mt-4">
+                            💾 Descargar Mi Credencial Oficial (PNG)
+                        </button>
+                    </div>
+
+                    <!-- Previsualización del Canvas -->
+                    <div class="md:col-span-7 flex flex-col items-center justify-center bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-3">
+                        <span class="text-xs text-slate-400 font-semibold">Credencial Universitaria de Ingeniero en Formación:</span>
+                        <canvas id="canvas-credencial" width="400" height="520" class="border border-slate-700 rounded-2xl shadow-2xl bg-slate-900 max-w-full"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: CATÁLOGO DE ESPECIALIDADES CON 3.1 COMPLETO -->
+        <section id="sec-ramas" class="hidden space-y-6">
+            <div class="bg-slate-800 border border-slate-700 p-8 rounded-3xl shadow-xl space-y-6">
+                <div>
+                    <span class="text-xs font-bold text-indigo-400 uppercase tracking-widest">Marco Teórico • Unidad III</span>
+                    <h2 class="text-2xl font-bold text-white mt-1">Catálogo de Especialidades de la Ingeniería</h2>
+                    <p class="text-xs text-slate-300 mt-1">La ingeniería moderna exige colaboración multidisciplinaria entre profesionales altamente especializados.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- 3.1 IDEA CENTRAL INCORPORADA -->
+                    <div class="bg-slate-900/90 p-5 rounded-2xl border border-indigo-500/50 space-y-2 md:col-span-2 shadow-lg">
+                        <h3 class="font-bold text-indigo-400 text-sm flex items-center space-x-2">
+                            <span>📌</span> <span>3.1 ¿Por qué existen muchas ramas de la ingeniería?</span>
+                        </h3>
+                        <p class="text-xs text-slate-200 leading-relaxed">
+                            La ingeniería se divide en ramas porque existen muchos tipos de problemas, cada problema requiere conocimientos especializados y ningún ingeniero puede saberlo todo. Así como en la medicina existen médicos generales y especialistas, en la ingeniería cada disciplina resuelve un aspecto único.
+                        </p>
+                        <div class="bg-slate-950 p-3 rounded-xl text-[11px] text-slate-300 border border-slate-800">
+                            <strong>Ejemplo Integrador:</strong> La construcción de un Hospital requiere:
+                            <span class="text-amber-400">Civil</span> (edificio), 
+                            <span class="text-yellow-400">Eléctrico</span> (instalaciones), 
+                            <span class="text-cyan-400">Sistemas</span> (redes y software) y 
+                            <span class="text-pink-400">Biomédico</span> (equipos médicos).
+                        </div>
+                    </div>
+
+                    <!-- Especialidades -->
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-700 space-y-1.5">
+                        <h3 class="font-bold text-amber-400 text-xs flex items-center space-x-2"><span>👷‍♂️</span> <span>3.2 Ingeniería Civil</span></h3>
+                        <p class="text-[11px] text-slate-300">Infraestructura urbana, carreteras, puentes, escuelas e ingeniería sísmica.</p>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-700 space-y-1.5">
+                        <h3 class="font-bold text-cyan-400 text-xs flex items-center space-x-2"><span>💻</span> <span>3.3 Ingeniería en Sistemas e IA</span></h3>
+                        <p class="text-[11px] text-slate-300">Desarrollo de software, algoritmos de IA, ciberseguridad, nube y redes.</p>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-700 space-y-1.5">
+                        <h3 class="font-bold text-slate-300 text-xs flex items-center space-x-2"><span>🏭</span> <span>3.4 Ingeniería Industrial</span></h3>
+                        <p class="text-[11px] text-slate-300">Optimización de procesos de manufactura, calidad, logística y administración.</p>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-700 space-y-1.5">
+                        <h3 class="font-bold text-blue-400 text-xs flex items-center space-x-2"><span>⚙️</span> <span>3.5 Ingeniería Mecánica</span></h3>
+                        <p class="text-[11px] text-slate-300">Motores, diseño térmico, maquinaria pesada y sistemas de movimiento.</p>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-700 space-y-1.5">
+                        <h3 class="font-bold text-yellow-400 text-xs flex items-center space-x-2"><span>💡</span> <span>3.6 Ingeniería Eléctrica</span></h3>
+                        <p class="text-[11px] text-slate-300">Generación de potencia, redes de transmisión, subestaciones y alta tensión.</p>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-700 space-y-1.5">
+                        <h3 class="font-bold text-emerald-400 text-xs flex items-center space-x-2"><span>🚰</span> <span>3.7 Ingeniería Ambiental</span></h3>
+                        <p class="text-[11px] text-slate-300">Tratamiento de aguas, ecotecnias, calidad del aire y sustentabilidad.</p>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-rose-500/30 space-y-1.5">
+                        <h3 class="font-bold text-rose-400 text-xs flex items-center space-x-2"><span>🏎️</span> <span>3.8 Ingeniería Automotriz</span></h3>
+                        <p class="text-[11px] text-slate-300">Vehículos eléctricos, aerodinámica, dinamómetros y movilidad del futuro.</p>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-violet-500/30 space-y-1.5">
+                        <h3 class="font-bold text-violet-400 text-xs flex items-center space-x-2"><span>🚀</span> <span>3.9 Ingeniería Aeroespacial</span></h3>
+                        <p class="text-[11px] text-slate-300">Aeronaves, satélites de telecomunicaciones, cohetes e investigación orbital.</p>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-pink-500/30 space-y-1.5">
+                        <h3 class="font-bold text-pink-400 text-xs flex items-center space-x-2"><span>🩺</span> <span>3.10 Ingeniería Biomédica</span></h3>
+                        <p class="text-[11px] text-slate-300">Prótesis biónicas, instrumentación médica hospitalaria y biosensores.</p>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-purple-500/30 space-y-1.5">
+                        <h3 class="font-bold text-purple-400 text-xs flex items-center space-x-2"><span>🤖</span> <span>3.11 Mecatrónica y Robótica</span></h3>
+                        <p class="text-[11px] text-slate-300">Integración de mecánica, electrónica, programación y automatización.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Pie Institucional -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-4 mt-6">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500">
+            <p>Universidad William Osler & Universidad Autónoma de Guerrero (UAGRO)</p>
+            <p class="text-slate-400 font-medium">Catedrático: L.I. Luis Arturo López Vergara</p>
+        </div>
+    </footer>
+
+    <!-- Lógica JavaScript con Canvas Diseñado para William Osler -->
+    <script>
+        let imagenCargada = null;
+        let zoomNivel = 1.0;
+        let miRamaResultado = localStorage.getItem('ing_rama_resultado') || 'civil';
+
+        const mapaEspecialidades = {
+            civil: { titulo: "INGENIERÍA CIVIL", casco: "#eab308", marco: "#f59e0b", icon: "👷‍♂️", code: "CIV-2026" },
+            sistemas: { titulo: "INGENIERÍA EN SISTEMAS E IA", casco: "#06b6d4", marco: "#0891b2", icon: "💻", code: "SIS-2026" },
+            industrial: { titulo: "INGENIERÍA INDUSTRIAL", casco: "#f8fafc", marco: "#64748b", icon: "🏭", code: "IND-2026" },
+            mecanica: { titulo: "INGENIERÍA MECÁNICA", casco: "#3b82f6", marco: "#2563eb", icon: "⚙️", code: "MEC-2026" },
+            electrica: { titulo: "INGENIERÍA ELÉCTRICA", casco: "#f59e0b", marco: "#d97706", icon: "💡", code: "ELE-2026" },
+            ambiental: { titulo: "INGENIERÍA AMBIENTAL", casco: "#22c55e", marco: "#16a34a", icon: "🚰", code: "AMB-2026" },
+            automotriz: { titulo: "INGENIERÍA AUTOMOTRIZ", casco: "#ef4444", marco: "#dc2626", icon: "🏎️", code: "AUT-2026" },
+            aeroespacial: { titulo: "INGENIERÍA AEROESPACIAL", casco: "#8b5cf6", marco: "#7c3aed", icon: "🚀", code: "AER-2026" },
+            biomedica: { titulo: "INGENIERÍA BIOMÉDICA", casco: "#f43f5e", marco: "#e11d48", icon: "🩺", code: "BIO-2026" },
+            mecatronica: { titulo: "MECATRÓNICA Y ROBÓTICA", casco: "#a855f7", marco: "#9333ea", icon: "🤖", code: "MTR-2026" }
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            actualizarBannerEstudio();
+            renderizarCredencial();
+        });
+
+        function cambiarSeccion(sec) {
+            ['test', 'estudio', 'ramas'].forEach(id => {
+                document.getElementById('sec-' + id).classList.add('hidden');
+                document.getElementById('nav-' + id).className = "text-xs md:text-sm font-semibold px-4 py-2 rounded-xl transition-all text-slate-400 hover:bg-slate-800 hover:text-white flex items-center space-x-2 whitespace-nowrap";
+            });
+
+            document.getElementById('sec-' + sec).classList.remove('hidden');
+            document.getElementById('nav-' + sec).className = "text-xs md:text-sm font-semibold px-4 py-2 rounded-xl transition-all bg-indigo-600 text-white shadow-lg shadow-indigo-900/40 flex items-center space-x-2 whitespace-nowrap";
+        }
+
+        // --- EVALUACIÓN DE LAS 6 PREGUNTAS ---
+        function evaluarTest() {
+            const f = document.getElementById('form-test');
+            const p1 = f.p1.value;
+            const p2 = f.p2.value;
+            const p3 = f.p3.value;
+            const p4 = f.p4.value;
+            const p5 = f.p5.value;
+            const p6 = f.p6.value;
+
+            if (!p1 || !p2 || !p3 || !p4 || !p5 || !p6) {
+                alert("Por favor responde las 6 preguntas del cuestionario para obtener tu diagnóstico.");
+                return;
+            }
+
+            const conteo = { 
+                civil: 0, sistemas: 0, industrial: 0, mecanica: 0, electrica: 0,
+                ambiental: 0, automotriz: 0, aeroespacial: 0, biomedica: 0, mecatronica: 0 
+            };
+
+            [p1, p2, p3, p4, p5, p6].forEach(resp => {
+                if (conteo[resp] !== undefined) conteo[resp]++;
+            });
+
+            let maxRama = 'civil';
+            let maxCount = -1;
+            for (let r in conteo) {
+                if (conteo[r] > maxCount) {
+                    maxCount = conteo[r];
+                    maxRama = r;
+                }
+            }
+
+            miRamaResultado = maxRama;
+            localStorage.setItem('ing_rama_resultado', maxRama);
+
+            const resDiv = document.getElementById('resultado-test');
+            const resTitulo = document.getElementById('res-titulo');
+            const resDesc = document.getElementById('res-descripcion');
+            resDiv.classList.remove('hidden');
+
+            const infoRamas = {
+                civil: { t: "Ingeniería Civil 👷‍♂️", d: "Te apasiona la infraestructura urbana, los grandes edificios, los puentes y la creación de espacios seguros e indispensables para la comunidad." },
+                sistemas: { t: "Ingeniería en Sistemas e Inteligencia Artificial 💻", d: "Tu fuerte es la lógica, el código, el software, las redes y la Inteligencia Artificial. Te proyectas creando soluciones digitales de impacto global." },
+                industrial: { t: "Ingeniería Industrial 🏭", d: "Te enfocas en la optimización de procesos de producción, la logística empresarial, el control de calidad y la máxima productividad de recursos." },
+                mecanica: { t: "Ingeniería Mecánica ⚙️", d: "Te atraen los motores, las estructuras termodinámicas, la maquinaria pesada y la interacción de sistemas mecánicos industriales." },
+                electrica: { t: "Ingeniería Eléctrica y Electrónica 💡", d: "Tu vocación está en las redes de potencia, los circuitos de alta tensión, las subestaciones y la distribución eficiente de energía." },
+                ambiental: { t: "Ingeniería Ambiental 🚰", d: "Tu motivación principal es proteger los ecosistemas, el tratamiento de agua, la neutralización de emisiones y la tecnología sustentable." },
+                automotriz: { t: "Ingeniería Automotriz 🏎️", d: "Te apasionan los vehículos eléctricos, la aerodinámica, los dinamómetros de rendimiento y la innovación en el transporte terrestre." },
+                aeroespacial: { t: "Ingeniería Aeroespacial 🚀", d: "Tu meta está en el cielo y el espacio: satélites, cohetes, aeronaves y software de simulación aerodinámica orbital." },
+                biomedica: { t: "Ingeniería Biomédica 🩺", d: "Combinas la tecnología con la salud: prótesis biónicas, tomógrafos, biosensores y equipamiento hospitalario para salvar vidas." },
+                mecatronica: { t: "Ingeniería Mecatrónica y Robótica 🤖", d: "Unes la mecánica, la electrónica y la programación para dar vida a robots autónomos y automatizar sistemas complejos." }
+            };
+
+            resTitulo.innerText = infoRamas[maxRama].t;
+            resDesc.innerText = infoRamas[maxRama].d;
+            
+            actualizarBannerEstudio();
+            renderizarCredencial();
+        }
+
+        function irAEstudioFotografico() {
+            cambiarSeccion('estudio');
+        }
+
+        function actualizarBannerEstudio() {
+            const config = mapaEspecialidades[miRamaResultado] || mapaEspecialidades.civil;
+            document.getElementById('estudio-rama-texto').innerText = `${config.titulo} ${config.icon}`;
+        }
+
+        // --- DIBUJO DE CREDENCIAL OFICIAL WILLIAM OSLER ---
+        function cargarImagenUsuario(e) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                imagenCargada = new Image();
+                imagenCargada.onload = function() { renderizarCredencial(); }
+                imagenCargada.src = event.target.result;
+            }
+            if (e.target.files[0]) { reader.readAsDataURL(e.target.files[0]); }
+        }
+
+        function ajustarZoom(val) {
+            zoomNivel = Math.max(0.5, Math.min(2.5, zoomNivel + val));
+            renderizarCredencial();
+        }
+
+        function resetearFoto() {
+            zoomNivel = 1.0;
+            renderizarCredencial();
+        }
+
+        function renderizarCredencial() {
+            const canvas = document.getElementById('canvas-credencial');
+            const ctx = canvas.getContext('2d');
+            const nombre = document.getElementById('foto-nombre').value || "ESTUDIANTE INGENIERO";
+            const config = mapaEspecialidades[miRamaResultado] || mapaEspecialidades.civil;
+
+            // Fondo institucional oscuro
+            ctx.fillStyle = "#0f172a";
+            ctx.fillRect(0, 0, 400, 520);
+
+            // 1. Encabezado Oficial Destacando UNIVERSIDAD WILLIAM OSLER
+            ctx.fillStyle = "#0284c7"; // Azul institucional
+            ctx.fillRect(0, 0, 400, 55);
+
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "bold 14px Poppins";
+            ctx.textAlign = "center";
+            ctx.fillText("UNIVERSIDAD WILLIAM OSLER", 200, 24);
+
+            ctx.fillStyle = "#bae6fd";
+            ctx.font = "bold 9px Poppins";
+            ctx.fillText("PROGRAMA ACADÉMICO DE BACHILLERATO • UAGRO", 200, 42);
+
+            // 2. Foto de Rostro
+            if (imagenCargada) {
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(200, 190, 105, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.clip();
+
+                const w = 210 * zoomNivel;
+                const h = (imagenCargada.height / imagenCargada.width) * w;
+                ctx.drawImage(imagenCargada, 200 - w/2, 190 - h/2, w, h);
+                ctx.restore();
+            } else {
+                ctx.fillStyle = "#1e293b";
+                ctx.beginPath();
+                ctx.arc(200, 190, 105, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = "#94a3b8";
+                ctx.font = "13px Poppins";
+                ctx.textAlign = "center";
+                ctx.fillText("Cargar Foto de Rostro", 200, 195);
+            }
+
+            // 3. Anillo y Casco de Ingeniero
+            ctx.strokeStyle = config.marco;
+            ctx.lineWidth = 6;
+            ctx.beginPath();
+            ctx.arc(200, 190, 107, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Dibujar casco
+            ctx.fillStyle = config.casco;
+            ctx.beginPath();
+            ctx.arc(200, 95, 75, Math.PI, 0, false);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.roundRect(115, 90, 170, 15, 7);
+            ctx.fill();
+            ctx.fillStyle = "rgba(0,0,0,0.2)";
+            ctx.fillRect(115, 98, 170, 4);
+
+            // 4. Tarjeta de Datos e Insignias de la Especialidad
+            ctx.fillStyle = "#1e293b";
+            ctx.beginPath();
+            ctx.roundRect(20, 315, 360, 180, 16);
+            ctx.fill();
+            ctx.strokeStyle = "#334155";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Insignia Circular de la Rama
+            ctx.fillStyle = config.marco;
+            ctx.beginPath();
+            ctx.arc(335, 360, 24, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.font = "20px Poppins";
+            ctx.textAlign = "center";
+            ctx.fillText(config.icon, 335, 367);
+
+            // Nombre y Título del Ingeniero
+            ctx.textAlign = "left";
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "bold 15px Poppins";
+            ctx.fillText(nombre.toUpperCase(), 40, 350);
+
+            ctx.fillStyle = config.marco;
+            ctx.font = "bold 12px Poppins";
+            ctx.fillText(config.titulo, 40, 372);
+
+            ctx.fillStyle = "#94a3b8";
+            ctx.font = "10px Poppins";
+            ctx.fillText("CREDENCIAL OFICIAL DE INGENIERO EN FORMACIÓN", 40, 398);
+            ctx.fillText(`Código de Certificación: ${config.code}`, 40, 416);
+            ctx.fillText("Catedrático: L.I. Luis Arturo López Vergara", 40, 434);
+
+            // Marca de agua William Osler inferior
+            ctx.textAlign = "center";
+            ctx.fillStyle = "#0284c7";
+            ctx.font = "bold 9px Poppins";
+            ctx.fillText("FACULTAD DE INGENIERÍA • WM OSLER", 200, 470);
+
+            // Tira técnica inferior
+            ctx.fillStyle = config.casco;
+            ctx.fillRect(40, 482, 320, 4);
+        }
+
+        function descargarCredencial() {
+            const canvas = document.getElementById('canvas-credencial');
+            const link = document.createElement('a');
+            link.download = 'Credencial_Ingeniero_William_Osler.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    </script>
+</body>
+</html>
