@@ -1,7 +1,6 @@
 <div align="center">
 
 # 🛠️ Introducción a la Ingeniería e IA
-### *"Vístete del Ingeniero que Quieres Ser"*
 #### Programa Académico de Bachillerato • UAGRO & Universidad William Osler[cite: 2]
 <br>
 
