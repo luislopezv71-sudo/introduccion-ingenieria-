@@ -1,39 +1,77 @@
 <div align="center">
 
 # 🛠️ Introducción a la Ingeniería e IA
-#### Programa Académico de Bachillerato • UAGRO & Universidad William Osler[cite: 7]
+
+### Plataforma Académica Interactiva de Bachillerato
+
+**Universidad William Osler & Universidad Autónoma de Guerrero (UAGRO)**
+
 <br>
 
-<img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" /> 
-<img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" /> 
-<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" /> 
-<img src="https://img.shields.io/badge/Orientación-Vocacional-indigo?style=for-the-badge" />
-<img src="https://img.shields.io/badge/IA_Académica-Teal?style=for-the-badge" />
-<img src="https://img.shields.io/badge/Simulación-Urbana_e_IA-0d9488?style=for-the-badge" />
+<!-- Badges accionables -->
+[![Estado](https://img.shields.io/badge/estado-activo-14b8a6?style=for-the-badge)](https://github.com/)
+[![Versión](https://img.shields.io/badge/versión-v1.1.0-0ea5e9?style=for-the-badge)](CHANGELOG.md)
+[![Unidades](https://img.shields.io/badge/unidades-5%2F5-6366f1?style=for-the-badge)](#-3-mapa-de-unidades)
+[![Licencia](https://img.shields.io/badge/licencia-MIT%20%2B%20CC%20BY--NC--SA-22c55e?style=for-the-badge)](LICENSE)
+[![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/es/docs/Web/HTML)
+[![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/es/docs/Web/JavaScript)
 
-> *"La ingeniería no solo construye cosas, construye mejores oportunidades."*[cite: 7]
+> *"La ingeniería no solo construye cosas, construye mejores oportunidades."*
 
 </div>
 
 ---
 
-## 📌 1. Descripción General del Proyecto
-Este repositorio contiene la plataforma interactiva de trabajo para la materia **Introducción a la Ingeniería** a nivel preparatoria/bachillerato[cite: 7]. Su propósito fundamental se divide en cuatro ejes metodológicos:
+## 📖 Tabla de Contenidos
 
-1. **Metodología de Proyectos (Unidad II):** Que los alumnos, organizados **en equipo**, identifiquen un problema real de su entorno y desarrollen un prototipo funcional (o simulen su comportamiento y pruebas utilizando Inteligencia Artificial), documentando cada fase del proceso metodológico[cite: 7].
-2. **Identidad y Orientación Vocacional (Unidad III):** Que cada estudiante explore las distintas ramas y especialidades de la ingeniería, descubra su vocación (*"Vístete del Ingeniero que quieres ser"*) y entienda cómo colaboran diversas áreas para resolver problemas complejos[cite: 7].
-3. **Toma de Decisiones e IA Académica (Unidad IV):** Implementación del **Protocolo Obligatorio de 5 Pasos** para la investigación y resolución de problemas técnicos. Incluye análisis multimodal de imágenes/fotografías, auditoría estricta de fuentes (Fact-Checking anti-alucinaciones) y validación cruzada dual (*ChatGPT vs Gemini*)[cite: 7].
-4. **Aplicaciones de la Ingeniería e IA (Unidad VII):** Exploración interactiva del impacto de las distintas ramas de la ingeniería en la vida cotidiana (construcción, salud, comunicaciones, transporte, energía, industria y medio ambiente) y análisis de la llegada de la Inteligencia Artificial a las profesiones del futuro, con ficha de registro para cuaderno.
+1. [Descripción General](#-1-descripción-general)
+2. [Filosofía Pedagógica](#-2-filosofía-pedagógica)
+3. [Mapa de Unidades](#-3-mapa-de-unidades)
+4. [Arquitectura del Proyecto](#-4-arquitectura-del-proyecto)
+5. [Estructura de Archivos](#-5-estructura-de-archivos)
+6. [Instalación y Uso](#-6-instalación-y-uso)
+7. [Despliegue](#-7-despliegue)
+8. [Características Técnicas](#-8-características-técnicas)
+9. [Cómo Contribuir](#-9-cómo-contribuir)
+10. [Changelog](#-10-changelog)
+11. [Créditos y Licencia](#-11-créditos-y-licencia)
 
 ---
 
-## 📂 2. Estructura del Repositorio
+## 📌 1. Descripción General
 
-```text
-introduccion-ingenieria/
-│
-├── index.html            # 🌐 Portal principal tipo Hub (Menú de navegación general)[cite: 7]
-├── simulador.html        # ⚙️ Bitácora interactiva por etapas (Unidad II: Clases 1 a 5 + Prompts)[cite: 7]
-├── vocacional.html       # 👷‍♂️ Test vocacional y exploración de Ramas de la Ingeniería (Unidad III)[cite: 7]
-├── banco-de-prompts.html # 💬 Banco de Prompts, Protocolo de 5 Pasos, Foto-Análisis y Fact-Checking (Unidad IV)[cite: 7]
-└── simulador-unidad7.html# 🏙️ Simulador de Aplicaciones de Ingeniería, Rutina 2035 y Profesiones e IA (Unidad VII)
+Este repositorio alberga la **plataforma interactiva de trabajo** para la asignatura **Introducción a la Ingeniería** a nivel bachillerato. El proyecto articula tres ejes metodológicos:
+
+| Eje | Unidad | Propósito |
+|-----|--------|-----------|
+| 🏗️ **Metodología de Proyectos** | Unidad II | Los alumnos, en equipo, identifican un problema real de su entorno y desarrollan un prototipo funcional (o simulan su comportamiento con IA), documentando cada fase del proceso. |
+| 🧭 **Identidad Vocacional** | Unidad III | Cada estudiante explora las ramas de la ingeniería, descubre su vocación (*"Vístete del Ingeniero que quieres ser"*) y entiende la colaboración interdisciplinaria. |
+| 🤖 **IA Académica Responsable** | Unidad IV | Implementa el **Protocolo Obligatorio de 5 Pasos**: análisis multimodal, auditoría anti-alucinaciones y validación cruzada (*ChatGPT vs Gemini*). |
+| 🏙️ **Aplicaciones e Impacto** | Unidad VII | Analiza cómo la ingeniería sostiene la vida moderna y cómo la IA reconfigura las profesiones del futuro. |
+
+---
+
+## 🎓 2. Filosofía Pedagógica
+
+### Principios Rectores
+
+```mermaid
+mindmap
+  root((Aprendizaje<br/>Significativo))
+    Aprender Haciendo
+      Simuladores interactivos
+      Bitácoras de proyecto
+      Prototipado con IA
+    Pensamiento Crítico
+      Fact-Checking obligatorio
+      Validación cruzada IA
+      Análisis ético
+    Identidad Vocacional
+      Test de orientación
+      Catálogo de ramas
+      Credencial profesional
+    Ciudadanía Digital
+      Uso responsable de IA
+      Auditoría de fuentes
+      Privacidad y datos
