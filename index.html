@@ -60,6 +60,7 @@
                 <button onclick="activarUnidad('u2')" id="btn-u2" class="text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Unidad II: Proceso de Ingeniería</button>
                 <button onclick="activarUnidad('u3')" id="btn-u3" class="text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Unidad III: Ramas e Identidad</button>
                 <button onclick="activarUnidad('u4')" id="btn-u4" class="text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Unidad IV: Banco de Prompts & IA</button>
+                <button onclick="activarUnidad('u7')" id="btn-u7" class="text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Unidad VII: Aplicaciones e IA</button>
             </div>
         </div>
 
@@ -67,7 +68,7 @@
         <div class="space-y-4">
             <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest">Estructura Secuencial del Curso</h3>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
 
                 <!-- UNIDAD I: ¿Qué es la Ingeniería? -->
                 <a href="docs/" onclick="activarUnidad('u1')" class="card-hover bg-slate-800 border border-sky-500/40 p-6 rounded-3xl shadow-xl flex flex-col justify-between group shadow-sky-950/20">
@@ -149,6 +150,26 @@
                     </div>
                 </a>
 
+                <!-- UNIDAD VII: Aplicaciones de la Ingeniería e IA -->
+                <a href="simulador-unidad7.html" onclick="activarUnidad('u7')" class="card-hover bg-slate-800 border border-teal-500/40 p-6 rounded-3xl shadow-xl flex flex-col justify-between group shadow-teal-950/20">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="w-12 h-12 rounded-2xl bg-teal-500/20 text-teal-400 flex items-center justify-center font-bold text-xl border border-teal-500/30">
+                                🏙️
+                            </div>
+                            <span class="text-[10px] bg-teal-500/20 text-teal-300 font-bold px-2.5 py-1 rounded-full border border-teal-500/30">Unidad VII</span>
+                        </div>
+                        <h4 class="text-base font-bold text-white group-hover:text-teal-400 transition-colors">Aplicaciones e IA</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Simulador urbano "Urban-Eng", rutina 2035, matriz de profesiones del futuro, preguntas detonadoras y ficha integrada para el cuaderno.
+                        </p>
+                    </div>
+                    <div class="mt-6 flex items-center text-xs font-semibold text-teal-400 space-x-1">
+                        <span>Abrir simulador VII</span>
+                        <span>→</span>
+                    </div>
+                </a>
+
             </div>
         </div>
 
@@ -225,6 +246,12 @@
                 titulo: "Unidad IV: Banco de Prompts y Framework de Inteligencia Artificial",
                 desc: "Aprende a comunicarte eficazmente con modelos de Inteligencia Artificial mediante el Framework de los 5 elementos (Rol, Tarea, Contexto, Formato y Restricción) para simular prototipos técnicos, auditar proyectos y acelerar tu aprendizaje.",
                 btnClass: "bg-emerald-600 text-white shadow-lg"
+            },
+            u7: {
+                badge: "Formación Integral del Estudiante • Unidad VII",
+                titulo: "Unidad VII: Aplicaciones de la Ingeniería y la Llegada de la IA",
+                desc: "Analiza cómo la ingeniería respalda la construcción, salud, comunicaciones, transporte, energía e industria. Explora el impacto transformador de la Inteligencia Artificial en la vida cotidiana, la rutina 2035 y el futuro laboral de las profesiones.",
+                btnClass: "bg-teal-600 text-white shadow-lg"
             }
         };
 
@@ -237,12 +264,14 @@
             document.getElementById('banner-desc').innerText = data.desc;
 
             // Resetear estilos de botones del banner
-            ['u1', 'u2', 'u3', 'u4'].forEach(u => {
+            ['u1', 'u2', 'u3', 'u4', 'u7'].forEach(u => {
                 const btn = document.getElementById('btn-' + u);
-                if (u === clave) {
-                    btn.className = `text-xs px-3.5 py-1.5 rounded-xl font-semibold transition ${data.btnClass}`;
-                } else {
-                    btn.className = "text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+                if (btn) {
+                    if (u === clave) {
+                        btn.className = `text-xs px-3.5 py-1.5 rounded-xl font-semibold transition ${data.btnClass}`;
+                    } else {
+                        btn.className = "text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+                    }
                 }
             });
         }
