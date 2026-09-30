@@ -1,260 +1,610 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Hub de Introducción a la Ingeniería | William Osler & UAGRO</title>
+    <meta name="description" content="Portal Hub de Introducción a la Ingeniería — Universidad William Osler & UAGRO. Unidades I, II, III, IV y VII con simuladores interactivos.">
+    <meta name="theme-color" content="#0f172a">
+    <title>Portal Hub | Introducción a la Ingeniería — William Osler & UAGRO</title>
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Poppins', sans-serif; }
-        .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .card-hover:hover { transform: translateY(-4px); }
+        :root {
+            --header-h: 76px;
+            --nav-h: 48px;
+        }
+
+        body {
+            font-family: 'Inter', 'Poppins', sans-serif;
+        }
+
+        /* Compensa el header + nav sticky al hacer scroll a anclas */
+        section[id], div[id^="seccion-"] {
+            scroll-margin-top: calc(var(--header-h) + var(--nav-h) + 16px);
+        }
+
+        /* Hover de tarjetas */
+        .card-hover {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                        border-color 0.3s ease,
+                        box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+        }
+
+        /* Barra de progreso superior */
+        #progress-bar {
+            position: fixed;
+            top: 0; left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #0ea5e9, #06b6d4, #14b8a6);
+            width: 0%;
+            z-index: 100;
+            transition: width 0.15s ease-out;
+        }
+
+        /* Scrollbar personalizado */
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        /* Utilidad scrollbar-none para el nav horizontal */
+        .scrollbar-none::-webkit-scrollbar { display: none; }
+        .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Focus visible accesible */
+        :focus-visible {
+            outline: 2px solid #38bdf8;
+            outline-offset: 2px;
+            border-radius: 6px;
+        }
+
+        /* Animación toast */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .toast-anim { animation: slideUp 0.3s ease-out; }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            .card-hover,
+            .card-hover:hover,
+            .toast-anim,
+            #progress-bar {
+                transition: none !important;
+                animation: none !important;
+                transform: none !important;
+            }
+            html { scroll-behavior: auto; }
+        }
+
+        /* Modo claro (toggle) */
+        html.light body { background-color: #f8fafc; color: #0f172a; }
+        html.light .bg-slate-900 { background-color: #f8fafc !important; }
+        html.light .bg-slate-950 { background-color: #e2e8f0 !important; }
+        html.light .bg-slate-800 { background-color: #ffffff !important; }
+        html.light .text-slate-100 { color: #0f172a !important; }
+        html.light .text-slate-300 { color: #334155 !important; }
+        html.light .text-slate-400 { color: #475569 !important; }
+        html.light .text-white { color: #0f172a !important; }
+        html.light .border-slate-800 { border-color: #cbd5e1 !important; }
+        html.light .border-slate-700 { border-color: #cbd5e1 !important; }
+
+        /* Estilos de impresión */
+        @media print {
+            header, footer, nav, #progress-bar, #search-modal, .no-print { display: none !important; }
+            body { background: white !important; color: black !important; }
+            a { text-decoration: underline; color: black; }
+        }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-white">
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-white antialiased">
 
-    <!-- Encabezado Institucional -->
-    <header class="bg-slate-950 border-b border-slate-800 sticky top-0 z-50 shadow-lg">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center">
-            <div class="flex items-center space-x-4">
-                <div class="bg-sky-600/20 border border-sky-500/30 p-2.5 rounded-2xl text-sky-400 font-bold text-sm tracking-wider">
+    <!-- BARRA DE PROGRESO DE LECTURA -->
+    <div id="progress-bar" aria-hidden="true"></div>
+
+    <!-- Skip link para accesibilidad -->
+    <a href="#contenido-principal"
+       class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[200] focus:bg-sky-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:font-bold">
+        Saltar al contenido principal
+    </a>
+
+    <!-- ENCABEZADO INSTITUCIONAL -->
+    <header class="bg-slate-950/95 backdrop-blur border-b border-slate-800 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-col md:flex-row justify-between items-center gap-3">
+
+            <div class="flex items-center gap-3 sm:gap-4">
+                <div class="bg-sky-600/20 border border-sky-500/30 p-2.5 rounded-2xl text-sky-400 font-bold text-xs tracking-wider shrink-0">
                     WM OSLER & UAGRO
                 </div>
-                <div>
-                    <h1 class="text-lg font-bold text-white tracking-wide">Portal Hub: Introducción a la Ingeniería</h1>
-                    <p class="text-xs text-slate-400">Programa Académico de Bachillerato • Plataforma de Aprendizaje</p>
+                <div class="min-w-0">
+                    <h1 class="text-base sm:text-lg font-bold text-white tracking-wide truncate">
+                        Portal Hub: Introducción a la Ingeniería
+                    </h1>
+                    <p class="text-[11px] text-slate-300">
+                        Programa Académico de Bachillerato • Plataforma de Aprendizaje
+                    </p>
                 </div>
             </div>
-            <div class="mt-3 md:mt-0 text-right bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-800">
-                <p class="text-xs font-semibold text-sky-400">Catedrático: L.I. Luis Arturo López Vergara</p>
-                <p class="text-[10px] text-slate-400">Universidad William Osler & UAGRO • 2026</p>
+
+            <div class="flex items-center gap-2 w-full md:w-auto justify-end">
+                <!-- Buscador (Ctrl+K) -->
+                <button type="button"
+                        onclick="abrirBuscador()"
+                        aria-label="Abrir buscador de contenidos (Ctrl+K)"
+                        class="hidden sm:flex items-center gap-2 bg-slate-900/80 border border-slate-800 hover:border-sky-500/50 px-3 py-2 rounded-xl text-xs text-slate-300 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"/>
+                    </svg>
+                    <span>Buscar</span>
+                    <kbd class="bg-slate-800 border border-slate-700 rounded px-1.5 py-0.5 text-[10px] font-mono">Ctrl K</kbd>
+                </button>
+
+                <!-- Toggle tema -->
+                <button type="button"
+                        onclick="toggleTema()"
+                        id="btn-tema"
+                        aria-label="Cambiar entre modo claro y oscuro"
+                        class="bg-slate-900/80 border border-slate-800 hover:border-sky-500/50 p-2 rounded-xl text-slate-300 transition"
+                        title="Modo claro/oscuro">
+                    <span id="icono-tema" aria-hidden="true">🌙</span>
+                </button>
+
+                <!-- Info catedrático -->
+                <div class="text-right bg-slate-900/80 px-3 py-1.5 rounded-xl border border-slate-800">
+                    <p class="text-[11px] font-semibold text-sky-400">Catedrático: L.I. Luis Arturo López Vergara</p>
+                    <p class="text-[10px] text-slate-400">Universidad William Osler & UAGRO • 2026</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Barra de progreso del curso (Unidades completadas) -->
+        <div class="bg-slate-900/60 border-t border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex items-center gap-3">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider shrink-0">
+                    Tu progreso
+                </span>
+                <div class="flex-1 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="curso-progress" class="h-full bg-gradient-to-r from-sky-500 via-cyan-500 to-teal-500 transition-all duration-500" style="width: 0%"></div>
+                </div>
+                <span id="curso-progress-text" class="text-[10px] font-bold text-sky-300 shrink-0">0 / 5 unidades</span>
+                <button type="button"
+                        onclick="reiniciarProgreso()"
+                        class="text-[10px] text-slate-500 hover:text-red-400 transition no-print"
+                        title="Reiniciar progreso guardado">
+                    Reiniciar
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- Contenido Principal -->
-    <main class="flex-grow max-w-7xl mx-auto px-6 py-8 w-full space-y-8">
-        
-        <!-- BANNER DINÁMICO: Formación Integral del Estudiante -->
-        <div id="banner-contenedor" class="bg-gradient-to-r from-slate-950 via-slate-900 to-sky-950/40 border border-sky-500/30 p-8 rounded-3xl shadow-2xl space-y-4 transition-all duration-300 relative overflow-hidden">
+    <!-- CONTENIDO PRINCIPAL -->
+    <main id="contenido-principal" class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 py-8 w-full space-y-8">
+
+        <!-- BANNER DINÁMICO -->
+        <section id="banner-contenedor"
+                 aria-live="polite"
+                 aria-atomic="true"
+                 class="bg-gradient-to-r from-slate-950 via-slate-900 to-sky-950/40 border border-sky-500/30 p-6 sm:p-8 rounded-3xl shadow-2xl space-y-4 transition-all duration-300 relative overflow-hidden">
+
             <div class="flex flex-wrap items-center justify-between gap-2">
-                <span id="banner-badge" class="text-xs font-bold text-sky-400 uppercase tracking-widest bg-sky-950/80 px-3 py-1 rounded-full border border-sky-800/60">
+                <span id="banner-badge"
+                      class="text-[11px] font-bold text-sky-400 uppercase tracking-widest bg-sky-950/80 px-3 py-1 rounded-full border border-sky-800/60">
                     Formación Integral del Estudiante • Unidad I
                 </span>
-                <span class="text-[11px] text-slate-400 font-medium">Haz clic en cada Unidad para explorar su visión pedagógica ↓</span>
+                <span class="text-[11px] text-slate-300 font-medium">
+                    Selecciona una unidad para explorar su visión pedagógica ↓
+                </span>
             </div>
-            
+
             <h2 id="banner-titulo" class="text-2xl md:text-3xl font-extrabold text-white">
                 Unidad I: ¿Qué es la Ingeniería?
             </h2>
-            
-            <p id="banner-desc" class="text-xs md:text-sm text-slate-300 leading-relaxed max-w-4xl">
+
+            <p id="banner-desc" class="text-xs md:text-sm text-slate-200 leading-relaxed max-w-4xl">
                 Comprende los fundamentos conceptuales de la ingeniería, su origen, evolución histórica y su rol transformador en la sociedad. Descubre cómo la ciencia y la matemática se aplican creativamente para dar respuesta a necesidades humanas.
             </p>
 
-            <!-- Selector de Unidades dentro del Banner -->
-            <div class="pt-2 flex flex-wrap gap-2">
-                <button onclick="activarUnidad('u1')" id="btn-u1" class="text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-sky-600 text-white shadow-lg transition">Unidad I: ¿Qué es la Ingeniería?</button>
-                <button onclick="activarUnidad('u2')" id="btn-u2" class="text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Unidad II: Proceso de Ingeniería</button>
-                <button onclick="activarUnidad('u3')" id="btn-u3" class="text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Unidad III: Ramas e Identidad</button>
-                <button onclick="activarUnidad('u4')" id="btn-u4" class="text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Unidad IV: Banco de Prompts & IA</button>
-                <button onclick="activarUnidad('u7')" id="btn-u7" class="text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Unidad VII: Aplicaciones e IA</button>
+            <!-- "Lo que aprenderás" (nueva sección) -->
+            <div id="banner-aprendizajes" class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2">
+                <!-- Se llena dinámicamente -->
             </div>
-        </div>
 
-        <!-- CUADRÍCULA ORDENADA POR UNIDADES -->
-        <div class="space-y-4">
-            <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest">Estructura Secuencial del Curso</h3>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            <!-- Selector de Unidades -->
+            <div class="pt-3 flex flex-wrap gap-2" role="tablist" aria-label="Selector de unidades">
+                <button type="button" role="tab" aria-selected="true" onclick="activarUnidad('u1')" id="btn-u1"
+                        class="text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-sky-600 text-white shadow-lg transition">
+                    Unidad I: ¿Qué es la Ingeniería?
+                </button>
+                <button type="button" role="tab" aria-selected="false" onclick="activarUnidad('u2')" id="btn-u2"
+                        class="text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 transition">
+                    Unidad II: Proceso de Ingeniería
+                </button>
+                <button type="button" role="tab" aria-selected="false" onclick="activarUnidad('u3')" id="btn-u3"
+                        class="text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 transition">
+                    Unidad III: Ramas e Identidad
+                </button>
+                <button type="button" role="tab" aria-selected="false" onclick="activarUnidad('u4')" id="btn-u4"
+                        class="text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 transition">
+                    Unidad IV: Banco de Prompts & IA
+                </button>
+                <button type="button" role="tab" aria-selected="false" onclick="activarUnidad('u7')" id="btn-u7"
+                        class="text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 transition">
+                    Unidad VII: Aplicaciones e IA
+                </button>
+            </div>
+        </section>
 
-                <!-- UNIDAD I: ¿Qué es la Ingeniería? -->
-                <a href="docs/" onclick="activarUnidad('u1')" class="card-hover bg-slate-800 border border-sky-500/40 p-6 rounded-3xl shadow-xl flex flex-col justify-between group shadow-sky-950/20">
+        <!-- TIMELINE VISUAL DEL CURSO (nueva sección) -->
+        <section aria-label="Línea de tiempo del curso" class="no-print">
+            <h3 class="text-sm font-bold text-slate-300 uppercase tracking-widest mb-3">Ruta de Aprendizaje</h3>
+            <ol class="flex items-center justify-between gap-1 overflow-x-auto scrollbar-none pb-2">
+                <!-- Generado dinámicamente por JS -->
+            </ol>
+        </section>
+
+        <!-- CUADRÍCULA DE UNIDADES -->
+        <section class="space-y-4">
+            <div class="flex items-center justify-between">
+                <h3 class="text-sm font-bold text-slate-300 uppercase tracking-widest">
+                    Estructura Secuencial del Curso
+                </h3>
+                <span class="text-[11px] text-slate-400">Haz clic en cada tarjeta para abrir el módulo</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
+
+                <!-- UNIDAD I -->
+                <a href="docs/"
+                   data-unidad="u1"
+                   data-titulo="¿Qué es la Ingeniería? — Definición, historia e impacto social"
+                   onclick="marcarProgreso('u1')"
+                   class="card-hover bg-slate-800 border border-sky-500/40 p-5 rounded-3xl shadow-xl flex flex-col justify-between group shadow-sky-950/20">
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
-                            <div class="w-12 h-12 rounded-2xl bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-xl border border-sky-500/30">
+                            <div aria-hidden="true" class="w-12 h-12 rounded-2xl bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-xl border border-sky-500/30">
                                 📘
                             </div>
                             <span class="text-[10px] bg-sky-500/20 text-sky-300 font-bold px-2.5 py-1 rounded-full border border-sky-500/30">Unidad I</span>
                         </div>
                         <h4 class="text-base font-bold text-white group-hover:text-sky-400 transition-colors">¿Qué es la Ingeniería?</h4>
-                        <p class="text-xs text-slate-300 leading-relaxed">
-                            Definición, historia, impacto social y principios fundamentales. Comprende cómo piensa y resuelve problemas un ingeniero en la sociedad contemporánea.
+                        <p class="text-xs text-slate-200 leading-relaxed">
+                            Definición, historia, impacto social y principios fundamentales. Comprende cómo piensa y resuelve problemas un ingeniero.
                         </p>
                     </div>
-                    <div class="mt-6 flex items-center text-xs font-semibold text-sky-400 space-x-1">
+                    <div class="mt-5 flex items-center text-xs font-semibold text-sky-400 gap-1">
                         <span>Ver contenidos teóricos</span>
-                        <span>→</span>
+                        <span aria-hidden="true">→</span>
                     </div>
                 </a>
 
-                <!-- UNIDAD II: El Proceso de Ingeniería -->
-                <a href="simulador.html" onclick="activarUnidad('u2')" class="card-hover bg-slate-800 border border-cyan-500/40 p-6 rounded-3xl shadow-xl flex flex-col justify-between group shadow-cyan-950/20">
+                <!-- UNIDAD II -->
+                <a href="simulador.html"
+                   data-unidad="u2"
+                   data-titulo="El Proceso de Ingeniería — Bitácora de 5 clases"
+                   onclick="marcarProgreso('u2')"
+                   class="card-hover bg-slate-800 border border-cyan-500/40 p-5 rounded-3xl shadow-xl flex flex-col justify-between group shadow-cyan-950/20">
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
-                            <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-xl border border-cyan-500/30">
+                            <div aria-hidden="true" class="w-12 h-12 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-xl border border-cyan-500/30">
                                 ⚙️
                             </div>
                             <span class="text-[10px] bg-cyan-500/20 text-cyan-300 font-bold px-2.5 py-1 rounded-full border border-cyan-500/30">Unidad II</span>
                         </div>
                         <h4 class="text-base font-bold text-white group-hover:text-cyan-400 transition-colors">El Proceso de Ingeniería</h4>
-                        <p class="text-xs text-slate-300 leading-relaxed">
-                            Bitácora interactiva de 5 clases para proyectos en equipo: planteamiento, diseño, requisitos, prototipado/simulación y evaluación continua.
+                        <p class="text-xs text-slate-200 leading-relaxed">
+                            Bitácora interactiva de 5 clases: planteamiento, diseño, requisitos, prototipado y evaluación continua.
                         </p>
                     </div>
-                    <div class="mt-6 flex items-center text-xs font-semibold text-cyan-400 space-x-1">
+                    <div class="mt-5 flex items-center text-xs font-semibold text-cyan-400 gap-1">
                         <span>Abrir simulador de proyectos</span>
-                        <span>→</span>
+                        <span aria-hidden="true">→</span>
                     </div>
                 </a>
 
-                <!-- UNIDAD III: Ramas e Identidad Vocacional -->
-                <a href="vocacional.html" onclick="activarUnidad('u3')" class="card-hover bg-slate-800 border border-indigo-500/40 p-6 rounded-3xl shadow-xl flex flex-col justify-between group shadow-indigo-950/20">
+                <!-- UNIDAD III -->
+                <a href="vocacional.html"
+                   data-unidad="u3"
+                   data-titulo="Ramas de la Ingeniería — Test vocacional e identidad"
+                   onclick="marcarProgreso('u3')"
+                   class="card-hover bg-slate-800 border border-indigo-500/40 p-5 rounded-3xl shadow-xl flex flex-col justify-between group shadow-indigo-950/20">
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
-                            <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-xl border border-indigo-500/30">
+                            <div aria-hidden="true" class="w-12 h-12 rounded-2xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-xl border border-indigo-500/30">
                                 👷‍♂️
                             </div>
                             <span class="text-[10px] bg-indigo-500/20 text-indigo-300 font-bold px-2.5 py-1 rounded-full border border-indigo-500/30">Unidad III</span>
                         </div>
                         <h4 class="text-base font-bold text-white group-hover:text-indigo-400 transition-colors">Ramas de la Ingeniería</h4>
-                        <p class="text-xs text-slate-300 leading-relaxed">
-                            "Vístete del Ingeniero que quieres ser". Cuestionario vocacional de 6 preguntas, catálogo de 10 especialidades y creador de credencial universitaria.
+                        <p class="text-xs text-slate-200 leading-relaxed">
+                            "Vístete del Ingeniero que quieres ser". Cuestionario de 6 preguntas, catálogo de 10 especialidades y credencial universitaria.
                         </p>
                     </div>
-                    <div class="mt-6 flex items-center text-xs font-semibold text-indigo-400 space-x-1">
+                    <div class="mt-5 flex items-center text-xs font-semibold text-indigo-400 gap-1">
                         <span>Realizar test e identidad</span>
-                        <span>→</span>
+                        <span aria-hidden="true">→</span>
                     </div>
                 </a>
 
-                <!-- UNIDAD IV: Banco de Prompts y Framework -->
-                <a href="banco-de-prompts.html" onclick="activarUnidad('u4')" class="card-hover bg-slate-800 border border-emerald-500/40 p-6 rounded-3xl shadow-xl flex flex-col justify-between group shadow-emerald-950/20">
+                <!-- UNIDAD IV -->
+                <a href="banco-de-prompts.html"
+                   data-unidad="u4"
+                   data-titulo="Banco de Prompts y Framework de IA"
+                   onclick="marcarProgreso('u4')"
+                   class="card-hover bg-slate-800 border border-emerald-500/40 p-5 rounded-3xl shadow-xl flex flex-col justify-between group shadow-emerald-950/20">
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
-                            <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xl border border-emerald-500/30">
+                            <div aria-hidden="true" class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xl border border-emerald-500/30">
                                 🤖
                             </div>
                             <span class="text-[10px] bg-emerald-500/20 text-emerald-300 font-bold px-2.5 py-1 rounded-full border border-emerald-500/30">Unidad IV</span>
                         </div>
                         <h4 class="text-base font-bold text-white group-hover:text-emerald-400 transition-colors">Banco de Prompts y Framework</h4>
-                        <p class="text-xs text-slate-300 leading-relaxed">
-                            Framework de 5 elementos (Rol, Tarea, Contexto, Formato y Restricción) para simular prototipos, auditar proyectos e interactuar con IA.
+                        <p class="text-xs text-slate-200 leading-relaxed">
+                            Framework de 5 elementos (Rol, Tarea, Contexto, Formato y Restricción) para simular prototipos e interactuar con IA.
                         </p>
                     </div>
-                    <div class="mt-6 flex items-center text-xs font-semibold text-emerald-400 space-x-1">
+                    <div class="mt-5 flex items-center text-xs font-semibold text-emerald-400 gap-1">
                         <span>Explorar prompts e IA</span>
-                        <span>→</span>
+                        <span aria-hidden="true">→</span>
                     </div>
                 </a>
 
-                <!-- UNIDAD VII: Aplicaciones de la Ingeniería e IA -->
-                <a href="simulador-unidad7.html" onclick="activarUnidad('u7')" class="card-hover bg-slate-800 border border-teal-500/40 p-6 rounded-3xl shadow-xl flex flex-col justify-between group shadow-teal-950/20">
+                <!-- UNIDAD VII -->
+                <a href="simulador-unidad7.html"
+                   data-unidad="u7"
+                   data-titulo="Aplicaciones de la Ingeniería e IA — Simulador urbano"
+                   onclick="marcarProgreso('u7')"
+                   class="card-hover bg-slate-800 border border-teal-500/40 p-5 rounded-3xl shadow-xl flex flex-col justify-between group shadow-teal-950/20">
                     <div class="space-y-3">
                         <div class="flex items-center justify-between">
-                            <div class="w-12 h-12 rounded-2xl bg-teal-500/20 text-teal-400 flex items-center justify-center font-bold text-xl border border-teal-500/30">
+                            <div aria-hidden="true" class="w-12 h-12 rounded-2xl bg-teal-500/20 text-teal-400 flex items-center justify-center font-bold text-xl border border-teal-500/30">
                                 🏙️
                             </div>
                             <span class="text-[10px] bg-teal-500/20 text-teal-300 font-bold px-2.5 py-1 rounded-full border border-teal-500/30">Unidad VII</span>
                         </div>
                         <h4 class="text-base font-bold text-white group-hover:text-teal-400 transition-colors">Aplicaciones e IA</h4>
-                        <p class="text-xs text-slate-300 leading-relaxed">
-                            Simulador urbano "Urban-Eng", rutina 2035, matriz de profesiones del futuro, preguntas detonadoras y ficha integrada para el cuaderno.
+                        <p class="text-xs text-slate-200 leading-relaxed">
+                            Simulador urbano "Urban-Eng", rutina 2035, matriz de profesiones del futuro y ficha integrada para el cuaderno.
                         </p>
                     </div>
-                    <div class="mt-6 flex items-center text-xs font-semibold text-teal-400 space-x-1">
+                    <div class="mt-5 flex items-center text-xs font-semibold text-teal-400 gap-1">
                         <span>Abrir simulador VII</span>
-                        <span>→</span>
+                        <span aria-hidden="true">→</span>
                     </div>
                 </a>
 
             </div>
-        </div>
+        </section>
 
-        <!-- RECURSOS COMPLEMENTARIOS Y CASOS INTEGRADORES -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-            <!-- Guías y Documentación -->
-            <a href="docs/" class="card-hover bg-slate-800 border border-slate-700 p-6 rounded-3xl shadow-xl flex flex-col justify-between group">
+        <!-- RECURSOS COMPLEMENTARIOS -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-4">
+            <a href="docs/"
+               class="card-hover bg-slate-800 border border-slate-700 p-6 rounded-3xl shadow-xl flex flex-col justify-between group">
                 <div class="space-y-3">
-                    <div class="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-lg border border-amber-500/30">
+                    <div aria-hidden="true" class="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-lg border border-amber-500/30">
                         📄
                     </div>
-                    <h4 class="text-base font-bold text-white group-hover:text-amber-400 transition-colors">Documentos y Guías de Actividades</h4>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        Accede a las rúbricas de evaluación institucionales, manuales de prácticas y guías descargables para las entregas en Classroom.
+                    <h4 class="text-base font-bold text-white group-hover:text-amber-400 transition-colors">
+                        Documentos y Guías de Actividades
+                    </h4>
+                    <p class="text-xs text-slate-200 leading-relaxed">
+                        Rúbricas institucionales, manuales de prácticas y guías descargables para entregas en Classroom.
                     </p>
                 </div>
-                <div class="mt-4 flex items-center text-xs font-semibold text-amber-400 space-x-1">
+                <div class="mt-4 flex items-center text-xs font-semibold text-amber-400 gap-1">
                     <span>Consultar rúbricas</span>
-                    <span>→</span>
+                    <span aria-hidden="true">→</span>
                 </div>
             </a>
 
-            <!-- Ejemplos Integradores -->
-            <a href="examples/" class="card-hover bg-slate-800 border border-slate-700 p-6 rounded-3xl shadow-xl flex flex-col justify-between group">
+            <a href="examples/"
+               class="card-hover bg-slate-800 border border-slate-700 p-6 rounded-3xl shadow-xl flex flex-col justify-between group">
                 <div class="space-y-3">
-                    <div class="w-10 h-10 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-lg border border-purple-500/30">
+                    <div aria-hidden="true" class="w-10 h-10 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-lg border border-purple-500/30">
                         🌧️
                     </div>
-                    <h4 class="text-base font-bold text-white group-hover:text-purple-400 transition-colors">Ejemplos Integradores Interdisciplinarios</h4>
-                    <p class="text-xs text-slate-300 leading-relaxed">
-                        Análisis de proyectos reales (como la captación de agua de lluvia) donde colaboran ingenieros civiles, eléctricos, de sistemas y ambientales.
+                    <h4 class="text-base font-bold text-white group-hover:text-purple-400 transition-colors">
+                        Ejemplos Integradores Interdisciplinarios
+                    </h4>
+                    <p class="text-xs text-slate-200 leading-relaxed">
+                        Proyectos reales (captación de agua de lluvia) donde colaboran ingenieros civiles, eléctricos, de sistemas y ambientales.
                     </p>
                 </div>
-                <div class="mt-4 flex items-center text-xs font-semibold text-purple-400 space-x-1">
+                <div class="mt-4 flex items-center text-xs font-semibold text-purple-400 gap-1">
                     <span>Ver casos de estudio</span>
-                    <span>→</span>
+                    <span aria-hidden="true">→</span>
                 </div>
             </a>
-        </div>
+        </section>
 
     </main>
 
-    <!-- Pie Institucional -->
+    <!-- PIE INSTITUCIONAL -->
     <footer class="bg-slate-950 border-t border-slate-800 py-6 mt-12">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-center text-xs text-slate-400 gap-3">
             <p>Universidad William Osler & Universidad Autónoma de Guerrero (UAGRO)</p>
-            <p class="text-slate-400 font-medium">Catedrático: L.I. Luis Arturo López Vergara</p>
+            <p class="text-slate-300 font-medium">Catedrático: L.I. Luis Arturo López Vergara</p>
         </div>
     </footer>
 
-    <!-- Lógica JavaScript para Cambiar la Información del Banner Dinámico -->
+    <!-- MODAL BUSCADOR (Ctrl+K) -->
+    <div id="search-modal"
+         class="hidden fixed inset-0 z-[150] bg-slate-950/80 backdrop-blur-sm items-start justify-center pt-24 px-4"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="search-titulo">
+        <div class="w-full max-w-xl bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden">
+            <div class="flex items-center gap-2 px-4 py-3 border-b border-slate-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"/>
+                </svg>
+                <input type="text"
+                       id="search-input"
+                       placeholder="Buscar unidad, tema o simulador..."
+                       aria-label="Buscar contenidos"
+                       autocomplete="off"
+                       class="flex-1 bg-transparent text-slate-100 text-sm focus:outline-none placeholder:text-slate-500">
+                <kbd class="bg-slate-800 border border-slate-700 rounded px-1.5 py-0.5 text-[10px] font-mono text-slate-400">Esc</kbd>
+            </div>
+            <ul id="search-results" role="listbox" aria-label="Resultados de búsqueda"
+                class="max-h-80 overflow-y-auto divide-y divide-slate-800">
+                <!-- Resultados dinámicos -->
+            </ul>
+            <p id="search-titulo" class="sr-only">Buscador de contenidos del curso</p>
+        </div>
+    </div>
+
+    <!-- CONTENEDOR TOAST -->
+    <div id="toast-container" aria-live="polite" aria-atomic="true"
+         class="fixed bottom-4 right-4 z-[200] flex flex-col gap-2 no-print"></div>
+
+    <!-- LÓGICA JAVASCRIPT -->
     <script>
+        // ============================================================
+        // 1. DATOS DE LAS UNIDADES
+        // ============================================================
         const datosUnidades = {
             u1: {
                 badge: "Formación Integral del Estudiante • Unidad I",
                 titulo: "Unidad I: ¿Qué es la Ingeniería?",
                 desc: "Comprende los fundamentos conceptuales de la ingeniería, su origen, evolución histórica y su rol transformador en la sociedad. Descubre cómo la ciencia y la matemática se aplican creativamente para dar respuesta a necesidades humanas reales.",
+                aprendizajes: [
+                    "Definir la ingeniería y su diferencia con la ciencia",
+                    "Identificar hitos históricos clave",
+                    "Reconocer el impacto social de la profesión"
+                ],
                 btnClass: "bg-sky-600 text-white shadow-lg"
             },
             u2: {
                 badge: "Formación Integral del Estudiante • Unidad II",
                 titulo: "Unidad II: El Proceso de Ingeniería y Solución de Problemas",
                 desc: "Aplica la metodología sistemática de diseño estructurada en 5 clases: desde el planteamiento del problema en equipo y lluvia de ideas, hasta la definición de restricciones, la construcción de prototipos físicos/virtuales y la evaluación continua.",
+                aprendizajes: [
+                    "Trabajar en equipo con roles definidos",
+                    "Aplicar las 5 fases del proceso de diseño",
+                    "Documentar una bitácora técnica"
+                ],
                 btnClass: "bg-cyan-600 text-white shadow-lg"
             },
             u3: {
                 badge: "Formación Integral del Estudiante • Unidad III",
                 titulo: "Unidad III: Ramas de la Ingeniería e Identidad Vocacional",
                 desc: "'Vístete del Ingeniero que Quieres Ser'. Explora 10 ramas especializadas (Civil, Sistemas, Industrial, Mecánica, Eléctrica, Ambiental, Automotriz, Aeroespacial, Biomédica y Mecatrónica), resuelve el test vocacional de 6 preguntas y genera tu credencial oficial con el casco de la Universidad William Osler.",
+                aprendizajes: [
+                    "Diferenciar 10 ramas de la ingeniería",
+                    "Identificar tu vocación con un test",
+                    "Generar tu credencial vocacional"
+                ],
                 btnClass: "bg-indigo-600 text-white shadow-lg"
             },
             u4: {
                 badge: "Formación Integral del Estudiante • Unidad IV",
                 titulo: "Unidad IV: Banco de Prompts y Framework de Inteligencia Artificial",
                 desc: "Aprende a comunicarte eficazmente con modelos de Inteligencia Artificial mediante el Framework de los 5 elementos (Rol, Tarea, Contexto, Formato y Restricción) para simular prototipos técnicos, auditar proyectos y acelerar tu aprendizaje.",
+                aprendizajes: [
+                    "Dominar el Framework de 5 elementos",
+                    "Simular prototipos con IA",
+                    "Auditar fuentes y evitar alucinaciones"
+                ],
                 btnClass: "bg-emerald-600 text-white shadow-lg"
             },
             u7: {
                 badge: "Formación Integral del Estudiante • Unidad VII",
                 titulo: "Unidad VII: Aplicaciones de la Ingeniería y la Llegada de la IA",
                 desc: "Analiza cómo la ingeniería respalda la construcción, salud, comunicaciones, transporte, energía e industria. Explora el impacto transformador de la Inteligencia Artificial en la vida cotidiana, la rutina 2035 y el futuro laboral de las profesiones.",
+                aprendizajes: [
+                    "Identificar la ingeniería en tu vida diaria",
+                    "Analizar el impacto de la IA en 7 sectores",
+                    "Reflexionar sobre profesiones del futuro"
+                ],
                 btnClass: "bg-teal-600 text-white shadow-lg"
             }
         };
 
+        const ordenUnidades = ['u1', 'u2', 'u3', 'u4', 'u7'];
+        const labelsUnidades = {
+            u1: { letra: "I", nombre: "¿Qué es la Ingeniería?", color: "sky" },
+            u2: { letra: "II", nombre: "Proceso de Ingeniería", color: "cyan" },
+            u3: { letra: "III", nombre: "Ramas e Identidad", color: "indigo" },
+            u4: { letra: "IV", nombre: "Prompts e IA", color: "emerald" },
+            u7: { letra: "VII", nombre: "Aplicaciones e IA", color: "teal" }
+        };
+
+        // ============================================================
+        // 2. ESTADO Y LOCALSTORAGE
+        // ============================================================
+        const STORAGE_KEY = 'osler.curso.progreso.v1';
+        const STORAGE_TEMA = 'osler.curso.tema';
+
+        let progreso = cargarProgreso();
+
+        function cargarProgreso() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                return raw ? JSON.parse(raw) : {};
+            } catch (e) {
+                console.warn('No se pudo cargar el progreso:', e);
+                return {};
+            }
+        }
+
+        function guardarProgreso() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(progreso));
+            } catch (e) {
+                console.warn('No se pudo guardar el progreso:', e);
+            }
+        }
+
+        function marcarProgreso(unidad) {
+            progreso[unidad] = { visitada: true, fecha: new Date().toISOString() };
+            guardarProgreso();
+            actualizarProgresoUI();
+            mostrarToast(`✅ Unidad ${labelsUnidades[unidad].letra} marcada como visitada`);
+            // La navegación real ocurre porque es un <a href>, no bloqueamos
+        }
+
+        function reiniciarProgreso() {
+            if (!confirm('¿Reiniciar tu progreso del curso? Esta acción no se puede deshacer.')) return;
+            progreso = {};
+            guardarProgreso();
+            actualizarProgresoUI();
+            mostrarToast('🔄 Progreso reiniciado');
+        }
+
+        function actualizarProgresoUI() {
+            const total = ordenUnidades.length;
+            const completadas = ordenUnidades.filter(u => progreso[u]?.visitada).length;
+            const pct = Math.round((completadas / total) * 100);
+
+            const barra = document.getElementById('curso-progress');
+            const texto = document.getElementById('curso-progress-text');
+            if (barra) barra.style.width = pct + '%';
+            if (texto) texto.innerText = `${completadas} / ${total} unidades`;
+
+            // Actualiza timeline
+            document.querySelectorAll('[data-timeline-unidad]').forEach(el => {
+                const u = el.dataset.timelineUnidad;
+                const activa = progreso[u]?.visitada;
+                el.classList.toggle('opacity-100', activa);
+                el.classList.toggle('opacity-50', !activa);
+            });
+        }
+
+        // ============================================================
+        // 3. ACTIVAR UNIDAD (BANNER DINÁMICO)
+        // ============================================================
         function activarUnidad(clave) {
             const data = datosUnidades[clave];
             if (!data) return;
@@ -263,18 +613,221 @@
             document.getElementById('banner-titulo').innerText = data.titulo;
             document.getElementById('banner-desc').innerText = data.desc;
 
-            // Resetear estilos de botones del banner
-            ['u1', 'u2', 'u3', 'u4', 'u7'].forEach(u => {
+            // Actualiza "Lo que aprenderás"
+            const aprendizajes = document.getElementById('banner-aprendizajes');
+            aprendizajes.innerHTML = data.aprendizajes.map(a => `
+                <div class="flex items-start gap-2 bg-slate-950/50 border border-slate-800 rounded-xl px-3 py-2">
+                    <span class="text-sky-400 shrink-0" aria-hidden="true">✓</span>
+                    <span class="text-[11px] text-slate-200 leading-snug">${a}</span>
+                </div>
+            `).join('');
+
+            // Actualiza botones
+            ordenUnidades.forEach(u => {
                 const btn = document.getElementById('btn-' + u);
-                if (btn) {
-                    if (u === clave) {
-                        btn.className = `text-xs px-3.5 py-1.5 rounded-xl font-semibold transition ${data.btnClass}`;
-                    } else {
-                        btn.className = "text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
-                    }
+                if (!btn) return;
+                const esActiva = u === clave;
+                btn.setAttribute('aria-selected', esActiva ? 'true' : 'false');
+                btn.className = esActiva
+                    ? `text-xs px-3.5 py-1.5 rounded-xl font-semibold transition ${data.btnClass}`
+                    : "text-xs px-3.5 py-1.5 rounded-xl font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 transition";
+            });
+
+            // Actualiza el color de fondo del banner (acento por unidad)
+            const banner = document.getElementById('banner-contenedor');
+            const colores = {
+                u1: 'from-slate-950 via-slate-900 to-sky-950/40 border-sky-500/30',
+                u2: 'from-slate-950 via-slate-900 to-cyan-950/40 border-cyan-500/30',
+                u3: 'from-slate-950 via-slate-900 to-indigo-950/40 border-indigo-500/30',
+                u4: 'from-slate-950 via-slate-900 to-emerald-950/40 border-emerald-500/30',
+                u7: 'from-slate-950 via-slate-900 to-teal-950/40 border-teal-500/30'
+            };
+            banner.className = `bg-gradient-to-r ${colores[clave]} border p-6 sm:p-8 rounded-3xl shadow-2xl space-y-4 transition-all duration-300 relative overflow-hidden`;
+        }
+
+        // ============================================================
+        // 4. TIMELINE VISUAL
+        // ============================================================
+        function renderTimeline() {
+            const ol = document.querySelector('ol[aria-label="Línea de tiempo del curso"]');
+            if (!ol) return;
+
+            const colores = {
+                sky: 'border-sky-500 text-sky-400 bg-sky-500/10',
+                cyan: 'border-cyan-500 text-cyan-400 bg-cyan-500/10',
+                indigo: 'border-indigo-500 text-indigo-400 bg-indigo-500/10',
+                emerald: 'border-emerald-500 text-emerald-400 bg-emerald-500/10',
+                teal: 'border-teal-500 text-teal-400 bg-teal-500/10'
+            };
+
+            ol.innerHTML = ordenUnidades.map((u, i) => {
+                const lab = labelsUnidades[u];
+                const activa = progreso[u]?.visitada;
+                const cls = colores[lab.color];
+                return `
+                    <li class="flex-1 min-w-[140px] flex flex-col items-center gap-2" data-timeline-unidad="${u}">
+                        <div class="flex items-center w-full">
+                            <div class="flex-1 h-0.5 ${i === 0 ? 'bg-transparent' : 'bg-slate-700'}"></div>
+                            <div class="w-10 h-10 rounded-full border-2 ${cls} flex items-center justify-center font-bold text-xs ${activa ? '' : 'opacity-50'}">
+                                ${lab.letra}
+                            </div>
+                            <div class="flex-1 h-0.5 ${i === ordenUnidades.length - 1 ? 'bg-transparent' : 'bg-slate-700'}"></div>
+                        </div>
+                        <span class="text-[10px] text-center font-semibold ${activa ? 'text-white' : 'text-slate-400'} leading-tight">
+                            ${lab.nombre}
+                        </span>
+                    </li>
+                `;
+            }).join('');
+        }
+
+        // ============================================================
+        // 5. TOASTS (reemplazan alert())
+        // ============================================================
+        function mostrarToast(mensaje, tipo = 'info') {
+            const cont = document.getElementById('toast-container');
+            if (!cont) return;
+
+            const colores = {
+                info: 'bg-slate-800 border-slate-700 text-slate-100',
+                success: 'bg-emerald-950 border-emerald-700 text-emerald-100',
+                error: 'bg-red-950 border-red-700 text-red-100'
+            };
+
+            const toast = document.createElement('div');
+            toast.className = `toast-anim ${colores[tipo]} border rounded-xl px-4 py-2.5 text-xs font-semibold shadow-2xl max-w-xs`;
+            toast.setAttribute('role', 'status');
+            toast.innerText = mensaje;
+
+            cont.appendChild(toast);
+            setTimeout(() => {
+                toast.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(10px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 2800);
+        }
+
+        // ============================================================
+        // 6. BUSCADOR (Ctrl+K)
+        // ============================================================
+        const indiceBusqueda = [
+            { tipo: 'unidad', id: 'u1', titulo: 'Unidad I: ¿Qué es la Ingeniería?', href: 'docs/', tags: 'definición historia impacto social' },
+            { tipo: 'unidad', id: 'u2', titulo: 'Unidad II: Proceso de Ingeniería', href: 'simulador.html', tags: 'bitácora diseño prototipo equipo' },
+            { tipo: 'unidad', id: 'u3', titulo: 'Unidad III: Ramas e Identidad Vocacional', href: 'vocacional.html', tags: 'test vocacional credencial especialidades' },
+            { tipo: 'unidad', id: 'u4', titulo: 'Unidad IV: Banco de Prompts y Framework IA', href: 'banco-de-prompts.html', tags: 'prompts framework rol tarea contexto formato restricción' },
+            { tipo: 'unidad', id: 'u7', titulo: 'Unidad VII: Aplicaciones de la Ingeniería e IA', href: 'simulador-unidad7.html', tags: 'urban-eng rutina 2035 profesiones futuro' },
+            { tipo: 'recurso', titulo: 'Documentos y Guías de Actividades', href: 'docs/', tags: 'rúbricas manuales guías classroom' },
+            { tipo: 'recurso', titulo: 'Ejemplos Integradores Interdisciplinarios', href: 'examples/', tags: 'agua lluvia proyectos reales casos' }
+        ];
+
+        function abrirBuscador() {
+            const modal = document.getElementById('search-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => document.getElementById('search-input').focus(), 50);
+            renderResultados('');
+        }
+
+        function cerrarBuscador() {
+            const modal = document.getElementById('search-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.getElementById('search-input').value = '';
+        }
+
+        function renderResultados(query) {
+            const q = query.trim().toLowerCase();
+            const ul = document.getElementById('search-results');
+
+            const resultados = q
+                ? indiceBusqueda.filter(item =>
+                    item.titulo.toLowerCase().includes(q) ||
+                    item.tags.toLowerCase().includes(q))
+                : indiceBusqueda;
+
+            if (resultados.length === 0) {
+                ul.innerHTML = `<li class="px-4 py-3 text-xs text-slate-500 italic">Sin resultados para "${query}"</li>`;
+                return;
+            }
+
+            ul.innerHTML = resultados.map(item => `
+                <li>
+                    <a href="${item.href}"
+                       class="flex items-center justify-between px-4 py-3 hover:bg-slate-800 transition group"
+                       role="option">
+                        <span class="text-xs text-slate-200 group-hover:text-white">${item.titulo}</span>
+                        <span class="text-[10px] uppercase font-bold text-slate-500">${item.tipo}</span>
+                    </a>
+                </li>
+            `).join('');
+        }
+
+        // ============================================================
+        // 7. TEMA CLARO / OSCURO
+        // ============================================================
+        function toggleTema() {
+            const html = document.documentElement;
+            const esClaro = html.classList.toggle('light');
+            document.getElementById('icono-tema').innerText = esClaro ? '☀️' : '🌙';
+            try { localStorage.setItem(STORAGE_TEMA, esClaro ? 'light' : 'dark'); } catch (e) {}
+        }
+
+        function cargarTema() {
+            try {
+                if (localStorage.getItem(STORAGE_TEMA) === 'light') {
+                    document.documentElement.classList.add('light');
+                    document.getElementById('icono-tema').innerText = '☀️';
+                }
+            } catch (e) {}
+        }
+
+        // ============================================================
+        // 8. BARRA DE PROGRESO DE LECTURA
+        // ============================================================
+        function actualizarBarraLectura() {
+            const h = document.documentElement;
+            const scrolled = h.scrollTop || document.body.scrollTop;
+            const total = h.scrollHeight - h.clientHeight;
+            const pct = total > 0 ? (scrolled / total) * 100 : 0;
+            const barra = document.getElementById('progress-bar');
+            if (barra) barra.style.width = pct + '%';
+        }
+
+        // ============================================================
+        // 9. EVENTOS GLOBALES
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarTema();
+            renderTimeline();
+            actualizarProgresoUI();
+            activarUnidad('u1');
+
+            // Barra de lectura
+            window.addEventListener('scroll', actualizarBarraLectura, { passive: true });
+            actualizarBarraLectura();
+
+            // Atajo Ctrl+K / Cmd+K
+            document.addEventListener('keydown', (e) => {
+                if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+                    e.preventDefault();
+                    abrirBuscador();
+                }
+                if (e.key === 'Escape') {
+                    cerrarBuscador();
                 }
             });
-        }
+
+            // Input del buscador
+            document.getElementById('search-input')
+                .addEventListener('input', (e) => renderResultados(e.target.value));
+
+            // Click fuera del modal cierra
+            document.getElementById('search-modal')
+                .addEventListener('click', (e) => {
+                    if (e.target.id === 'search-modal') cerrarBuscador();
+                });
+        });
     </script>
 </body>
 </html>
