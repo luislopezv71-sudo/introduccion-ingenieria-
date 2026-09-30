@@ -3,15 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Unidad VII: Aplicaciones de la Ingeniería e Inteligencia Artificial — Simulador urbano, rutina 2035 y profesiones del futuro. Universidad William Osler.">
+    <meta name="theme-color" content="#0f172a">
     <title>Unidad VII: Aplicaciones de la Ingeniería e IA | William Osler</title>
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Chart.js (defer para no bloquear render) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: 'Inter', 'Poppins', sans-serif; }
+        :root {
+            --header-h: 72px;
+            --nav-h: 52px;
+        }
+
+        body {
+            font-family: 'Inter', 'Poppins', sans-serif;
+        }
+
+        /* Compensa header + nav sticky */
+        section[id] {
+            scroll-margin-top: calc(var(--header-h) + var(--nav-h) + 20px);
+        }
+
+        /* Chart container */
         .chart-container {
             position: relative;
             width: 100%;
@@ -20,297 +42,427 @@
             margin-right: auto;
             height: 280px;
         }
+
+        /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        .scrollbar-none::-webkit-scrollbar { display: none; }
+        .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Focus visible */
+        :focus-visible {
+            outline: 2px solid #2dd4bf;
+            outline-offset: 2px;
+            border-radius: 6px;
+        }
+
+        /* Toast */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .toast-anim { animation: slideUp 0.3s ease-out; }
+
+        /* Capa IA activa pulso */
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%      { opacity: 0.6; transform: scale(1.3); }
+        }
+        .dot-active { animation: pulseDot 1.4s ease-in-out infinite; }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            .toast-anim, .dot-active {
+                animation: none !important;
+            }
+            * { transition-duration: 0.01ms !important; }
+            html { scroll-behavior: auto; }
+        }
+
+        /* Modo claro (compatible con index) */
+        html.light body { background-color: #f8fafc; color: #0f172a; }
+        html.light .bg-slate-900 { background-color: #f8fafc !important; }
+        html.light .bg-slate-950 { background-color: #e2e8f0 !important; }
+        html.light .bg-slate-800 { background-color: #ffffff !important; }
+        html.light .text-slate-100 { color: #0f172a !important; }
+        html.light .text-slate-200 { color: #1e293b !important; }
+        html.light .text-slate-300 { color: #334155 !important; }
+        html.light .text-slate-400 { color: #475569 !important; }
+        html.light .text-white { color: #0f172a !important; }
+        html.light .border-slate-800 { border-color: #cbd5e1 !important; }
+        html.light .border-slate-700 { border-color: #cbd5e1 !important; }
+        html.light textarea, html.light input, html.light select {
+            background-color: #ffffff !important;
+            color: #0f172a !important;
+            border-color: #cbd5e1 !important;
+        }
+
+        /* Impresión */
+        @media print {
+            header, nav, footer, #toast-container, .no-print { display: none !important; }
+            body { background: white !important; color: black !important; }
+            .bg-slate-800, .bg-slate-900, .bg-slate-950 { background: white !important; color: black !important; border-color: #ccc !important; }
+            .text-white, .text-slate-100, .text-slate-200, .text-slate-300 { color: black !important; }
+            #ficha-preview { max-height: none !important; overflow: visible !important; }
+        }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-100 font-sans leading-relaxed min-h-screen flex flex-col selection:bg-teal-500 selection:text-white">
+<body class="bg-slate-900 text-slate-100 font-sans leading-relaxed min-h-screen flex flex-col selection:bg-teal-500 selection:text-white antialiased">
+
+    <!-- Skip link -->
+    <a href="#contenido-principal"
+       class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[200] focus:bg-teal-600 focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:font-bold">
+        Saltar al contenido principal
+    </a>
 
     <!-- ENCABEZADO INSTITUCIONAL -->
-    <header class="bg-slate-950 border-b border-slate-800 sticky top-0 z-50 shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap justify-between items-center gap-4">
-            <div class="flex items-center gap-3">
-                <div class="bg-teal-600/20 border border-teal-500/30 p-2 rounded-xl text-teal-400 font-bold text-sm tracking-wider">
+    <header class="bg-slate-950/95 backdrop-blur border-b border-slate-800 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap justify-between items-center gap-3">
+            <div class="flex items-center gap-3 min-w-0">
+                <div class="bg-teal-600/20 border border-teal-500/30 p-2 rounded-xl text-teal-400 font-bold text-xs tracking-wider shrink-0">
                     WM OSLER
                 </div>
-                <div>
-                    <h1 class="font-bold text-base sm:text-lg text-white tracking-wide">Unidad VII: Aplicaciones de la Ingeniería y la Llegada de la IA</h1>
-                    <p class="text-xs text-slate-400">Simulador de Impacto Cotidiano, Rutina 2035 y Profesiones del Futuro</p>
+                <div class="min-w-0">
+                    <h1 class="font-bold text-base sm:text-lg text-white tracking-wide truncate">
+                        Unidad VII: Aplicaciones de la Ingeniería y la Llegada de la IA
+                    </h1>
+                    <p class="text-[11px] text-slate-300 truncate">
+                        Simulador de Impacto Cotidiano, Rutina 2035 y Profesiones del Futuro
+                    </p>
                 </div>
             </div>
-            <div class="text-right bg-slate-900/80 px-3.5 py-1.5 rounded-xl border border-slate-800 text-xs">
-                <p class="font-semibold text-teal-400">Catedrático: L.I. Luis Arturo López Vergara</p>
-                <p class="text-[10px] text-slate-400">Bachillerato • Zihuatanejo, Guerrero • Edición 2026</p>
+
+            <div class="flex items-center gap-2">
+                <button type="button"
+                        onclick="exportarFichaPDF()"
+                        aria-label="Exportar ficha a PDF o imprimir"
+                        class="hidden sm:flex items-center gap-2 bg-slate-900/80 border border-slate-800 hover:border-teal-500/50 px-3 py-2 rounded-xl text-xs text-slate-300 transition no-print">
+                    <span aria-hidden="true">🖨️</span>
+                    <span>Exportar</span>
+                </button>
+
+                <button type="button"
+                        onclick="toggleTema()"
+                        id="btn-tema"
+                        aria-label="Cambiar entre modo claro y oscuro"
+                        class="bg-slate-900/80 border border-slate-800 hover:border-teal-500/50 p-2 rounded-xl text-slate-300 transition no-print"
+                        title="Modo claro/oscuro">
+                    <span id="icono-tema" aria-hidden="true">🌙</span>
+                </button>
+
+                <div class="text-right bg-slate-900/80 px-3 py-1.5 rounded-xl border border-slate-800 hidden md:block">
+                    <p class="text-[11px] font-semibold text-teal-400">Catedrático: L.I. Luis Arturo López Vergara</p>
+                    <p class="text-[10px] text-slate-400">Bachillerato • Zihuatanejo • 2026</p>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- BARRA DE NAVEGACIÓN DE SIMULADORES -->
-    <nav class="bg-slate-950/90 border-b border-slate-800 sticky top-[61px] z-40 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex overflow-x-auto space-x-2 py-2.5 text-xs font-semibold scrollbar-none">
-                <a href="index.html" class="py-1.5 px-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition whitespace-nowrap">
+    <!-- NAV DE SIMULADORES -->
+    <nav aria-label="Navegación de simuladores"
+         class="bg-slate-950/90 border-b border-slate-800 sticky top-[65px] z-40 backdrop-blur-md no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="flex overflow-x-auto gap-2 py-2.5 text-xs font-semibold scrollbar-none">
+                <a href="index.html"
+                   class="py-1.5 px-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition whitespace-nowrap">
                     🏠 Portal Hub
                 </a>
-                <button type="button" onclick="scrollToSection('seccion-cuaderno-preguntas')" class="py-1.5 px-3 rounded-lg text-amber-300 bg-amber-950/40 border border-amber-800/60 transition whitespace-nowrap font-bold">
+                <button type="button" onclick="scrollToSection('seccion-cuaderno-preguntas')"
+                        class="py-1.5 px-3 rounded-lg text-amber-200 bg-amber-950/40 border border-amber-800/60 transition whitespace-nowrap font-bold">
                     📝 1. Preguntas en Cuaderno
                 </button>
-                <button type="button" onclick="scrollToSection('simulador-ciudad')" class="py-1.5 px-3 rounded-lg text-teal-300 bg-teal-950/50 border border-teal-800/60 transition whitespace-nowrap font-bold">
+                <button type="button" onclick="scrollToSection('simulador-ciudad')"
+                        class="py-1.5 px-3 rounded-lg text-teal-200 bg-teal-950/50 border border-teal-800/60 transition whitespace-nowrap font-bold">
                     🏙️ 2. Ciudad "Urban-Eng + AI"
                 </button>
-                <button type="button" onclick="scrollToSection('simulador-rutina')" class="py-1.5 px-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition whitespace-nowrap">
-                    ⏰ 3. Rutina 24h (Día en 2035)
+                <button type="button" onclick="scrollToSection('simulador-rutina')"
+                        class="py-1.5 px-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition whitespace-nowrap">
+                    ⏰ 3. Rutina 24h (2035)
                 </button>
-                <button type="button" onclick="scrollToSection('simulador-profesiones')" class="py-1.5 px-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition whitespace-nowrap">
-                    📊 4. Matriz de Profesiones e IA
+                <button type="button" onclick="scrollToSection('simulador-profesiones')"
+                        class="py-1.5 px-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition whitespace-nowrap">
+                    📊 4. Matriz de Profesiones
                 </button>
-                <button type="button" onclick="scrollToSection('entregable-cuaderno-final')" class="py-1.5 px-3 rounded-lg text-emerald-300 bg-emerald-950/50 border border-emerald-800/60 transition whitespace-nowrap font-bold">
-                    📌 5. Ficha Final para Cuaderno
+                <button type="button" onclick="scrollToSection('entregable-cuaderno-final')"
+                        class="py-1.5 px-3 rounded-lg text-emerald-200 bg-emerald-950/50 border border-emerald-800/60 transition whitespace-nowrap font-bold">
+                    📌 5. Ficha Final
                 </button>
             </div>
         </div>
     </nav>
 
     <!-- CONTENIDO PRINCIPAL -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+    <main id="contenido-principal" class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 space-y-10">
 
-        <!-- BANNER DE PROPÓSITO DE LA UNIDAD VII -->
+        <!-- BANNER DE PROPÓSITO -->
         <section class="bg-gradient-to-r from-slate-950 via-slate-900 to-teal-950/50 border border-teal-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-4">
             <div class="flex flex-wrap items-center justify-between gap-2">
-                <span class="bg-teal-500/20 text-teal-300 text-xs font-bold px-3 py-1 rounded-full border border-teal-500/30 uppercase tracking-wider">
-                    Unidad VII • Aplicaciones de la Ingeniería e Inteligencia Artificial
+                <span class="bg-teal-500/20 text-teal-200 text-[11px] font-bold px-3 py-1 rounded-full border border-teal-500/30 uppercase tracking-wider">
+                    Unidad VII • Aplicaciones de la Ingeniería e IA
                 </span>
-                <span class="text-xs text-slate-400">Modalidad: Individual / Registro en Cuaderno</span>
+                <span class="text-[11px] text-slate-300">Modalidad: Individual / Registro en Cuaderno</span>
             </div>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
                 "La ingeniería sostiene tu vida diaria; la Inteligencia Artificial reconfigura tu futuro profesional"
             </h2>
-            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-4xl">
-                Esta plataforma de simulación interactiva te permitirá explorar cómo la <strong>Ingeniería Civil, en Sistemas, Industrial y Ambiental</strong> hacen posible la sociedad moderna, mientras analizas el impacto directo de la <strong>Inteligencia Artificial</strong> en las profesiones del futuro.
+            <p class="text-slate-200 text-xs sm:text-sm leading-relaxed max-w-4xl">
+                Esta plataforma de simulación interactiva te permitirá explorar cómo la
+                <strong class="text-teal-300">Ingeniería Civil, en Sistemas, Industrial y Ambiental</strong>
+                hacen posible la sociedad moderna, mientras analizas el impacto directo de la
+                <strong class="text-teal-300">Inteligencia Artificial</strong> en las profesiones del futuro.
             </p>
+
+            <!-- Barra de progreso de la unidad -->
+            <div class="flex items-center gap-3 pt-2">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider shrink-0">Tu avance</span>
+                <div class="flex-1 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="unidad-progress" class="h-full bg-gradient-to-r from-amber-500 via-teal-500 to-emerald-500 transition-all duration-500" style="width: 0%"></div>
+                </div>
+                <span id="unidad-progress-text" class="text-[10px] font-bold text-teal-300 shrink-0">0 / 5 bloques</span>
+            </div>
         </section>
 
-        <!-- SECCIÓN 1: PREGUNTAS DETONADORAS PARA EL CUADERNO -->
+        <!-- SECCIÓN 1: PREGUNTAS DETONADORAS -->
         <section id="seccion-cuaderno-preguntas" class="space-y-6 pt-2">
             <div class="border-l-4 border-amber-500 pl-4">
                 <h3 class="text-xl font-bold text-white">1. Preguntas Detonadoras (Paso Obligatorio en Cuaderno)</h3>
-                <p class="text-xs text-slate-400 mt-1">Antes de interactuar con los simuladores, responde estas 4 preguntas iniciales en tu cuaderno de notas.</p>
+                <p class="text-xs text-slate-400 mt-1">
+                    Antes de interactuar con los simuladores, responde estas 4 preguntas iniciales.
+                    <span class="text-amber-300">Se guardan automáticamente en tu navegador.</span>
+                </p>
             </div>
 
             <div class="bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-4">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+
                     <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2">
-                        <span class="font-bold text-amber-400 text-xs uppercase block">Pregunta 1</span>
+                        <label for="cuaderno-p1" class="font-bold text-amber-400 text-xs uppercase block">
+                            Pregunta 1
+                        </label>
                         <p class="text-slate-200 font-medium">¿Qué tecnologías utilizas todos los días?</p>
-                        <textarea id="cuaderno-p1" oninput="actualizarFichaCuaderno()" rows="2" placeholder="Escribe tu respuesta aquí para estructurarla antes de pasarla a tu cuaderno..." class="w-full p-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-300 focus:ring-1 focus:ring-amber-500"></textarea>
+                        <textarea id="cuaderno-p1" rows="2"
+                                  placeholder="Escribe tu respuesta aquí para estructurarla antes de pasarla a tu cuaderno..."
+                                  class="w-full p-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 focus:ring-1 focus:ring-amber-500 placeholder:text-slate-500"></textarea>
                     </div>
 
                     <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2">
-                        <span class="font-bold text-amber-400 text-xs uppercase block">Pregunta 2</span>
+                        <label for="cuaderno-p2" class="font-bold text-amber-400 text-xs uppercase block">
+                            Pregunta 2
+                        </label>
                         <p class="text-slate-200 font-medium">¿Has utilizado alguna herramienta de Inteligencia Artificial?</p>
-                        <textarea id="cuaderno-p2" oninput="actualizarFichaCuaderno()" rows="2" placeholder="Menciona chatbots, traductores, recomendadores o asistentes..." class="w-full p-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-300 focus:ring-1 focus:ring-amber-500"></textarea>
+                        <textarea id="cuaderno-p2" rows="2"
+                                  placeholder="Menciona chatbots, traductores, recomendadores o asistentes..."
+                                  class="w-full p-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 focus:ring-1 focus:ring-amber-500 placeholder:text-slate-500"></textarea>
                     </div>
 
                     <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2">
-                        <span class="font-bold text-amber-400 text-xs uppercase block">Pregunta 3</span>
+                        <label for="cuaderno-p3" class="font-bold text-amber-400 text-xs uppercase block">
+                            Pregunta 3
+                        </label>
                         <p class="text-slate-200 font-medium">¿Crees que las máquinas podrán sustituir a las personas en algunos trabajos?</p>
-                        <textarea id="cuaderno-p3" oninput="actualizarFichaCuaderno()" rows="2" placeholder="Justifica tu respuesta analizando tareas repetitivas vs. creatividad..." class="w-full p-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-300 focus:ring-1 focus:ring-amber-500"></textarea>
+                        <textarea id="cuaderno-p3" rows="2"
+                                  placeholder="Justifica tu respuesta analizando tareas repetitivas vs. creatividad..."
+                                  class="w-full p-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 focus:ring-1 focus:ring-amber-500 placeholder:text-slate-500"></textarea>
                     </div>
 
                     <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2">
-                        <span class="font-bold text-amber-400 text-xs uppercase block">Pregunta 4</span>
+                        <label for="cuaderno-p4" class="font-bold text-amber-400 text-xs uppercase block">
+                            Pregunta 4
+                        </label>
                         <p class="text-slate-200 font-medium">¿Qué profesiones crees que cambiarán debido a la Inteligencia Artificial?</p>
-                        <textarea id="cuaderno-p4" oninput="actualizarFichaCuaderno()" rows="2" placeholder="Ej: Medicina, docencia, ingenierías, comercio, etc..." class="w-full p-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-300 focus:ring-1 focus:ring-amber-500"></textarea>
+                        <textarea id="cuaderno-p4" rows="2"
+                                  placeholder="Ej: Medicina, docencia, ingenierías, comercio, etc..."
+                                  class="w-full p-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-200 focus:ring-1 focus:ring-amber-500 placeholder:text-slate-500"></textarea>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SIMULADOR 1: CIUDAD INTELIGENTE "URBAN-ENG + AI IMPACT" -->
+        <!-- SIMULADOR 1: CIUDAD URBAN-ENG -->
         <section id="simulador-ciudad" class="space-y-6 pt-2">
             <div class="border-l-4 border-teal-500 pl-4">
                 <h3 class="text-xl font-bold text-white">2. Simulador de Ciudad: "Urban-Eng + AI Impact"</h3>
-                <p class="text-xs text-slate-400 mt-1">Selecciona un sector urbano para explorar la rama de ingeniería que lo sostiene y activa el módulo de IA para ver su impacto.</p>
+                <p class="text-xs text-slate-400 mt-1">
+                    Selecciona un sector urbano para explorar la rama de ingeniería que lo sostiene
+                    y activa el módulo de IA para ver su impacto.
+                </p>
             </div>
 
             <div class="bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-6">
-                <!-- SWITCH DE CAPA DE IA -->
+
+                <!-- Switch IA -->
                 <div class="flex flex-wrap justify-between items-center gap-4 bg-slate-900 p-4 rounded-2xl border border-slate-700">
                     <div>
                         <span class="font-bold text-white text-sm">Capa de Transformación de IA</span>
-                        <p class="text-xs text-slate-400">Activa el motor probabilístico para simular la automatización y asistentes en la ciudad.</p>
+                        <p class="text-xs text-slate-400">
+                            Activa el motor probabilístico para simular la automatización y asistentes en la ciudad.
+                        </p>
                     </div>
-                    <button type="button" id="btn-toggle-ai" onclick="toggleAIModule()" class="bg-slate-800 text-slate-300 border border-slate-600 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 cursor-pointer">
-                        <span id="ai-status-dot" class="w-2.5 h-2.5 rounded-full bg-slate-500"></span>
+                    <button type="button"
+                            id="btn-toggle-ai"
+                            onclick="toggleAIModule()"
+                            aria-pressed="false"
+                            class="bg-slate-800 text-slate-300 border border-slate-600 hover:border-teal-500 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2">
+                        <span id="ai-status-dot" aria-hidden="true" class="w-2.5 h-2.5 rounded-full bg-slate-500 transition"></span>
                         <span id="ai-status-text">Activar Capa IA (Desactivada)</span>
                     </button>
                 </div>
 
-                <!-- NODOS URBANOS -->
-                <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 text-xs text-center">
-                    <button type="button" onclick="seleccionarSectorUrbano('construccion')" class="sector-btn p-3 bg-slate-900 hover:bg-slate-700 border border-slate-700 rounded-2xl transition space-y-1">
-                        <span class="text-xl block">🏗️</span>
-                        <span class="font-bold text-white block">Construcción</span>
-                        <span class="text-[10px] text-teal-400 block">Ing. Civil</span>
-                    </button>
-
-                    <button type="button" onclick="seleccionarSectorUrbano('salud')" class="sector-btn p-3 bg-slate-900 hover:bg-slate-700 border border-slate-700 rounded-2xl transition space-y-1">
-                        <span class="text-xl block">🏥</span>
-                        <span class="font-bold text-white block">Salud</span>
-                        <span class="text-[10px] text-teal-400 block">Ing. Biomédica</span>
-                    </button>
-
-                    <button type="button" onclick="seleccionarSectorUrbano('comunicaciones')" class="sector-btn p-3 bg-slate-900 hover:bg-slate-700 border border-slate-700 rounded-2xl transition space-y-1">
-                        <span class="text-xl block">📱</span>
-                        <span class="font-bold text-white block">Comunicaciones</span>
-                        <span class="text-[10px] text-teal-400 block">Ing. Sistemas</span>
-                    </button>
-
-                    <button type="button" onclick="seleccionarSectorUrbano('transporte')" class="sector-btn p-3 bg-slate-900 hover:bg-slate-700 border border-slate-700 rounded-2xl transition space-y-1">
-                        <span class="text-xl block">🚗</span>
-                        <span class="font-bold text-white block">Transporte</span>
-                        <span class="text-[10px] text-teal-400 block">Ing. Mecánica</span>
-                    </button>
-
-                    <button type="button" onclick="seleccionarSectorUrbano('energia')" class="sector-btn p-3 bg-slate-900 hover:bg-slate-700 border border-slate-700 rounded-2xl transition space-y-1">
-                        <span class="text-xl block">⚡</span>
-                        <span class="font-bold text-white block">Energía</span>
-                        <span class="text-[10px] text-teal-400 block">Ing. Eléctrica</span>
-                    </button>
-
-                    <button type="button" onclick="seleccionarSectorUrbano('industria')" class="sector-btn p-3 bg-slate-900 hover:bg-slate-700 border border-slate-700 rounded-2xl transition space-y-1">
-                        <span class="text-xl block">🏭</span>
-                        <span class="font-bold text-white block">Industria</span>
-                        <span class="text-[10px] text-teal-400 block">Ing. Industrial</span>
-                    </button>
-
-                    <button type="button" onclick="seleccionarSectorUrbano('ambiente')" class="sector-btn p-3 bg-slate-900 hover:bg-slate-700 border border-slate-700 rounded-2xl transition space-y-1">
-                        <span class="text-xl block">🌱</span>
-                        <span class="font-bold text-white block">Medio Ambiente</span>
-                        <span class="text-[10px] text-teal-400 block">Ing. Ambiental</span>
-                    </button>
+                <!-- Nodos urbanos -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 text-xs text-center" role="tablist" aria-label="Sectores urbanos">
+                    <!-- Botones generados dinámicamente -->
+                    <div id="nodos-urbanos" class="contents"></div>
                 </div>
 
-                <!-- DESGLOSE DEL SECTOR SELECCIONADO -->
-                <div id="panel-sector-detalle" class="bg-slate-950 p-5 rounded-2xl border border-slate-800 text-xs space-y-3">
+                <!-- Panel de detalle del sector -->
+                <div id="panel-sector-detalle"
+                     aria-live="polite"
+                     aria-atomic="true"
+                     class="bg-slate-950 p-5 rounded-2xl border border-slate-800 text-xs space-y-3">
                     <!-- Se llena dinámicamente -->
                 </div>
             </div>
         </section>
 
-        <!-- SIMULADOR 2: DÍA EN 2035 (RUTINA DE 24 HORAS) -->
+        <!-- SIMULADOR 2: RUTINA 2035 -->
         <section id="simulador-rutina" class="space-y-6 pt-2">
             <div class="border-l-4 border-sky-500 pl-4">
                 <h3 class="text-xl font-bold text-white">3. Simulador de Rutina Cotidiana "Día en 2035"</h3>
-                <p class="text-xs text-slate-400 mt-1">Recorre las 24 horas del día para descubrir la ingeniería y la Inteligencia Artificial ocultas en tu rutina.</p>
+                <p class="text-xs text-slate-400 mt-1">
+                    Recorre las 24 horas del día para descubrir la ingeniería y la IA ocultas en tu rutina.
+                </p>
             </div>
 
             <div class="bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-4">
-                <div class="flex overflow-x-auto space-x-2 pb-2 text-xs font-semibold">
-                    <button type="button" onclick="cargarMomentoRutina('07:00')" class="rutina-btn py-2 px-3.5 bg-sky-600 text-white rounded-xl transition whitespace-nowrap">
-                        🌅 07:00 AM - Despertar y Energía
-                    </button>
-                    <button type="button" onclick="cargarMomentoRutina('10:00')" class="rutina-btn py-2 px-3.5 bg-slate-900 text-slate-300 hover:bg-slate-700 rounded-xl transition whitespace-nowrap">
-                        🏥 10:00 AM - Salud y Diagnóstico
-                    </button>
-                    <button type="button" onclick="cargarMomentoRutina('14:00')" class="rutina-btn py-2 px-3.5 bg-slate-900 text-slate-300 hover:bg-slate-700 rounded-xl transition whitespace-nowrap">
-                        📱 14:00 PM - Traslado y Finanzas
-                    </button>
-                    <button type="button" onclick="cargarMomentoRutina('18:00')" class="rutina-btn py-2 px-3.5 bg-slate-900 text-slate-300 hover:bg-slate-700 rounded-xl transition whitespace-nowrap">
-                        🌱 18:00 PM - Reciclaje y Agua
-                    </button>
-                    <button type="button" onclick="cargarMomentoRutina('22:00')" class="rutina-btn py-2 px-3.5 bg-slate-900 text-slate-300 hover:bg-slate-700 rounded-xl transition whitespace-nowrap">
-                        📺 22:00 PM - Entretenimiento
-                    </button>
+                <div id="tabs-rutina" class="flex overflow-x-auto gap-2 pb-2 text-xs font-semibold scrollbar-none" role="tablist" aria-label="Momentos del día">
+                    <!-- Botones generados dinámicamente -->
                 </div>
 
-                <div id="panel-rutina-detalle" class="bg-slate-950 p-5 rounded-2xl border border-slate-800 text-xs space-y-3">
+                <div id="panel-rutina-detalle"
+                     aria-live="polite"
+                     aria-atomic="true"
+                     class="bg-slate-950 p-5 rounded-2xl border border-slate-800 text-xs space-y-3">
                     <!-- Se llena dinámicamente -->
                 </div>
             </div>
         </section>
 
-        <!-- SIMULADOR 3: MATRIZ DE PROFESIONES DEL FUTURO E IA -->
+        <!-- SIMULADOR 3: MATRIZ DE PROFESIONES -->
         <section id="simulador-profesiones" class="space-y-6 pt-2">
             <div class="border-l-4 border-purple-500 pl-4">
                 <h3 class="text-xl font-bold text-white">4. Matriz de Profesiones del Futuro y Transformación por IA</h3>
-                <p class="text-xs text-slate-400 mt-1">Analiza qué tareas humanas imita la máquina (aprender, razonar, reconocer imágenes, tomar decisiones) y cómo evolucionan los empleos.</p>
+                <p class="text-xs text-slate-400 mt-1">
+                    Analiza qué tareas humanas imita la máquina (aprender, razonar, reconocer imágenes, decidir)
+                    y cómo evolucionan los empleos.
+                </p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-slate-800 p-6 rounded-3xl border border-slate-700 items-center">
                 <div class="lg:col-span-5 space-y-4 text-xs">
                     <div>
-                        <label class="block font-semibold text-slate-300 mb-1">Selecciona una Profesión / Área:</label>
-                        <select id="select-profesion" onchange="analizarProfesion()" class="w-full p-2.5 bg-slate-950 text-slate-200 border border-slate-700 rounded-xl focus:ring-2 focus:ring-purple-500">
-                            <option value="civil">Ingeniería Civil (Infraestructura y Obras)</option>
-                            <option value="sistemas">Ingeniería en Sistemas (Software y Redes)</option>
-                            <option value="industrial">Ingeniería Industrial (Procesos y Logística)</option>
-                            <option value="ambiental">Ingeniería Ambiental (Recursos y Agua)</option>
-                            <option value="medicina">Medicina / Salud (Diagnósticos)</option>
-                            <option value="comercio">Atención a Clientes y Comercio</option>
+                        <label for="select-profesion" class="block font-semibold text-slate-200 mb-1">
+                            Selecciona una Profesión / Área:
+                        </label>
+                        <select id="select-profesion"
+                                class="w-full p-2.5 bg-slate-950 text-slate-200 border border-slate-700 rounded-xl focus:ring-2 focus:ring-purple-500">
+                            <!-- Opciones generadas dinámicamente -->
                         </select>
                     </div>
 
-                    <div id="profesion-info" class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
-                        <!-- Llenado dinámico -->
+                    <div id="profesion-info"
+                         aria-live="polite"
+                         aria-atomic="true"
+                         class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
+                        <!-- Se llena dinámicamente -->
                     </div>
                 </div>
 
                 <div class="lg:col-span-7 flex justify-center">
                     <div class="chart-container">
-                        <canvas id="profesionChart"></canvas>
+                        <canvas id="profesionChart" role="img" aria-label="Gráfico radar del perfil profesional"></canvas>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SECCIÓN 5: ENTREGABLE PARA EL CUADERNO (FICHA RESUMEN) -->
+        <!-- SECCIÓN 5: ENTREGABLE FINAL -->
         <section id="entregable-cuaderno-final" class="space-y-6 pt-2">
             <div class="border-l-4 border-emerald-500 pl-4">
-                <h3 class="text-xl font-bold text-white">5. Ficha Resumen de la Unidad VII (Para Transcribir al Cuaderno)</h3>
-                <p class="text-xs text-slate-400 mt-1">Esta ficha recopila automáticamente todas tus respuestas y descubrimientos para que la copies limpiamente en tu libreta.</p>
+                <h3 class="text-xl font-bold text-white">5. Ficha Resumen de la Unidad VII</h3>
+                <p class="text-xs text-slate-400 mt-1">
+                    Esta ficha recopila automáticamente tus respuestas y descubrimientos
+                    para que la copies limpiamente en tu libreta.
+                </p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <!-- FORMULARIO DE DATOS DEL ALUMNO -->
+
+                <!-- Datos del alumno -->
                 <div class="lg:col-span-4 bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-3 text-xs">
                     <h4 class="font-bold text-white text-sm">✍️ Datos del Alumno</h4>
 
                     <div>
-                        <label class="block font-semibold text-slate-300 mb-1">Nombre Completo:</label>
-                        <input type="text" id="alumno-nombre" oninput="actualizarFichaCuaderno()" placeholder="Ej: María López Hernández" class="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-200">
+                        <label for="alumno-nombre" class="block font-semibold text-slate-200 mb-1">
+                            Nombre Completo:
+                        </label>
+                        <input type="text" id="alumno-nombre"
+                               placeholder="Ej: María López Hernández"
+                               class="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-200 placeholder:text-slate-500">
                     </div>
 
                     <div>
-                        <label class="block font-semibold text-slate-300 mb-1">Grupo / Grupo de Bachillerato:</label>
-                        <input type="text" id="alumno-grupo" oninput="actualizarFichaCuaderno()" placeholder="Ej: Grupo 601" class="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-200">
+                        <label for="alumno-grupo" class="block font-semibold text-slate-200 mb-1">
+                            Grupo de Bachillerato:
+                        </label>
+                        <input type="text" id="alumno-grupo"
+                               placeholder="Ej: Grupo 601"
+                               class="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-200 placeholder:text-slate-500">
                     </div>
 
                     <div>
-                        <label class="block font-semibold text-slate-300 mb-1">Conclusión Personal de la Unidad:</label>
-                        <textarea id="alumno-conclusion" oninput="actualizarFichaCuaderno()" rows="3" placeholder="Sintetiza en 2 renglones cómo te prepararás para el futuro profesional..." class="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-200"></textarea>
+                        <label for="alumno-conclusion" class="block font-semibold text-slate-200 mb-1">
+                            Conclusión Personal de la Unidad:
+                        </label>
+                        <textarea id="alumno-conclusion" rows="3"
+                                  placeholder="Sintetiza en 2 renglones cómo te prepararás para el futuro profesional..."
+                                  class="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-200 placeholder:text-slate-500"></textarea>
                     </div>
 
-                    <button type="button" onclick="copiarFichaCuaderno()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl shadow transition cursor-pointer">
-                        📋 Copiar Ficha Completa
-                    </button>
+                    <div class="flex flex-col gap-2 pt-2">
+                        <button type="button" onclick="copiarFichaCuaderno()"
+                                class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl shadow transition">
+                            📋 Copiar Ficha Completa
+                        </button>
+                        <button type="button" onclick="exportarFichaPDF()"
+                                class="w-full bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 font-bold py-2.5 rounded-xl shadow transition">
+                            🖨️ Exportar / Imprimir Ficha
+                        </button>
+                        <button type="button" onclick="limpiarFormulario()"
+                                class="w-full bg-transparent hover:bg-red-950/30 border border-red-900/50 text-red-300 font-semibold py-2 rounded-xl transition text-[11px]">
+                            🗑️ Limpiar formulario
+                        </button>
+                    </div>
                 </div>
 
-                <!-- VISTA PREVIA FORMATO CUADERNO -->
+                <!-- Vista previa -->
                 <div class="lg:col-span-8 bg-slate-950 p-6 rounded-3xl border border-slate-800 flex flex-col justify-between space-y-4 shadow-xl">
                     <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                        <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Vista Previa - Copiar a Cuaderno</span>
+                        <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">
+                            Vista Previa — Copiar a Cuaderno
+                        </span>
                         <span class="text-[10px] text-slate-400">Universidad William Osler • 2026</span>
                     </div>
 
-                    <div id="ficha-preview" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 font-mono text-xs text-slate-300 leading-relaxed overflow-y-auto max-h-[360px] whitespace-pre-wrap">
+                    <div id="ficha-preview"
+                         class="bg-slate-900 p-4 rounded-2xl border border-slate-800 font-mono text-[11px] text-slate-200 leading-relaxed overflow-y-auto max-h-[420px] whitespace-pre-wrap">
                         <!-- Se llena dinámicamente -->
                     </div>
 
                     <p class="text-[11px] text-slate-400">
-                        📌 <strong>Instrucciones para el estudiante:</strong> Copia los bloques numerados de este recuadro en tu cuaderno de trabajo para la evaluación presencial de la Unidad VII.
+                        📌 <strong>Instrucciones:</strong> Copia los bloques numerados de este recuadro en tu cuaderno
+                        para la evaluación presencial de la Unidad VII.
                     </p>
                 </div>
             </div>
@@ -318,235 +470,372 @@
 
     </main>
 
-    <!-- PIE INSTITUCIONAL -->
-    <footer class="bg-slate-950 border-t border-slate-800 py-6 mt-12 text-xs text-slate-500">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+    <!-- PIE -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-6 mt-12 text-xs text-slate-400">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-3">
             <p>Universidad William Osler • Programa Académico Bachillerato</p>
-            <p class="text-slate-400 font-medium">Catedrático: L.I. Luis Arturo López Vergara • Zihuatanejo, Guerrero</p>
+            <p class="text-slate-300 font-medium">Catedrático: L.I. Luis Arturo López Vergara • Zihuatanejo, Guerrero</p>
         </div>
     </footer>
 
-    <!-- LÓGICA JAVASCRIPT INTEGRADA -->
-    <script>
-        let aiEnabled = false;
-        let sectorActual = 'construccion';
-        let rutinaActual = '07:00';
-        let profesionChart = null;
+    <!-- TOASTS -->
+    <div id="toast-container" aria-live="polite" aria-atomic="true"
+         class="fixed bottom-4 right-4 z-[200] flex flex-col gap-2 no-print"></div>
 
-        const sectoresData = {
+    <!-- LÓGICA JAVASCRIPT -->
+    <script>
+        // ============================================================
+        // 1. DATOS CENTRALIZADOS
+        // ============================================================
+        const SECTORES = {
             construccion: {
-                titulo: "Construcción e Infraestructura",
-                rama: "Ingeniería Civil",
-                ejemplos: "Puentes, carreteras, edificios, hospitales, escuelas, viviendas.",
-                objetivo: "Garantizar la seguridad y funcionalidad de las construcciones en la sociedad.",
-                iaTradicional: "Sin IA: Cálculo manual de estructuras y planos en restirador.",
-                iaImpacto: "Con IA: Generación de planos optimizados mediante IA generativa, análisis sísmico predicho en tiempo real y drones de inspección."
+                emoji: '🏗️',
+                titulo: 'Construcción e Infraestructura',
+                rama: 'Ingeniería Civil',
+                ejemplos: 'Puentes, carreteras, edificios, hospitales, escuelas, viviendas.',
+                objetivo: 'Garantizar la seguridad y funcionalidad de las construcciones en la sociedad.',
+                iaTradicional: 'Cálculo manual de estructuras y planos en restirador.',
+                iaImpacto: 'Generación de planos optimizados mediante IA generativa, análisis sísmico predicho en tiempo real y drones de inspección.'
             },
             salud: {
-                titulo: "Salud y Medicina Cuántica",
-                rama: "Ingeniería Biomédica / Sistemas",
-                ejemplos: "Equipos de Rayos X, resonancia magnética, monitores de signos vitales.",
-                objetivo: "Desarrollar tecnología médica avanzada para diagnosticar y salvar vidas.",
-                iaTradicional: "Sin IA: Interpretación visual exclusiva del radiólogo.",
-                iaImpacto: "Con IA: Reconocimiento de imágenes médicas por visión artificial para detectar tumores antes de que sean visibles al ojo humano."
+                emoji: '🏥',
+                titulo: 'Salud y Medicina Cuántica',
+                rama: 'Ingeniería Biomédica / Sistemas',
+                ejemplos: 'Equipos de Rayos X, resonancia magnética, monitores de signos vitales.',
+                objetivo: 'Desarrollar tecnología médica avanzada para diagnosticar y salvar vidas.',
+                iaTradicional: 'Interpretación visual exclusiva del radiólogo.',
+                iaImpacto: 'Reconocimiento de imágenes médicas por visión artificial para detectar tumores antes de que sean visibles al ojo humano.'
             },
             comunicaciones: {
-                titulo: "Comunicaciones y Redes",
-                rama: "Ingeniería en Sistemas",
-                ejemplos: "Internet, telefonía móvil, redes sociales, plataformas educativas, banca digital.",
-                objetivo: "Transmitir información instantánea y conectar a millones de usuarios globales.",
-                iaTradicional: "Sin IA: Programación rígida de algoritmos de enrutamiento.",
-                iaImpacto: "Con IA: Chatbots de atención 24/7, traductores automáticos de voz en tiempo real y protección cibersegura predictiva."
+                emoji: '📱',
+                titulo: 'Comunicaciones y Redes',
+                rama: 'Ingeniería en Sistemas',
+                ejemplos: 'Internet, telefonía móvil, redes sociales, plataformas educativas, banca digital.',
+                objetivo: 'Transmitir información instantánea y conectar a millones de usuarios globales.',
+                iaTradicional: 'Programación rígida de algoritmos de enrutamiento.',
+                iaImpacto: 'Chatbots de atención 24/7, traductores automáticos de voz en tiempo real y protección cibersegura predictiva.'
             },
             transporte: {
-                titulo: "Transporte y Movilidad",
-                rama: "Ingeniería Mecánica / Mecatrónica",
-                ejemplos: "Automóviles, aviones, trenes, logística de envíos.",
-                objetivo: "Diseñar vehículos más seguros, eficientes y veloces.",
-                iaTradicional: "Sin IA: Control de tráfico por semáforos de tiempo fijo.",
-                iaImpacto: "Con IA: Vehículos de conducción autónoma, asistentes de navegación y semáforos inteligentes que cambian según el flujo real."
+                emoji: '🚗',
+                titulo: 'Transporte y Movilidad',
+                rama: 'Ingeniería Mecánica / Mecatrónica',
+                ejemplos: 'Automóviles, aviones, trenes, logística de envíos.',
+                objetivo: 'Diseñar vehículos más seguros, eficientes y veloces.',
+                iaTradicional: 'Control de tráfico por semáforos de tiempo fijo.',
+                iaImpacto: 'Vehículos de conducción autónoma, asistentes de navegación y semáforos inteligentes que cambian según el flujo real.'
             },
             energia: {
-                titulo: "Energía y Electricidad",
-                rama: "Ingeniería Eléctrica / Energías Renovables",
-                ejemplos: "Plantas eléctricas, paneles solares, redes de distribución.",
-                objetivo: "Producir y distribuir energía limpia sin interrupciones.",
-                iaTradicional: "Sin IA: Mantenimiento reactivo cuando la red falla.",
-                iaImpacto: "Con IA: Redes inteligentes (Smart Grids) que redirigen la electricidad automáticamente y predicen demanda solar/eólica."
+                emoji: '⚡',
+                titulo: 'Energía y Electricidad',
+                rama: 'Ingeniería Eléctrica / Renovables',
+                ejemplos: 'Plantas eléctricas, paneles solares, redes de distribución.',
+                objetivo: 'Producir y distribuir energía limpia sin interrupciones.',
+                iaTradicional: 'Mantenimiento reactivo cuando la red falla.',
+                iaImpacto: 'Redes inteligentes (Smart Grids) que redirigen la electricidad automáticamente y predicen demanda solar/eólica.'
             },
             industria: {
-                titulo: "Industria y Manufactura",
-                rama: "Ingeniería Industrial",
-                ejemplos: "Organización de fábricas, robots industriales, control de calidad, logística.",
-                objetivo: "Optimizar recursos, reducir desperdicios y acelerar la producción.",
-                iaTradicional: "Sin IA: Inspección de calidad por muestreo manual.",
-                iaImpacto: "Con IA: Brazos robóticos colaborativos con visión artificial que corrigen fallas de ensamblaje al instante."
+                emoji: '🏭',
+                titulo: 'Industria y Manufactura',
+                rama: 'Ingeniería Industrial',
+                ejemplos: 'Organización de fábricas, robots industriales, control de calidad, logística.',
+                objetivo: 'Optimizar recursos, reducir desperdicios y acelerar la producción.',
+                iaTradicional: 'Inspección de calidad por muestreo manual.',
+                iaImpacto: 'Brazos robóticos colaborativos con visión artificial que corrigen fallas de ensamblaje al instante.'
             },
             ambiente: {
-                titulo: "Medio Ambiente y Sustentabilidad",
-                rama: "Ingeniería Ambiental",
-                ejemplos: "Plantas de tratamiento de agua residual, reciclaje, control de contaminación.",
-                objetivo: "Proteger los recursos naturales mediante tecnologías sustentables.",
-                iaTradicional: "Sin IA: Monitoreo químico manual en laboratorio.",
-                iaImpacto: "Con IA: Sensores IoT con aprendizaje automático que detectan fugas tóxicas o contaminación en ríos antes de que sea crítico."
+                emoji: '🌱',
+                titulo: 'Medio Ambiente y Sustentabilidad',
+                rama: 'Ingeniería Ambiental',
+                ejemplos: 'Plantas de tratamiento de agua residual, reciclaje, control de contaminación.',
+                objetivo: 'Proteger los recursos naturales mediante tecnologías sustentables.',
+                iaTradicional: 'Monitoreo químico manual en laboratorio.',
+                iaImpacto: 'Sensores IoT con aprendizaje automático que detectan fugas tóxicas o contaminación en ríos antes de que sea crítico.'
             }
         };
 
-        const rutinaData = {
+        const RUTINA = {
             '07:00': {
-                titulo: "07:00 AM - Despertar y Consumo de Energía",
-                ingenieria: "Ingeniería Eléctrica y Ambiental (Suministro de luz y agua potable).",
-                ia: "Asistentes virtuales (Alexa/Google) que ajustan alarmas, resumen noticias y optimizan el consumo del aire acondicionado."
+                emoji: '🌅',
+                titulo: '07:00 AM — Despertar y Consumo de Energía',
+                ingenieria: 'Ingeniería Eléctrica y Ambiental (Suministro de luz y agua potable).',
+                ia: 'Asistentes virtuales (Alexa/Google) que ajustan alarmas, resumen noticias y optimizan el consumo del aire acondicionado.'
             },
             '10:00': {
-                titulo: "10:00 AM - Cuidado de la Salud y Estudio",
-                ingenieria: "Ingeniería en Sistemas e Ingeniería Biomédica (Plataformas educativas y equipos de radiografía).",
-                ia: "Sistemas de recomendación de contenido educativo y diagnóstico asistido por visión artificial en hospitales."
+                emoji: '🏥',
+                titulo: '10:00 AM — Cuidado de la Salud y Estudio',
+                ingenieria: 'Ingeniería en Sistemas e Ingeniería Biomédica (Plataformas educativas y equipos de radiografía).',
+                ia: 'Sistemas de recomendación de contenido educativo y diagnóstico asistido por visión artificial en hospitales.'
             },
             '14:00': {
-                titulo: "14:00 PM - Traslado, Alimento y Banca",
-                ingenieria: "Ingeniería Industrial y de Transporte (Logística de distribución de alimentos y banca móvil).",
-                ia: "Traductores automáticos, reconocimiento facial para acceso al banco y optimizadores de ruta de tráfico."
+                emoji: '📱',
+                titulo: '14:00 PM — Traslado, Alimento y Banca',
+                ingenieria: 'Ingeniería Industrial y de Transporte (Logística de distribución de alimentos y banca móvil).',
+                ia: 'Traductores automáticos, reconocimiento facial para acceso al banco y optimizadores de ruta de tráfico.'
             },
             '18:00': {
-                titulo: "18:00 PM - Sustentabilidad y Ciudad",
-                ingenieria: "Ingeniería Civil y Ambiental (Instalaciones de agua tratada y puentes viales).",
-                ia: "Algoritmos que regulan las plantas de tratamiento de agua según la demanda urbana y el clima."
+                emoji: '🌱',
+                titulo: '18:00 PM — Sustentabilidad y Ciudad',
+                ingenieria: 'Ingeniería Civil y Ambiental (Instalaciones de agua tratada y puentes viales).',
+                ia: 'Algoritmos que regulan las plantas de tratamiento de agua según la demanda urbana y el clima.'
             },
             '22:00': {
-                titulo: "22:00 PM - Descanso y Entretenimiento",
-                ingenieria: "Ingeniería en Sistemas (Servidores de streaming y fibra óptica).",
-                ia: "Sistemas de recomendación (Netflix/Spotify) que analizan patrones de preferencia para sugerir contenido."
+                emoji: '📺',
+                titulo: '22:00 PM — Descanso y Entretenimiento',
+                ingenieria: 'Ingeniería en Sistemas (Servidores de streaming y fibra óptica).',
+                ia: 'Sistemas de recomendación (Netflix/Spotify) que analizan patrones de preferencia para sugerir contenido.'
             }
         };
 
-        const profesionesData = {
+        const PROFESIONES = {
             civil: {
-                nombre: "Ingeniería Civil",
-                tareasHumanas: ["Diseño estético", "Liderazgo en obra", "Negociación legal", "Supervisión de seguridad"],
-                tareasIA: ["Aprender patrones sísmicos", "Razonar estructuras óptimas", "Reconocer imágenes con drones"],
+                nombre: 'Ingeniería Civil',
+                tareasHumanas: ['Diseño estético', 'Liderazgo en obra', 'Negociación legal', 'Supervisión de seguridad'],
+                tareasIA: ['Aprender patrones sísmicos', 'Razonar estructuras óptimas', 'Reconocer imágenes con drones'],
                 sustitucion: 25,
                 transformacion: 75
             },
             sistemas: {
-                nombre: "Ingeniería en Sistemas",
-                tareasHumanas: ["Arquitectura estratégica", "Ciberseguridad ética", "Diseño de experiencia humana"],
-                tareasIA: ["Generar código base", "Comprender lenguaje natural", "Detectar errores de sintaxis"],
+                nombre: 'Ingeniería en Sistemas',
+                tareasHumanas: ['Arquitectura estratégica', 'Ciberseguridad ética', 'Diseño de experiencia humana'],
+                tareasIA: ['Generar código base', 'Comprender lenguaje natural', 'Detectar errores de sintaxis'],
                 sustitucion: 35,
                 transformacion: 65
             },
             industrial: {
-                nombre: "Ingeniería Industrial",
-                tareasHumanas: ["Gestión del talento humano", "Estrategia corporativa", "Negociación de suministros"],
-                tareasIA: ["Predecir demanda", "Optimizar rutas de entrega", "Tomar decisiones de inventario"],
+                nombre: 'Ingeniería Industrial',
+                tareasHumanas: ['Gestión del talento humano', 'Estrategia corporativa', 'Negociación de suministros'],
+                tareasIA: ['Predecir demanda', 'Optimizar rutas de entrega', 'Tomar decisiones de inventario'],
                 sustitucion: 40,
                 transformacion: 60
             },
             ambiental: {
-                nombre: "Ingeniería Ambiental",
-                tareasHumanas: ["Política ecológica", "Concientización social", "Investigación de campo"],
-                tareasIA: ["Analizar datos satelitales", "Reconocer imágenes de deforestación", "Modelar cambio climático"],
+                nombre: 'Ingeniería Ambiental',
+                tareasHumanas: ['Política ecológica', 'Concientización social', 'Investigación de campo'],
+                tareasIA: ['Analizar datos satelitales', 'Reconocer imágenes de deforestación', 'Modelar cambio climático'],
                 sustitucion: 20,
                 transformacion: 80
             },
             medicina: {
-                nombre: "Medicina y Salud",
-                tareasHumanas: ["Empatía con el paciente", "Cirugía compleja manual", "Decisiones éticas límite"],
-                tareasIA: ["Reconocer radiografías", "Predecir interacciones de fármacos", "Chatbots de triaje inicial"],
+                nombre: 'Medicina y Salud',
+                tareasHumanas: ['Empatía con el paciente', 'Cirugía compleja manual', 'Decisiones éticas límite'],
+                tareasIA: ['Reconocer radiografías', 'Predecir interacciones de fármacos', 'Chatbots de triaje inicial'],
                 sustitucion: 15,
                 transformacion: 85
             },
             comercio: {
-                nombre: "Comercio y Atención a Clientes",
-                tareasHumanas: ["Atención VIP personalizada", "Resolución de conflictos emocionales"],
-                tareasIA: ["Chatbots de preguntas frecuentes", "Traductores automáticos", "Sistemas de recomendación"],
+                nombre: 'Comercio y Atención a Clientes',
+                tareasHumanas: ['Atención VIP personalizada', 'Resolución de conflictos emocionales'],
+                tareasIA: ['Chatbots de preguntas frecuentes', 'Traductores automáticos', 'Sistemas de recomendación'],
                 sustitucion: 60,
                 transformacion: 40
             }
         };
 
-        document.addEventListener("DOMContentLoaded", () => {
-            seleccionarSectorUrbano('construccion');
-            cargarMomentoRutina('07:00');
-            initProfesionChart();
-            analizarProfesion();
-            actualizarFichaCuaderno();
-        });
+        // ============================================================
+        // 2. ESTADO Y LOCALSTORAGE
+        // ============================================================
+        const STORAGE_KEY = 'osler.unidad7.estado.v1';
+        const STORAGE_TEMA = 'osler.curso.tema';
 
-        function scrollToSection(id) {
-            const el = document.getElementById(id);
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        let estado = cargarEstado();
+        let aiEnabled = estado.aiEnabled || false;
+        let sectorActual = estado.sectorActual || 'construccion';
+        let rutinaActual = estado.rutinaActual || '07:00';
+        let profesionChart = null;
+
+        function cargarEstado() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                return raw ? JSON.parse(raw) : {};
+            } catch (e) {
+                console.warn('No se pudo cargar el estado:', e);
+                return {};
+            }
         }
 
+        function guardarEstado() {
+            try {
+                const campos = ['alumno-nombre', 'alumno-grupo', 'alumno-conclusion',
+                                'cuaderno-p1', 'cuaderno-p2', 'cuaderno-p3', 'cuaderno-p4'];
+                campos.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) estado[id] = el.value;
+                });
+                estado.aiEnabled = aiEnabled;
+                estado.sectorActual = sectorActual;
+                estado.rutinaActual = rutinaActual;
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(estado));
+            } catch (e) {
+                console.warn('No se pudo guardar el estado:', e);
+            }
+        }
+
+        // ============================================================
+        // 3. RENDER INICIAL DE NODOS URBANOS
+        // ============================================================
+        function renderNodosUrbanos() {
+            const cont = document.getElementById('nodos-urbanos');
+            cont.innerHTML = Object.entries(SECTORES).map(([key, s]) => `
+                <button type="button"
+                        role="tab"
+                        data-sector="${key}"
+                        onclick="seleccionarSectorUrbano('${key}')"
+                        class="sector-btn p-3 bg-slate-900 hover:bg-slate-700 border border-slate-700 rounded-2xl transition space-y-1 text-center">
+                    <span class="text-xl block" aria-hidden="true">${s.emoji}</span>
+                    <span class="font-bold text-white block text-[11px] leading-tight">${s.titulo.split(' ')[0]}</span>
+                    <span class="text-[10px] text-teal-400 block">${s.rama.split(' / ')[0]}</span>
+                </button>
+            `).join('');
+        }
+
+        // ============================================================
+        // 4. TOGGLE IA
+        // ============================================================
         function toggleAIModule() {
             aiEnabled = !aiEnabled;
             const btn = document.getElementById('btn-toggle-ai');
             const dot = document.getElementById('ai-status-dot');
             const text = document.getElementById('ai-status-text');
 
+            btn.setAttribute('aria-pressed', aiEnabled ? 'true' : 'false');
+
             if (aiEnabled) {
-                btn.className = "bg-teal-950 text-teal-300 border border-teal-500/50 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 cursor-pointer";
-                dot.className = "w-2.5 h-2.5 rounded-full bg-teal-400 animate-pulse";
+                btn.className = "bg-teal-950 text-teal-200 border border-teal-500/50 hover:border-teal-400 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2";
+                dot.className = "w-2.5 h-2.5 rounded-full bg-teal-400 dot-active";
                 text.innerText = "Capa IA ACTIVADA (Simulando Impacto)";
+                mostrarToast('⚡ Capa de IA activada', 'success');
             } else {
-                btn.className = "bg-slate-800 text-slate-300 border border-slate-600 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 cursor-pointer";
+                btn.className = "bg-slate-800 text-slate-300 border border-slate-600 hover:border-teal-500 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2";
                 dot.className = "w-2.5 h-2.5 rounded-full bg-slate-500";
                 text.innerText = "Activar Capa IA (Desactivada)";
+                mostrarToast('🏛️ Capa de IA desactivada');
             }
 
-            seleccionarSectorUrbano(sectorActual);
-            actualizarFichaCuaderno();
+            seleccionarSectorUrbano(sectorActual, false);
+            guardarEstado();
         }
 
-        function seleccionarSectorUrbano(key) {
+        // ============================================================
+        // 5. SELECCIÓN DE SECTOR URBANO
+        // ============================================================
+        function seleccionarSectorUrbano(key, marcarActivo = true) {
+            if (!SECTORES[key]) return;
             sectorActual = key;
-            const data = sectoresData[key];
+            const data = SECTORES[key];
             const panel = document.getElementById('panel-sector-detalle');
 
             panel.innerHTML = `
                 <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-800 pb-2">
-                    <h4 class="text-sm font-bold text-teal-400">${data.titulo}</h4>
-                    <span class="bg-teal-950 text-teal-300 text-[10px] font-bold px-2.5 py-0.5 rounded border border-teal-800 uppercase">${data.rama}</span>
+                    <h4 class="text-sm font-bold text-teal-300">
+                        <span aria-hidden="true">${data.emoji}</span> ${data.titulo}
+                    </h4>
+                    <span class="bg-teal-950 text-teal-200 text-[10px] font-bold px-2.5 py-0.5 rounded border border-teal-800 uppercase">
+                        ${data.rama}
+                    </span>
                 </div>
-                <p class="text-slate-200"><strong>Aplicación Cotidiana:</strong> ${data.ejemplos}</p>
-                <p class="text-slate-400"><strong>Objetivo de la Ingeniería:</strong> ${data.objetivo}</p>
-                <div class="p-3 rounded-xl ${aiEnabled ? 'bg-teal-950/40 border border-teal-500/30 text-teal-200' : 'bg-slate-900 border border-slate-800 text-slate-300'} font-mono text-[11px] leading-relaxed">
-                    ${aiEnabled ? `⚡ <strong>IMPACTO DE LA IA ACTIVADO:</strong> ${data.iaImpacto}` : `🏛️ <strong>MODELO TRADICIONAL:</strong> ${data.iaTradicional}`}
+                <p class="text-slate-200"><strong class="text-white">Aplicación Cotidiana:</strong> ${data.ejemplos}</p>
+                <p class="text-slate-300"><strong class="text-white">Objetivo de la Ingeniería:</strong> ${data.objetivo}</p>
+                <div class="p-3 rounded-xl ${aiEnabled ? 'bg-teal-950/40 border border-teal-500/30 text-teal-100' : 'bg-slate-900 border border-slate-800 text-slate-200'} font-mono text-[11px] leading-relaxed">
+                    ${aiEnabled
+                        ? `⚡ <strong>IMPACTO DE LA IA ACTIVADO:</strong> ${data.iaImpacto}`
+                        : `🏛️ <strong>MODELO TRADICIONAL:</strong> ${data.iaTradicional}`}
                 </div>
             `;
-            actualizarFichaCuaderno();
+
+            // Estado visual de los botones
+            document.querySelectorAll('.sector-btn').forEach(btn => {
+                const activo = btn.dataset.sector === key;
+                btn.setAttribute('aria-selected', activo ? 'true' : 'false');
+                btn.className = activo
+                    ? "sector-btn p-3 bg-teal-950/60 border-2 border-teal-500 rounded-2xl transition space-y-1 text-center"
+                    : "sector-btn p-3 bg-slate-900 hover:bg-slate-700 border border-slate-700 rounded-2xl transition space-y-1 text-center";
+            });
+
+            if (marcarActivo) guardarEstado();
         }
 
-        function cargarMomentoRutina(hora) {
+        // ============================================================
+        // 6. RENDER TABS RUTINA
+        // ============================================================
+        function renderTabsRutina() {
+            const cont = document.getElementById('tabs-rutina');
+            cont.innerHTML = Object.entries(RUTINA).map(([hora, r]) => `
+                <button type="button"
+                        role="tab"
+                        data-rutina="${hora}"
+                        onclick="cargarMomentoRutina('${hora}', event)"
+                        class="rutina-btn py-2 px-3.5 bg-slate-900 text-slate-300 hover:bg-slate-700 rounded-xl transition whitespace-nowrap text-xs">
+                    ${r.emoji} ${hora} — ${r.titulo.split(' — ')[1]}
+                </button>
+            `).join('');
+        }
+
+        // ============================================================
+        // 7. CARGAR MOMENTO DE RUTINA (con event correcto)
+        // ============================================================
+        function cargarMomentoRutina(hora, evt) {
+            if (!RUTINA[hora]) return;
             rutinaActual = hora;
-            const data = rutinaData[hora];
+            const data = RUTINA[hora];
             const panel = document.getElementById('panel-rutina-detalle');
 
-            document.querySelectorAll('.rutina-btn').forEach(btn => {
-                btn.className = "rutina-btn py-2 px-3.5 bg-slate-900 text-slate-300 hover:bg-slate-700 rounded-xl transition whitespace-nowrap text-xs";
-            });
-            event.target.className = "rutina-btn py-2 px-3.5 bg-sky-600 text-white rounded-xl transition whitespace-nowrap text-xs font-bold";
-
             panel.innerHTML = `
-                <h4 class="text-sm font-bold text-sky-400 border-b border-slate-800 pb-2">${data.titulo}</h4>
-                <p class="text-slate-200"><strong>Sostén de la Ingeniería:</strong> ${data.ingenieria}</p>
-                <p class="text-slate-300"><strong>Intervención de la IA:</strong> ${data.ia}</p>
+                <h4 class="text-sm font-bold text-sky-300 border-b border-slate-800 pb-2">
+                    ${data.emoji} ${data.titulo}
+                </h4>
+                <p class="text-slate-200"><strong class="text-white">Sostén de la Ingeniería:</strong> ${data.ingenieria}</p>
+                <p class="text-slate-300"><strong class="text-white">Intervención de la IA:</strong> ${data.ia}</p>
             `;
-            actualizarFichaCuaderno();
+
+            document.querySelectorAll('.rutina-btn').forEach(btn => {
+                const activo = btn.dataset.rutina === hora;
+                btn.setAttribute('aria-selected', activo ? 'true' : 'false');
+                btn.className = activo
+                    ? "rutina-btn py-2 px-3.5 bg-sky-600 text-white rounded-xl transition whitespace-nowrap text-xs font-bold"
+                    : "rutina-btn py-2 px-3.5 bg-slate-900 text-slate-300 hover:bg-slate-700 rounded-xl transition whitespace-nowrap text-xs";
+            });
+
+            guardarEstado();
         }
 
+        // ============================================================
+        // 8. RENDER SELECT PROFESIONES
+        // ============================================================
+        function renderSelectProfesiones() {
+            const sel = document.getElementById('select-profesion');
+            sel.innerHTML = Object.entries(PROFESIONES).map(([key, p]) => `
+                <option value="${key}">${p.nombre}</option>
+            `).join('');
+        }
+
+        // ============================================================
+        // 9. ANALIZAR PROFESIÓN + CHART
+        // ============================================================
         function analizarProfesion() {
             const key = document.getElementById('select-profesion').value;
-            const data = profesionesData[key];
-            const info = document.getElementById('profesion-info');
+            const data = PROFESIONES[key];
+            if (!data) return;
 
+            const info = document.getElementById('profesion-info');
             info.innerHTML = `
-                <h4 class="font-bold text-white text-sm border-b border-slate-800 pb-1">${data.nombre}</h4>
-                <p class="text-slate-300"><strong>Tareas Clave Humanas:</strong> ${data.tareasHumanas.join(", ")}.</p>
-                <p class="text-purple-300"><strong>Tareas Automatizadas por IA:</strong> ${data.tareasIA.join(", ")}.</p>
+                <h4 class="font-bold text-white text-sm border-b border-slate-800 pb-1">
+                    ${data.nombre}
+                </h4>
+                <p class="text-slate-200">
+                    <strong class="text-white">Tareas Clave Humanas:</strong>
+                    ${data.tareasHumanas.join(', ')}.
+                </p>
+                <p class="text-purple-200">
+                    <strong class="text-white">Tareas Automatizadas por IA:</strong>
+                    ${data.tareasIA.join(', ')}.
+                </p>
                 <div class="grid grid-cols-2 gap-2 text-center pt-1 font-mono text-[11px]">
-                    <div class="bg-red-950/40 border border-red-800/40 p-1.5 rounded-lg text-red-300">Riesgo Sustitución: ${data.sustitucion}%</div>
-                    <div class="bg-emerald-950/40 border border-emerald-800/40 p-1.5 rounded-lg text-emerald-300">Evolución/Transformación: ${data.transformacion}%</div>
+                    <div class="bg-red-950/40 border border-red-800/40 p-1.5 rounded-lg text-red-200">
+                        Riesgo Sustitución: ${data.sustitucion}%
+                    </div>
+                    <div class="bg-emerald-950/40 border border-emerald-800/40 p-1.5 rounded-lg text-emerald-200">
+                        Evolución / Transformación: ${data.transformacion}%
+                    </div>
                 </div>
             `;
 
@@ -555,16 +844,21 @@
                     data.transformacion,
                     data.sustitucion,
                     100 - data.sustitucion,
-                    85,
-                    90
+                    85,   // Capacidad de razonamiento (estimado institucional)
+                    90    // Adopción tecnológica (estimado institucional)
                 ];
                 profesionChart.update();
             }
-            actualizarFichaCuaderno();
         }
 
         function initProfesionChart() {
-            const ctx = document.getElementById('profesionChart').getContext('2d');
+            const canvas = document.getElementById('profesionChart');
+            if (!canvas || typeof Chart === 'undefined') return;
+
+            const ctx = canvas.getContext('2d');
+            const primeraKey = Object.keys(PROFESIONES)[0];
+            const primera = PROFESIONES[primeraKey];
+
             profesionChart = new Chart(ctx, {
                 type: 'radar',
                 data: {
@@ -577,7 +871,7 @@
                     ],
                     datasets: [{
                         label: 'Evolución del Perfil',
-                        data: [75, 25, 75, 85, 90],
+                        data: [primera.transformacion, primera.sustitucion, 100 - primera.sustitucion, 85, 90],
                         backgroundColor: 'rgba(168, 85, 247, 0.2)',
                         borderColor: '#a855f7',
                         borderWidth: 2,
@@ -591,39 +885,49 @@
                         r: {
                             angleLines: { color: '#334155' },
                             grid: { color: '#1e293b' },
-                            pointLabels: { font: { size: 9, family: 'Inter' }, color: '#94a3b8' },
+                            pointLabels: {
+                                font: { size: 9, family: 'Inter' },
+                                color: '#cbd5e1'
+                            },
                             ticks: { display: false, max: 100 }
                         }
                     },
-                    plugins: {
-                        legend: { display: false }
-                    }
+                    plugins: { legend: { display: false } }
                 }
             });
         }
 
+        // ============================================================
+        // 10. FICHA RESUMEN
+        // ============================================================
         function actualizarFichaCuaderno() {
-            const nombre = document.getElementById('alumno-nombre').value || "[Tu Nombre]";
-            const grupo = document.getElementById('alumno-grupo').value || "[Tu Grupo]";
-            const p1 = document.getElementById('cuaderno-p1').value || "(Pendiente de responder)";
-            const p2 = document.getElementById('cuaderno-p2').value || "(Pendiente de responder)";
-            const p3 = document.getElementById('cuaderno-p3').value || "(Pendiente de responder)";
-            const p4 = document.getElementById('cuaderno-p4').value || "(Pendiente de responder)";
-            const conc = document.getElementById('alumno-conclusion').value || "(Escribe tu conclusión personal)";
+            const val = (id, fallback) => {
+                const el = document.getElementById(id);
+                return (el && el.value.trim()) ? el.value : fallback;
+            };
 
-            const sectorData = sectoresData[sectorActual];
+            const nombre = val('alumno-nombre', '[Tu Nombre]');
+            const grupo = val('alumno-grupo', '[Tu Grupo]');
+            const p1 = val('cuaderno-p1', '(Pendiente de responder)');
+            const p2 = val('cuaderno-p2', '(Pendiente de responder)');
+            const p3 = val('cuaderno-p3', '(Pendiente de responder)');
+            const p4 = val('cuaderno-p4', '(Pendiente de responder)');
+            const conc = val('alumno-conclusion', '(Escribe tu conclusión personal)');
+
+            const sectorData = SECTORES[sectorActual];
             const profesionKey = document.getElementById('select-profesion').value;
-            const profData = profesionesData[profesionKey];
+            const profData = PROFESIONES[profesionKey];
 
             const text = `=======================================================
-FICHA DE TRABAJO - UNIDAD VII: INGENIERÍA E INTELIGENCIA ARTIFICIAL
+FICHA DE TRABAJO — UNIDAD VII: INGENIERÍA E INTELIGENCIA ARTIFICIAL
 Universidad William Osler • Bachillerato (Edición 2026)
 Catedrático: L.I. Luis Arturo López Vergara
 =======================================================
+
 DATOS DEL ESTUDIANTE:
 • Nombre: ${nombre}
 • Grupo: ${grupo}
-• Fecha de realización: ${new Date().toLocaleDateString('es-MX')}
+• Fecha: ${new Date().toLocaleDateString('es-MX')}
 
 -------------------------------------------------------
 BLOQUE 1: PREGUNTAS DETONADORAS (RESPUESTAS DEL ALUMNO)
@@ -652,9 +956,10 @@ BLOQUE 2: EVIDENCIA DE SIMULACIÓN URBANA
 BLOQUE 3: ANÁLISIS DE LA PROFESIÓN DEL FUTURO
 -------------------------------------------------------
 • Carrera Analizada: ${profData.nombre}
-• Tareas Humanas Indispensables: ${profData.tareasHumanas.join(", ")}
-• Tareas Automatizadas por la IA: ${profData.tareasIA.join(", ")}
-• Diagnóstico Laboral: ${profData.transformacion}% Transformación / ${profData.sustitucion}% Riesgo de Sustitución
+• Tareas Humanas Indispensables: ${profData.tareasHumanas.join(', ')}
+• Tareas Automatizadas por la IA: ${profData.tareasIA.join(', ')}
+• Diagnóstico Laboral: ${profData.transformacion}% Transformación /
+  ${profData.sustitucion}% Riesgo de Sustitución
 
 -------------------------------------------------------
 BLOQUE 4: CONCLUSIÓN PERSONAL DEL ESTUDIANTE
@@ -663,14 +968,229 @@ BLOQUE 4: CONCLUSIÓN PERSONAL DEL ESTUDIANTE
 =======================================================`;
 
             document.getElementById('ficha-preview').innerText = text;
+            actualizarProgresoUnidad();
         }
 
-        function copiarFichaCuaderno() {
-            const text = document.getElementById('ficha-preview').innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                alert("¡Ficha copiada con éxito! Págala en tu procesador de texto o transcríbela directamente a tu cuaderno.");
+        // ============================================================
+        // 11. PROGRESO DE LA UNIDAD (5 bloques)
+        // ============================================================
+        function actualizarProgresoUnidad() {
+            const bloques = [
+                // Bloque 1: al menos 2 preguntas respondidas
+                ['cuaderno-p1', 'cuaderno-p2', 'cuaderno-p3', 'cuaderno-p4']
+                    .filter(id => (document.getElementById(id)?.value || '').trim()).length >= 2,
+                // Bloque 2: sector seleccionado (siempre hay uno)
+                true,
+                // Bloque 3: rutina visitada (siempre hay una)
+                true,
+                // Bloque 4: profesión analizada (siempre hay una)
+                true,
+                // Bloque 5: nombre + conclusión
+                (document.getElementById('alumno-nombre')?.value || '').trim().length > 0 &&
+                (document.getElementById('alumno-conclusion')?.value || '').trim().length > 0
+            ];
+
+            const completados = bloques.filter(Boolean).length;
+            const total = bloques.length;
+            const pct = Math.round((completados / total) * 100);
+
+            const barra = document.getElementById('unidad-progress');
+            const texto = document.getElementById('unidad-progress-text');
+            if (barra) barra.style.width = pct + '%';
+            if (texto) texto.innerText = `${completados} / ${total} bloques`;
+        }
+
+        // ============================================================
+        // 12. COPIAR FICHA CON FALLBACK
+        // ============================================================
+        async function copiarFichaCuaderno() {
+            const texto = document.getElementById('ficha-preview').innerText;
+
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(texto);
+                } else {
+                    throw new Error('Clipboard API no disponible');
+                }
+                mostrarToast('✅ Ficha copiada al portapapeles', 'success');
+            } catch (err) {
+                // Fallback clásico
+                const ta = document.createElement('textarea');
+                ta.value = texto;
+                ta.setAttribute('readonly', '');
+                ta.style.position = 'absolute';
+                ta.style.left = '-9999px';
+                document.body.appendChild(ta);
+                ta.select();
+                try {
+                    document.execCommand('copy');
+                    mostrarToast('✅ Ficha copiada (modo compatibilidad)', 'success');
+                } catch (e) {
+                    mostrarToast('❌ No se pudo copiar. Selecciona el texto manualmente.', 'error');
+                }
+                ta.remove();
+            }
+        }
+
+        // ============================================================
+        // 13. EXPORTAR A PDF / IMPRIMIR
+        // ============================================================
+        function exportarFichaPDF() {
+            // Guarda antes de imprimir
+            guardarEstado();
+            actualizarFichaCuaderno();
+            mostrarToast('🖨️ Abriendo diálogo de impresión...');
+            setTimeout(() => window.print(), 200);
+        }
+
+        // ============================================================
+        // 14. LIMPIAR FORMULARIO
+        // ============================================================
+        function limpiarFormulario() {
+            if (!confirm('¿Borrar todas tus respuestas guardadas de la Unidad VII?')) return;
+
+            const campos = ['alumno-nombre', 'alumno-grupo', 'alumno-conclusion',
+                            'cuaderno-p1', 'cuaderno-p2', 'cuaderno-p3', 'cuaderno-p4'];
+            campos.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+
+            try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+            estado = {};
+            actualizarFichaCuaderno();
+            mostrarToast('🗑️ Formulario limpiado', 'success');
+        }
+
+        // ============================================================
+        // 15. TOASTS
+        // ============================================================
+        function mostrarToast(mensaje, tipo = 'info') {
+            const cont = document.getElementById('toast-container');
+            if (!cont) return;
+
+            const colores = {
+                info:    'bg-slate-800 border-slate-700 text-slate-100',
+                success: 'bg-emerald-950 border-emerald-700 text-emerald-100',
+                error:   'bg-red-950 border-red-700 text-red-100'
+            };
+
+            const toast = document.createElement('div');
+            toast.className = `toast-anim ${colores[tipo]} border rounded-xl px-4 py-2.5 text-xs font-semibold shadow-2xl max-w-xs`;
+            toast.setAttribute('role', 'status');
+            toast.innerText = mensaje;
+
+            cont.appendChild(toast);
+            setTimeout(() => {
+                toast.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(10px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 2800);
+        }
+
+        // ============================================================
+        // 16. SCROLL A SECCIÓN
+        // ============================================================
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // ============================================================
+        // 17. TEMA CLARO / OSCURO (compartido con index)
+        // ============================================================
+        function toggleTema() {
+            const html = document.documentElement;
+            const esClaro = html.classList.toggle('light');
+            document.getElementById('icono-tema').innerText = esClaro ? '☀️' : '🌙';
+            try { localStorage.setItem(STORAGE_TEMA, esClaro ? 'light' : 'dark'); } catch (e) {}
+        }
+
+        function cargarTema() {
+            try {
+                if (localStorage.getItem(STORAGE_TEMA) === 'light') {
+                    document.documentElement.classList.add('light');
+                    document.getElementById('icono-tema').innerText = '☀️';
+                }
+            } catch (e) {}
+        }
+
+        // ============================================================
+        // 18. RESTAURAR ESTADO GUARDADO
+        // ============================================================
+        function restaurarEstado() {
+            const campos = ['alumno-nombre', 'alumno-grupo', 'alumno-conclusion',
+                            'cuaderno-p1', 'cuaderno-p2', 'cuaderno-p3', 'cuaderno-p4'];
+            campos.forEach(id => {
+                const el = document.getElementById(id);
+                if (el && estado[id] !== undefined) el.value = estado[id];
             });
         }
+
+        // ============================================================
+        // 19. INICIALIZACIÓN
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarTema();
+            restaurarEstado();
+
+            // Render dinámico
+            renderNodosUrbanos();
+            renderTabsRutina();
+            renderSelectProfesiones();
+
+            // Estado inicial de IA
+            if (aiEnabled) {
+                // Refleja el estado del botón sin volver a alternar
+                const btn = document.getElementById('btn-toggle-ai');
+                const dot = document.getElementById('ai-status-dot');
+                const text = document.getElementById('ai-status-text');
+                btn.setAttribute('aria-pressed', 'true');
+                btn.className = "bg-teal-950 text-teal-200 border border-teal-500/50 hover:border-teal-400 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2";
+                dot.className = "w-2.5 h-2.5 rounded-full bg-teal-400 dot-active";
+                text.innerText = "Capa IA ACTIVADA (Simulando Impacto)";
+            }
+
+            // Cargar sector y rutina
+            seleccionarSectorUrbano(sectorActual, false);
+            cargarMomentoRutina(rutinaActual);
+
+            // Chart (espera a que Chart.js esté listo con defer)
+            const esperarChart = setInterval(() => {
+                if (typeof Chart !== 'undefined') {
+                    clearInterval(esperarChart);
+                    initProfesionChart();
+                    analizarProfesion();
+                }
+            }, 50);
+
+            // Listeners de inputs
+            const campos = ['alumno-nombre', 'alumno-grupo', 'alumno-conclusion',
+                            'cuaderno-p1', 'cuaderno-p2', 'cuaderno-p3', 'cuaderno-p4'];
+            campos.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('input', () => {
+                        actualizarFichaCuaderno();
+                        clearTimeout(window.__guardarTimeout);
+                        window.__guardarTimeout = setTimeout(guardarEstado, 500);
+                    });
+                }
+            });
+
+            // Select profesiones
+            const sel = document.getElementById('select-profesion');
+            if (sel) {
+                sel.addEventListener('change', () => {
+                    analizarProfesion();
+                    guardarEstado();
+                });
+            }
+
+            // Ficha inicial
+            actualizarFichaCuaderno();
+        });
     </script>
 </body>
 </html>
