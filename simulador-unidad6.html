@@ -1,1 +1,627 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unidad VI: Métricas, Presupuestos y Costos Ingenieriles | William Osler</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', 'Poppins', sans-serif; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 550px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 280px;
+        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans leading-relaxed min-h-screen flex flex-col selection:bg-sky-500 selection:text-white">
 
+    <!-- ENCABEZADO INSTITUCIONAL -->
+    <header class="bg-slate-950 border-b border-slate-800 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-sky-600/20 border border-sky-500/30 p-2 rounded-xl text-sky-400 font-bold text-sm tracking-wider">
+                    WM OSLER
+                </div>
+                <div>
+                    <h1 class="font-bold text-base sm:text-lg text-white tracking-wide">Unidad VI: Pensamiento Lógico, Métricas y Estimación de Costos</h1>
+                    <p class="text-xs text-slate-400">Cuantificación, Presupuestos en $ MXN, Retorno de Inversión y Problemas de Fermi</p>
+                </div>
+            </div>
+            <div class="text-right bg-slate-900/80 px-3.5 py-1.5 rounded-xl border border-slate-800 text-xs">
+                <p class="font-semibold text-sky-400">Catedrático: L.I. Luis Arturo López Vergara</p>
+                <p class="text-[10px] text-slate-400">Bachillerato • Zihuatanejo, Guerrero • Edición 2026</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- BARRA DE NAVEGACIÓN -->
+    <nav class="bg-slate-950/90 border-b border-slate-800 sticky top-[61px] z-40 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex overflow-x-auto space-x-2 py-2.5 text-xs font-semibold scrollbar-none">
+                <a href="index.html" class="py-1.5 px-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition whitespace-nowrap">
+                    🏠 Portal Hub
+                </a>
+                <button type="button" onclick="scrollToSection('seccion-preguntas-metricas')" class="py-1.5 px-3 rounded-lg text-amber-300 bg-amber-950/40 border border-amber-800/60 transition whitespace-nowrap font-bold">
+                    📝 1. Preguntas en Cuaderno
+                </button>
+                <button type="button" onclick="scrollToSection('simulador-presupuesto')" class="py-1.5 px-3 rounded-lg text-sky-300 bg-sky-950/50 border border-sky-800/60 transition whitespace-nowrap font-bold">
+                    💵 2. Calculadora $ MXN
+                </button>
+                <button type="button" onclick="scrollToSection('estimacion-fermi')" class="py-1.5 px-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition whitespace-nowrap">
+                    🧮 3. Estimaciones de Fermi
+                </button>
+                <button type="button" onclick="scrollToSection('analisis-acb')" class="py-1.5 px-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition whitespace-nowrap">
+                    📈 4. Retorno de Inversión (ROI)
+                </button>
+                <button type="button" onclick="scrollToSection('seccion-validador-cumplimiento')" class="py-1.5 px-3 rounded-lg text-red-300 bg-red-950/50 border border-red-800/60 transition whitespace-nowrap font-bold">
+                    🛡️ 5. Filtro de Revisión (100%)
+                </button>
+                <button type="button" onclick="scrollToSection('entregable-cuaderno-final')" class="py-1.5 px-3 rounded-lg text-teal-300 bg-teal-950/50 border border-teal-800/60 transition whitespace-nowrap font-bold">
+                    📌 6. Ficha Final para Cuaderno
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+
+        <!-- BANNER DE PROPÓSITO DE LA UNIDAD VI -->
+        <section class="bg-gradient-to-r from-slate-950 via-slate-900 to-sky-950/50 border border-sky-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+                <span class="bg-sky-500/20 text-sky-300 text-xs font-bold px-3 py-1 rounded-full border border-sky-500/30 uppercase tracking-wider">
+                    Unidad VI • Cuantificación y Economía Técnica
+                </span>
+                <span class="text-xs text-slate-400">Modalidad: Individual / Registro en Cuaderno</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+                "Un ingeniero no solo crea soluciones: calcula sus materiales, dimensiona costos y demuestra su viabilidad en dinero real"
+            </h2>
+            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-4xl">
+                En este módulo aprenderás a calcular presupuestos de proyectos en moneda nacional ($ MXN), realizar estimaciones de orden de magnitud para situaciones complejas, convertir unidades técnicas y calcular el **Tiempo de Retorno de Inversión (ROI)**.
+            </p>
+        </section>
+
+        <!-- BANNER DE ALERTA DE CUMPLIMIENTO OBLIGATORIO -->
+        <div id="alerta-filtro-revision" class="bg-red-950/80 border-2 border-red-500 p-4 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-xs shadow-lg">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl">⚠️</span>
+                <div>
+                    <span class="font-extrabold text-red-400 uppercase text-sm block">Criterio Estricto de Revisión del Catedrático</span>
+                    <p class="text-slate-200">Para que esta actividad sea evaluada, el alumno debe **cumplir obligatoriamente el 100% de los 5 pasos**. De lo contrario, **LA ACTIVIDAD NO SE REVISA**.</p>
+                </div>
+            </div>
+            <div class="bg-slate-900 px-4 py-2 rounded-xl border border-red-800/80 text-center">
+                <span class="text-[10px] text-slate-400 block uppercase font-bold">Porcentaje Actual</span>
+                <span id="porcentaje-cumplimiento-badge" class="font-black text-red-400 text-base">0%</span>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 1: PREGUNTAS DE MÉTRICAS Y PRESUPUESTOS PARA EL CUADERNO -->
+        <section id="seccion-preguntas-metricas" class="space-y-6 pt-2">
+            <div class="border-l-4 border-amber-500 pl-4">
+                <h3 class="text-xl font-bold text-white">1. Preguntas de Lógica Financiera y Métricas (Paso 1 Obligatorio)</h3>
+                <p class="text-xs text-slate-400 mt-1">Responde en tu cuaderno de notas estas 4 preguntas sobre costos e ingeniería económica.</p>
+            </div>
+
+            <div class="bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2">
+                        <span class="font-bold text-amber-400 text-xs uppercase block">Pregunta 1</span>
+                        <p class="text-slate-200 font-medium">¿Cuál es la diferencia entre el Costo Inicial de un prototipo y su Costo Operativo Mensual?</p>
+                        <textarea id="cuaderno-u6-p1" oninput="validarPasosYActualizar()" rows="2" placeholder="Explica la diferencia entre comprar componentes y mantenerlos funcionando..." class="w-full p-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-300 focus:ring-1 focus:ring-amber-500"></textarea>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2">
+                        <span class="font-bold text-amber-400 text-xs uppercase block">Pregunta 2</span>
+                        <p class="text-slate-200 font-medium">¿Qué es una Estimación de Orden de Magnitud (Problema de Fermi) y por qué le sirve a un ingeniero?</p>
+                        <textarea id="cuaderno-u6-p2" oninput="validarPasosYActualizar()" rows="2" placeholder="Explica cómo se hace un cálculo rápido aproximado cuando no hay datos exactos..." class="w-full p-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-300 focus:ring-1 focus:ring-amber-500"></textarea>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2">
+                        <span class="font-bold text-amber-400 text-xs uppercase block">Pregunta 3</span>
+                        <p class="text-slate-200 font-medium">¿Qué significa el concepto de Retorno de Inversión (ROI) en un proyecto técnico?</p>
+                        <textarea id="cuaderno-u6-p3" oninput="validarPasosYActualizar()" rows="2" placeholder="Explica en cuánto tiempo el ahorro generado paga la inversión inicial..." class="w-full p-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-300 focus:ring-1 focus:ring-amber-500"></textarea>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2">
+                        <span class="font-bold text-amber-400 text-xs uppercase block">Pregunta 4</span>
+                        <p class="text-slate-200 font-medium">¿Por qué un ingeniero debe cotizar materiales siempre considerando un margen de imprevistos (10% al 15%)?</p>
+                        <textarea id="cuaderno-u6-p4" oninput="validarPasosYActualizar()" rows="2" placeholder="Responde sobre fluctuaciones de precios en $ MXN, desperdicio o envíos..." class="w-full p-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-300 focus:ring-1 focus:ring-amber-500"></textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: CALCULADORA Y SIMULADOR DE PRESUPUESTO $ MXN -->
+        <section id="simulador-presupuesto" class="space-y-6 pt-2">
+            <div class="border-l-4 border-sky-500 pl-4">
+                <h3 class="text-xl font-bold text-white">2. Calculadora de Presupuestos de Prototipos en $ MXN (Paso 2 Obligatorio)</h3>
+                <p class="text-xs text-slate-400 mt-1">Selecciona el tipo de proyecto e ingresa el costo de los insumos para calcular la inversión total y el imprevisto técnico.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-slate-800 p-6 rounded-3xl border border-slate-700">
+                <!-- CONTROLES E INPUTS FINANCIEROS -->
+                <div class="lg:col-span-7 space-y-4 text-xs">
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">Selecciona el Tipo de Prototipo:</label>
+                        <select id="select-prototipo-costo" onchange="calcularPresupuestoMXN()" class="w-full p-2.5 bg-slate-950 text-slate-200 border border-slate-700 rounded-xl focus:ring-2 focus:ring-sky-500">
+                            <option value="hidrico">Sistema de Captación y Filtrado de Agua Pluvial</option>
+                            <option value="solar">Luminaria Solar Automatizada para Aulas</option>
+                            <option value="domotica">Sistema Domótico con Sensores IoT</option>
+                            <option value="software">Plataforma Web Educativa para Preparatoria</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-900 p-4 rounded-2xl border border-slate-800">
+                        <div>
+                            <label class="block font-semibold text-slate-300 mb-1">Materiales Físicos ($ MXN):</label>
+                            <input type="number" id="input-costo-mat" value="2500" oninput="calcularPresupuestoMXN()" class="w-full p-2 bg-slate-950 border border-slate-700 rounded-xl text-slate-200 font-mono">
+                        </div>
+
+                        <div>
+                            <label class="block font-semibold text-slate-300 mb-1">Licencias / Software ($ MXN):</label>
+                            <input type="number" id="input-costo-soft" value="400" oninput="calcularPresupuestoMXN()" class="w-full p-2 bg-slate-950 border border-slate-700 rounded-xl text-slate-200 font-mono">
+                        </div>
+
+                        <div>
+                            <label class="block font-semibold text-slate-300 mb-1">Mano de Obra / Ensamble ($ MXN):</label>
+                            <input type="number" id="input-costo-obra" value="1200" oninput="calcularPresupuestoMXN()" class="w-full p-2 bg-slate-950 border border-slate-700 rounded-xl text-slate-200 font-mono">
+                        </div>
+
+                        <div>
+                            <label class="block font-semibold text-slate-300 mb-1">Costo Operativo Mensual ($ MXN):</label>
+                            <input type="number" id="input-costo-ope" value="150" oninput="calcularPresupuestoMXN()" class="w-full p-2 bg-slate-950 border border-slate-700 rounded-xl text-slate-200 font-mono">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RESUMEN DE PRESUPUESTO RESULTANTE -->
+                <div class="lg:col-span-5 flex flex-col justify-between space-y-3 bg-slate-950 p-5 rounded-2xl border border-slate-800 text-xs">
+                    <div>
+                        <span class="text-[10px] font-bold text-sky-400 uppercase tracking-widest block mb-1">Resumen del Presupuesto</span>
+                        <h4 class="text-sm font-bold text-white border-b border-slate-800 pb-2">Desglose de Inversión</h4>
+                    </div>
+
+                    <div class="space-y-2 font-mono text-[11px]">
+                        <div class="flex justify-between text-slate-300">
+                            <span>Subtotal Insumos:</span>
+                            <span id="res-subtotal" class="text-white">$4,100.00 MXN</span>
+                        </div>
+                        <div class="flex justify-between text-amber-400">
+                            <span>Margen Imprevistos (15%):</span>
+                            <span id="res-imprevistos">$615.00 MXN</span>
+                        </div>
+                        <div class="flex justify-between text-emerald-400 font-bold border-t border-slate-800 pt-2 text-xs">
+                            <span>INVERSIÓN TOTAL INICIAL:</span>
+                            <span id="res-total-inicial">$4,715.00 MXN</span>
+                        </div>
+                        <div class="flex justify-between text-sky-300 pt-1">
+                            <span>Mantenimiento Anual Estimado:</span>
+                            <span id="res-manto-anual">$1,800.00 MXN</span>
+                        </div>
+                    </div>
+
+                    <div id="badge-presupuesto-status" class="p-2.5 rounded-xl bg-sky-950/50 border border-sky-500/40 text-sky-300 text-[11px] font-mono text-center">
+                        ✓ Presupuesto calculado correctamente
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: ESTIMACIONES DE ORDEN DE MAGNITUD (PROBLEMAS DE FERMI) -->
+        <section id="estimacion-fermi" class="space-y-6 pt-2">
+            <div class="border-l-4 border-amber-500 pl-4">
+                <h3 class="text-xl font-bold text-white">3. Laboratorio de Estimación de Orden de Magnitud (Paso 3 Obligatorio)</h3>
+                <p class="text-xs text-slate-400 mt-1">Aplica razonamiento lógico de aproximación rápida para cuantificar insumos sin mediciones exactas previo al proyecto.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                <div class="bg-slate-800 p-5 rounded-3xl border border-slate-700 space-y-2">
+                    <span class="text-2xl block">💧</span>
+                    <h4 class="font-bold text-white text-sm">Consumo Hídrico en la Escuela</h4>
+                    <p class="text-slate-300">Aproximación: 500 alumnos × 5 litros/día = 2,500 litros/día. Capacidad requerida de cisterna: 12,500 L para 5 días.</p>
+                </div>
+
+                <div class="bg-slate-800 p-5 rounded-3xl border border-slate-700 space-y-2">
+                    <span class="text-2xl block">💡</span>
+                    <h4 class="font-bold text-white text-sm">Carga Eléctrica de un Edificio</h4>
+                    <p class="text-slate-300">Aproximación: 12 aulas × 6 lámparas (40W) × 6 horas = 17.28 kWh/día. Permite calcular paneles solares necesarios.</p>
+                </div>
+
+                <div class="bg-slate-800 p-5 rounded-3xl border border-slate-700 space-y-2">
+                    <span class="text-2xl block">📱</span>
+                    <h4 class="font-bold text-white text-sm">Ancho de Banda de Laboratorio</h4>
+                    <p class="text-slate-300">Aproximación: 40 equipos × 2 Mbps promedio = 80 Mbps requeridos simultáneamente para evitar caída de red.</p>
+                </div>
+            </div>
+
+            <div class="text-right">
+                <label class="inline-flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-xl border border-slate-700 text-xs font-semibold cursor-pointer">
+                    <input type="checkbox" id="check-paso3-fermi" onchange="validarPasosYActualizar()" class="rounded text-sky-500 focus:ring-sky-500">
+                    <span>He analizado y verificado los ejercicios de estimación de orden de magnitud</span>
+                </label>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: ANÁLISIS COSTO-BENEFICIO Y RETORNO DE INVERSIÓN (ROI) -->
+        <section id="analisis-acb" class="space-y-6 pt-2">
+            <div class="border-l-4 border-purple-500 pl-4">
+                <h3 class="text-xl font-bold text-white">4. Análisis Costo-Beneficio (ACB) y Tiempo de Retorno (Paso 4 Obligatorio)</h3>
+                <p class="text-xs text-slate-400 mt-1">Evalúa en cuántos meses el ahorro mensual generado recupera la inversión inicial calculada.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-slate-800 p-6 rounded-3xl border border-slate-700 items-center">
+                <div class="lg:col-span-5 space-y-4 text-xs">
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">Ahorro Mensual Estimado que Genera el Proyecto ($ MXN):</label>
+                        <input type="number" id="input-ahorro-mensual" value="650" oninput="calcularROI()" class="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-200 font-mono">
+                    </div>
+
+                    <div id="roi-info-box" class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
+                        <!-- Carga dinámica -->
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 flex justify-center">
+                    <div class="chart-container">
+                        <canvas id="roiChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 5: VALIDADOR Y FILTRO DE CUMPLIMIENTO -->
+        <section id="seccion-validador-cumplimiento" class="bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-4 text-xs">
+            <div class="border-l-4 border-red-500 pl-3">
+                <h3 class="text-lg font-bold text-white">5. Lista de Verificación Obligatoria para Revisión del Profesor</h3>
+                <p class="text-slate-400">Verifica el cumplimiento de cada paso. **Si falta alguno, el estatus será "NO SE REVISA"**.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-3 pt-2">
+                <div id="status-card-1" class="p-3 rounded-2xl border bg-slate-900 border-slate-800 space-y-1">
+                    <span class="font-bold text-amber-400 block">Paso 1: Preguntas</span>
+                    <span id="st-text-1" class="text-[11px] text-red-400 block font-semibold">❌ Incompleto</span>
+                </div>
+
+                <div id="status-card-2" class="p-3 rounded-2xl border bg-slate-900 border-slate-800 space-y-1">
+                    <span class="font-bold text-sky-400 block">Paso 2: Presupuesto</span>
+                    <span id="st-text-2" class="text-[11px] text-emerald-400 block font-semibold">✅ Calculado</span>
+                </div>
+
+                <div id="status-card-3" class="p-3 rounded-2xl border bg-slate-900 border-slate-800 space-y-1">
+                    <span class="font-bold text-amber-400 block">Paso 3: Fermi</span>
+                    <span id="st-text-3" class="text-[11px] text-red-400 block font-semibold">❌ Pendiente</span>
+                </div>
+
+                <div id="status-card-4" class="p-3 rounded-2xl border bg-slate-900 border-slate-800 space-y-1">
+                    <span class="font-bold text-purple-400 block">Paso 4: ROI / ACB</span>
+                    <span id="st-text-4" class="text-[11px] text-emerald-400 block font-semibold">✅ Simulado</span>
+                </div>
+
+                <div id="status-card-5" class="p-3 rounded-2xl border bg-slate-900 border-slate-800 space-y-1">
+                    <span class="font-bold text-teal-400 block">Paso 5: Ficha Datos</span>
+                    <span id="st-text-5" class="text-[11px] text-red-400 block font-semibold">❌ Incompleto</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 6: ENTREGABLE PARA EL CUADERNO -->
+        <section id="entregable-cuaderno-final" class="space-y-6 pt-2">
+            <div class="border-l-4 border-teal-500 pl-4">
+                <h3 class="text-xl font-bold text-white">6. Ficha Resumen de Métricas y Presupuesto (Paso 5 Obligatorio)</h3>
+                <p class="text-xs text-slate-400 mt-1">Genera tu informe consolidado listo para transcribir a tu libreta de apuntes.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- FORMULARIO DE DATOS DEL ALUMNO -->
+                <div class="lg:col-span-4 bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-3 text-xs">
+                    <h4 class="font-bold text-white text-sm">✍️ Datos del Alumno</h4>
+
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">Nombre Completo:</label>
+                        <input type="text" id="alumno-nombre-u6" oninput="validarPasosYActualizar()" placeholder="Ej: Roberto Gómez Martínez" class="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-200">
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">Grupo de Bachillerato:</label>
+                        <input type="text" id="alumno-grupo-u6" oninput="validarPasosYActualizar()" placeholder="Ej: Grupo 601" class="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-200">
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">Conclusión sobre la Viabilidad Financiera del Prototipo:</label>
+                        <textarea id="alumno-conclusion-u6" oninput="validarPasosYActualizar()" rows="3" placeholder="Sintetiza en 2 renglones si el presupuesto es viable y cómo se justifica el gasto..." class="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-200"></textarea>
+                    </div>
+
+                    <button type="button" onclick="copiarFichaCuaderno()" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-2.5 rounded-xl shadow transition cursor-pointer">
+                        📋 Copiar Ficha Completa
+                    </button>
+                </div>
+
+                <!-- VISTA PREVIA FORMATO CUADERNO -->
+                <div class="lg:col-span-8 bg-slate-950 p-6 rounded-3xl border border-slate-800 flex flex-col justify-between space-y-4 shadow-xl">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                        <span class="text-xs font-bold text-teal-400 uppercase tracking-wider">Vista Previa - Transcripción a Cuaderno</span>
+                        <span class="text-[10px] text-slate-400">Universidad William Osler • 2026</span>
+                    </div>
+
+                    <div id="ficha-preview-u6" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 font-mono text-xs text-slate-300 leading-relaxed overflow-y-auto max-h-[360px] whitespace-pre-wrap">
+                        <!-- Se llena dinámicamente -->
+                    </div>
+
+                    <p class="text-[11px] text-slate-400">
+                        📌 Copia esta ficha consolidada en tu libreta de tareas para la revisión presencial de la Unidad VI.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- PIE INSTITUCIONAL -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-6 mt-12 text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p>Universidad William Osler • Programa Académico Bachillerato</p>
+            <p class="text-slate-400 font-medium">Catedrático: L.I. Luis Arturo López Vergara • Zihuatanejo, Guerrero</p>
+        </div>
+    </footer>
+
+    <!-- LÓGICA JAVASCRIPT INTEGRADA -->
+    <script>
+        let roiChart = null;
+        let presupuestoSimulado = false;
+        let totalInicialGlobal = 0;
+        let mesesRoiGlobal = 0;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            initROIChart();
+            calcularPresupuestoMXN();
+            validarPasosYActualizar();
+        });
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function initROIChart() {
+            const ctx = document.getElementById('roiChart').getContext('2d');
+            roiChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Mes 0', 'Mes 3', 'Mes 6', 'Mes 9', 'Mes 12', 'Mes 18', 'Mes 24'],
+                    datasets: [
+                        {
+                            label: 'Inversión Total Acumulada ($ MXN)',
+                            data: [4715, 5165, 5615, 6065, 6515, 7415, 8315],
+                            borderColor: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            borderWidth: 2,
+                            fill: true
+                        },
+                        {
+                            label: 'Ahorro Acumulado Generado ($ MXN)',
+                            data: [0, 1950, 3900, 5850, 7800, 11700, 15600],
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            borderWidth: 2,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8', font: { size: 9 } } },
+                        y: { grid: { color: '#1e293b' }, ticks: { color: '#94a3b8', font: { size: 9 } } }
+                    },
+                    plugins: { legend: { labels: { color: '#cbd5e1', font: { size: 10 } } } }
+                }
+            });
+        }
+
+        function calcularPresupuestoMXN() {
+            presupuestoSimulado = true;
+            const mat = parseFloat(document.getElementById('input-costo-mat').value) || 0;
+            const soft = parseFloat(document.getElementById('input-costo-soft').value) || 0;
+            const obra = parseFloat(document.getElementById('input-costo-obra').value) || 0;
+            const ope = parseFloat(document.getElementById('input-costo-ope').value) || 0;
+
+            const subtotal = mat + soft + obra;
+            const imprevistos = subtotal * 0.15;
+            totalInicialGlobal = subtotal + imprevistos;
+            const mantoAnual = ope * 12;
+
+            document.getElementById('res-subtotal').innerText = `$${subtotal.toLocaleString('es-MX', {minimumFractionDigits: 2})} MXN`;
+            document.getElementById('res-imprevistos').innerText = `$${imprevistos.toLocaleString('es-MX', {minimumFractionDigits: 2})} MXN`;
+            document.getElementById('res-total-inicial').innerText = `$${totalInicialGlobal.toLocaleString('es-MX', {minimumFractionDigits: 2})} MXN`;
+            document.getElementById('res-manto-anual').innerText = `$${mantoAnual.toLocaleString('es-MX', {minimumFractionDigits: 2})} MXN`;
+
+            calcularROI();
+        }
+
+        function calcularROI() {
+            const ahorroMensual = parseFloat(document.getElementById('input-ahorro-mensual').value) || 1;
+            const opeMensual = parseFloat(document.getElementById('input-costo-ope').value) || 0;
+            const ahorroNetoMensual = ahorroMensual - opeMensual;
+
+            if (ahorroNetoMensual <= 0) {
+                mesesRoiGlobal = 999;
+            } else {
+                mesesRoiGlobal = Math.ceil(totalInicialGlobal / ahorroNetoMensual);
+            }
+
+            const infoBox = document.getElementById('roi-info-box');
+            if (mesesRoiGlobal <= 24) {
+                infoBox.className = "bg-emerald-950/40 border border-emerald-500/40 p-4 rounded-2xl text-emerald-300 space-y-1 font-mono text-xs";
+                infoBox.innerHTML = `
+                    <span class="font-bold text-sm block">✅ PROYECTO VIABLE FINANCIERAMENTE</span>
+                    <span>• Tiempo de Retorno de Inversión (ROI): <strong>${mesesRoiGlobal} meses</strong>.</span><br>
+                    <span>• Ahorro Neto Mensual: $${ahorroNetoMensual.toLocaleString('es-MX')} MXN.</span>
+                `;
+            } else {
+                infoBox.className = "bg-amber-950/40 border border-amber-500/40 p-4 rounded-2xl text-amber-300 space-y-1 font-mono text-xs";
+                infoBox.innerHTML = `
+                    <span class="font-bold text-sm block">⚠️ RETORNO LENTO O RIESGO FINANCIERO</span>
+                    <span>• El tiempo de retorno supera los 24 meses (${mesesRoiGlobal} meses estimados).</span><br>
+                    <span>• Se sugiere reducir costo de materiales o incrementar la eficiencia del prototipo.</span>
+                `;
+            }
+
+            if (roiChart) {
+                const mesesArr = [0, 3, 6, 9, 12, 18, 24];
+                const inversiAcum = mesesArr.map(m => totalInicialGlobal + (opeMensual * m));
+                const ahorroAcum = mesesArr.map(m => ahorroMensual * m);
+
+                roiChart.data.datasets[0].data = inversiAcum;
+                roiChart.data.datasets[1].data = ahorroAcum;
+                roiChart.update();
+            }
+
+            validarPasosYActualizar();
+        }
+
+        function validarPasosYActualizar() {
+            const p1 = document.getElementById('cuaderno-u6-p1').value.trim();
+            const p2 = document.getElementById('cuaderno-u6-p2').value.trim();
+            const p3 = document.getElementById('cuaderno-u6-p3').value.trim();
+            const p4 = document.getElementById('cuaderno-u6-p4').value.trim();
+
+            const paso1Ok = (p1.length > 5 && p2.length > 5 && p3.length > 5 && p4.length > 5);
+            const paso2Ok = presupuestoSimulado;
+            const paso3Ok = document.getElementById('check-paso3-fermi').checked;
+            const paso4Ok = (mesesRoiGlobal > 0);
+
+            const nombre = document.getElementById('alumno-nombre-u6').value.trim();
+            const grupo = document.getElementById('alumno-grupo-u6').value.trim();
+            const conclusion = document.getElementById('alumno-conclusion-u6').value.trim();
+            const paso5Ok = (nombre.length > 3 && grupo.length >= 2 && conclusion.length > 5);
+
+            actualizarEstadoPaso('st-text-1', 'status-card-1', paso1Ok);
+            actualizarEstadoPaso('st-text-2', 'status-card-2', paso2Ok);
+            actualizarEstadoPaso('st-text-3', 'status-card-3', paso3Ok);
+            actualizarEstadoPaso('st-text-4', 'status-card-4', paso4Ok);
+            actualizarEstadoPaso('st-text-5', 'status-card-5', paso5Ok);
+
+            let total = 0;
+            if (paso1Ok) total += 20;
+            if (paso2Ok) total += 20;
+            if (paso3Ok) total += 20;
+            if (paso4Ok) total += 20;
+            if (paso5Ok) total += 20;
+
+            const badge = document.getElementById('porcentaje-cumplimiento-badge');
+            badge.innerText = `${total}%`;
+
+            if (total === 100) {
+                badge.className = "font-black text-emerald-400 text-base animate-pulse";
+            } else {
+                badge.className = "font-black text-red-400 text-base";
+            }
+
+            actualizarFichaCuaderno(total);
+        }
+
+        function actualizarEstadoPaso(textId, cardId, ok) {
+            const txt = document.getElementById(textId);
+            const card = document.getElementById(cardId);
+            if (ok) {
+                txt.innerText = "✅ Cumplido";
+                txt.className = "text-[11px] text-emerald-400 block font-semibold";
+                card.className = "p-3 rounded-2xl border bg-emerald-950/20 border-emerald-500/40 space-y-1";
+            } else {
+                txt.innerText = "❌ Pendiente";
+                txt.className = "text-[11px] text-red-400 block font-semibold";
+                card.className = "p-3 rounded-2xl border bg-slate-900 border-slate-800 space-y-1";
+            }
+        }
+
+        function actualizarFichaCuaderno(totalPorcentaje) {
+            const nombre = document.getElementById('alumno-nombre-u6').value || "[Tu Nombre]";
+            const grupo = document.getElementById('alumno-grupo-u6').value || "[Tu Grupo]";
+            const p1 = document.getElementById('cuaderno-u6-p1').value || "(Pendiente de responder)";
+            const p2 = document.getElementById('cuaderno-u6-p2').value || "(Pendiente de responder)";
+            const p3 = document.getElementById('cuaderno-u6-p3').value || "(Pendiente de responder)";
+            const p4 = document.getElementById('cuaderno-u6-p4').value || "(Pendiente de responder)";
+            const conc = document.getElementById('alumno-conclusion-u6').value || "(Escribe tu conclusión de viabilidad)";
+
+            const prototipoText = document.getElementById('select-prototipo-costo').options[document.getElementById('select-prototipo-costo').selectedIndex].text;
+            const ahorroMensual = document.getElementById('input-ahorro-mensual').value;
+
+            const estatusRevision = (totalPorcentaje === 100)
+                ? "🟢 ESTATUS DE REVISIÓN: [ CUMPLIÓ EL 100% DE PASOS - ACTIVIDAD HABILITADA PARA REVISIÓN ]"
+                : "🔴 ESTATUS DE REVISIÓN: [ INCOMPLETO - ACTIVIDAD NO SE REVISA HASTA ALCANZAR EL 100% ]";
+
+            const text = `=======================================================
+FICHA DE PRESUPUESTOS Y MÉTRICAS INGENIERILES - UNIDAD VI
+Universidad William Osler • Bachillerato (Edición 2026)
+Catedrático: L.I. Luis Arturo López Vergara
+=======================================================
+DATOS DEL ESTUDIANTE:
+• Nombre: ${nombre}
+• Grupo: ${grupo}
+• Fecha: ${new Date().toLocaleDateString('es-MX')}
+
+${estatusRevision}
+
+-------------------------------------------------------
+BLOQUE 1: RESPUESTAS DE LÓGICA Y MÉTRICAS EN CUADERNO
+-------------------------------------------------------
+1. Costo Inicial vs Costo Operativo Mensual:
+   R: ${p1}
+
+2. Utilidad de las Estimaciones de Fermi:
+   R: ${p2}
+
+3. Concepto de Retorno de Inversión (ROI):
+   R: ${p3}
+
+4. Margen de Imprevistos (10%-15%):
+   R: ${p4}
+
+-------------------------------------------------------
+BLOQUE 2: PRESUPUESTO DEL PROTOTIPO ($ MXN)
+-------------------------------------------------------
+• Prototipo Evaludo: ${prototipoText}
+• Inversión Total Inicial (con 15% imprevistos): $${totalInicialGlobal.toLocaleString('es-MX', {minimumFractionDigits: 2})} MXN
+• Mantenimiento Operativo Anual: $${(parseFloat(document.getElementById('input-costo-ope').value || 0) * 12).toLocaleString('es-MX', {minimumFractionDigits: 2})} MXN
+
+-------------------------------------------------------
+BLOQUE 3: ANÁLISIS DE RETORNO DE INVERSIÓN (ROI)
+-------------------------------------------------------
+• Ahorro Mensual Proyectado: $${parseFloat(ahorroMensual).toLocaleString('es-MX')} MXN
+• Tiempo de Retorno Calculado (ROI): ${mesesRoiGlobal} meses
+• Diagnóstico Financiero: ${mesesRoiGlobal <= 24 ? 'Proyecto Viable' : 'Retorno Lento / Evaluar Reducción de Insumos'}
+
+-------------------------------------------------------
+BLOQUE 4: CONCLUSIÓN DE VIABILIDAD DEL ESTUDIANTE
+-------------------------------------------------------
+"${conc}"
+=======================================================`;
+
+            document.getElementById('ficha-preview-u6').innerText = text;
+        }
+
+        function copiarFichaCuaderno() {
+            const text = document.getElementById('ficha-preview-u6').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("¡Ficha de Unidad VI copiada con éxito! Transcríbela o pégala en tu libreta de apuntes.");
+            });
+        }
+    </script>
+</body>
+</html>
