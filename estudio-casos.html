@@ -1,1 +1,598 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo Especial: Análisis Post-Mortem de Fallas en Ingeniería | William Osler</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', 'Poppins', sans-serif; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 280px;
+        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans leading-relaxed min-h-screen flex flex-col selection:bg-rose-500 selection:text-white">
 
+    <!-- ENCABEZADO INSTITUCIONAL -->
+    <header class="bg-slate-950 border-b border-slate-800 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-rose-600/20 border border-rose-500/30 p-2 rounded-xl text-rose-400 font-bold text-sm tracking-wider">
+                    WM OSLER & UAGRO
+                </div>
+                <div>
+                    <h1 class="font-bold text-base sm:text-lg text-white tracking-wide">Módulo Especial: Análisis Forense de Fallas en Ingeniería</h1>
+                    <p class="text-xs text-slate-400">Análisis Post-Mortem, Causa Raíz, Lecciones Aprendidas y Peritaje Técnico</p>
+                </div>
+            </div>
+            <div class="text-right bg-slate-900/80 px-3.5 py-1.5 rounded-xl border border-slate-800 text-xs">
+                <p class="font-semibold text-rose-400">Catedrático: L.I. Luis Arturo López Vergara</p>
+                <p class="text-[10px] text-slate-400">Bachillerato • Zihuatanejo, Guerrero • Edición 2026</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- BARRA DE NAVEGACIÓN -->
+    <nav class="bg-slate-950/90 border-b border-slate-800 sticky top-[61px] z-40 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex overflow-x-auto space-x-2 py-2.5 text-xs font-semibold scrollbar-none">
+                <a href="index.html" class="py-1.5 px-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition whitespace-nowrap">
+                    🏠 Portal Hub
+                </a>
+                <button type="button" onclick="scrollToSection('seccion-preguntas-fallas')" class="py-1.5 px-3 rounded-lg text-amber-300 bg-amber-950/40 border border-amber-800/60 transition whitespace-nowrap font-bold">
+                    📝 1. Preguntas en Cuaderno
+                </button>
+                <button type="button" onclick="scrollToSection('laboratorio-forense')" class="py-1.5 px-3 rounded-lg text-rose-300 bg-rose-950/50 border border-rose-800/60 transition whitespace-nowrap font-bold">
+                    🔬 2. Casos de Estudio
+                </button>
+                <button type="button" onclick="scrollToSection('seccion-causa-raiz')" class="py-1.5 px-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition whitespace-nowrap">
+                    📊 3. Desglose Causa Raíz
+                </button>
+                <button type="button" onclick="scrollToSection('seccion-protocolo-preventivo')" class="py-1.5 px-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition whitespace-nowrap">
+                    🛡️ 4. Protocolo Preventivo
+                </button>
+                <button type="button" onclick="scrollToSection('seccion-validador-cumplimiento')" class="py-1.5 px-3 rounded-lg text-red-300 bg-red-950/50 border border-red-800/60 transition whitespace-nowrap font-bold">
+                    🚨 5. Filtro de Revisión (100%)
+                </button>
+                <button type="button" onclick="scrollToSection('entregable-cuaderno-final')" class="py-1.5 px-3 rounded-lg text-teal-300 bg-teal-950/50 border border-teal-800/60 transition whitespace-nowrap font-bold">
+                    📌 6. Ficha Final para Cuaderno
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+
+        <!-- BANNER DE PROPÓSITO DEL MÓDULO ESPECIAL -->
+        <section class="bg-gradient-to-r from-slate-950 via-slate-900 to-rose-950/50 border border-rose-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+                <span class="bg-rose-500/20 text-rose-300 text-xs font-bold px-3 py-1 rounded-full border border-rose-500/30 uppercase tracking-wider">
+                    Módulo Especial • Peritaje Técnico e Ingeniería Forense
+                </span>
+                <span class="text-xs text-slate-400">Modalidad: Individual / Registro en Cuaderno</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+                "La ingeniería avanza reconociendo sus errores: estudiar los colapsos del pasado previene los desastres del futuro"
+            </h2>
+            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-4xl">
+                En este laboratorio forense analizarás fallas catastróficas reales provocadas por omisiones de diseño, desbordamiento de datos en software, falta de redundancia o fallas en el control de calidad. Evalúa sus causas raíz y redacta el informe de peritaje técnico para tu libreta.
+            </p>
+        </section>
+
+        <!-- BANNER DE ALERTA DE CUMPLIMIENTO OBLIGATORIO -->
+        <div id="alerta-filtro-revision" class="bg-red-950/80 border-2 border-red-500 p-4 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-xs shadow-lg">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl">🚨</span>
+                <div>
+                    <span class="font-extrabold text-red-400 uppercase text-sm block">Criterio Estricto de Revisión del Catedrático</span>
+                    <p class="text-slate-200">Para que esta actividad sea evaluada, el alumno debe **cumplir obligatoriamente el 100% de los 5 pasos**. De lo contrario, **LA ACTIVIDAD NO SE REVISA**.</p>
+                </div>
+            </div>
+            <div class="bg-slate-900 px-4 py-2 rounded-xl border border-red-800/80 text-center">
+                <span class="text-[10px] text-slate-400 block uppercase font-bold">Porcentaje Actual</span>
+                <span id="porcentaje-cumplimiento-badge" class="font-black text-red-400 text-base">0%</span>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 1: PREGUNTAS DE ANÁLISIS FORENSE PARA EL CUADERNO -->
+        <section id="seccion-preguntas-fallas" class="space-y-6 pt-2">
+            <div class="border-l-4 border-amber-500 pl-4">
+                <h3 class="text-xl font-bold text-white">1. Preguntas de Análisis Forense y Lecciones Aprendidas (Paso 1 Obligatorio)</h3>
+                <p class="text-xs text-slate-400 mt-1">Responde en tu cuaderno de notas estas 4 preguntas reflexivas sobre el error en ingeniería.</p>
+            </div>
+
+            <div class="bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2">
+                        <span class="font-bold text-amber-400 text-xs uppercase block">Pregunta 1</span>
+                        <p class="text-slate-200 font-medium">¿Por qué se afirma que las grandes innovaciones ingenieriles han surgido del análisis profundo de sus fallas?</p>
+                        <textarea id="cuaderno-casos-p1" oninput="validarPasosYActualizar()" rows="2" placeholder="Explica la importancia de la investigación post-mortem en normativas y seguridad..." class="w-full p-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-300 focus:ring-1 focus:ring-amber-500"></textarea>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2">
+                        <span class="font-bold text-amber-400 text-xs uppercase block">Pregunta 2</span>
+                        <p class="text-slate-200 font-medium">¿Cuál es la diferencia entre una falla por 'error de diseño' y una falla por 'falta de pruebas/simulación'?</p>
+                        <textarea id="cuaderno-casos-p2" oninput="validarPasosYActualizar()" rows="2" placeholder="Diferencia entre calcular mal la física y omitir la validación previa en escenarios reales..." class="w-full p-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-300 focus:ring-1 focus:ring-amber-500"></textarea>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2">
+                        <span class="font-bold text-amber-400 text-xs uppercase block">Pregunta 3</span>
+                        <p class="text-slate-200 font-medium">En software crítico (aviación, medicina, energía), ¿qué consecuencias puede tener la reutilización de código no probado?</p>
+                        <textarea id="cuaderno-casos-p3" oninput="validarPasosYActualizar()" rows="2" placeholder="Menciona el riesgo de asumir que un programa funciona igual en entornos distintos..." class="w-full p-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-300 focus:ring-1 focus:ring-amber-500"></textarea>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2">
+                        <span class="font-bold text-amber-400 text-xs uppercase block">Pregunta 4</span>
+                        <p class="text-slate-200 font-medium">¿Qué es el 'Factor de Redundancia' e 'Inmunidad a Fallas' en un proyecto técnico?</p>
+                        <textarea id="cuaderno-casos-p4" oninput="validarPasosYActualizar()" rows="2" placeholder="Responde sobre la presencia de sistemas de respaldo cuando el principal colapsa..." class="w-full p-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-300 focus:ring-1 focus:ring-amber-500"></textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: LABORATORIO FORENSE DE CASOS EMBLEMÁTICOS -->
+        <section id="laboratorio-forense" class="space-y-6 pt-2">
+            <div class="border-l-4 border-rose-500 pl-4">
+                <h3 class="text-xl font-bold text-white">2. Laboratorio Forense de Casos Emblemáticos (Paso 2 Obligatorio)</h3>
+                <p class="text-xs text-slate-400 mt-1">Selecciona una falla histórica para estudiar la cronología del colapso, el mecanismo de falla y la lección aprendida.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-slate-800 p-6 rounded-3xl border border-slate-700">
+                <!-- CONTROLES Y SELECTOR DE CASOS -->
+                <div class="lg:col-span-5 space-y-4 text-xs">
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">Selecciona el Caso de Peritaje Técnico:</label>
+                        <select id="select-caso-fallas" onchange="cargarCasoFalla()" class="w-full p-2.5 bg-slate-950 text-slate-200 border border-slate-700 rounded-xl focus:ring-2 focus:ring-rose-500">
+                            <option value="tacoma">1. Puente Tacoma Narrows (1940) • Ing. Civil (Aeroelasticidad)</option>
+                            <option value="ariane">2. Cohete Ariane 5 (1996) • Ing. Sistemas (Desbordamiento de Entero)</option>
+                            <option value="deepwater">3. Plataforma Deepwater Horizon (2010) • Ing. Petróleos/Mecánica</option>
+                            <option value="chernobyl">4. Reactor Chernóbil (1986) • Ing. Industrial/Nuclear (Falla Procedimental)</option>
+                        </select>
+                    </div>
+
+                    <div id="panel-caso-detalles" class="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-3">
+                        <!-- Carga dinámica -->
+                    </div>
+                </div>
+
+                <!-- CRONOLOGÍA Y MECANISMO TÉCNICO -->
+                <div class="lg:col-span-7 flex flex-col justify-between space-y-4 bg-slate-950 p-5 rounded-2xl border border-slate-800 text-xs">
+                    <div>
+                        <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                            <h4 id="caso-cronologia-titulo" class="font-bold text-rose-400 text-sm">Secuencia de Eventos del Colapso</h4>
+                            <span id="caso-rama-badge" class="bg-rose-950/80 text-rose-300 font-mono text-[10px] px-2 py-0.5 rounded border border-rose-800">Ingeniería Civil</span>
+                        </div>
+                        <p id="caso-cronologia-texto" class="text-slate-300 mt-2 leading-relaxed">
+                            Carga de secuencia cronológica...
+                        </p>
+                    </div>
+
+                    <div class="p-3.5 bg-slate-900 rounded-xl border border-slate-800 space-y-1 font-mono text-[11px]">
+                        <span class="text-amber-400 font-bold block">💡 Lección Adoptada por la Industria:</span>
+                        <p id="caso-leccion-texto" class="text-slate-300">
+                            Carga de lección aprendida...
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: DESGLOSE DE CAUSA RAÍZ -->
+        <section id="seccion-causa-raiz" class="space-y-6 pt-2">
+            <div class="border-l-4 border-purple-500 pl-4">
+                <h3 class="text-xl font-bold text-white">3. Análisis Multidimensional de Causa Raíz (Paso 3 Obligatorio)</h3>
+                <p class="text-xs text-slate-400 mt-1">Visualiza la ponderación de factores que desencadenaron la falla del caso seleccionado.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-slate-800 p-6 rounded-3xl border border-slate-700 items-center">
+                <div class="lg:col-span-5 space-y-3 text-xs">
+                    <h4 class="font-bold text-white text-sm border-b border-slate-700 pb-2">Distribución de Responsabilidades Técnicas</h4>
+                    <div id="causa-raiz-lista" class="space-y-2 text-slate-300 font-mono text-[11px]">
+                        <!-- Carga dinámica de factores -->
+                    </div>
+                    <div class="pt-2">
+                        <label class="inline-flex items-center gap-2 bg-slate-900 p-3 rounded-xl border border-slate-700 text-xs font-semibold cursor-pointer w-full">
+                            <input type="checkbox" id="check-paso3-causa" onchange="validarPasosYActualizar()" class="rounded text-rose-500 focus:ring-rose-500">
+                            <span>He analizado la matriz de causa raíz del caso elegido</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 flex justify-center">
+                    <div class="chart-container">
+                        <canvas id="causaRaizChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: PROTOCOLO PREVENTIVO Y SOLUCIÓN ASISTIDA POR IA -->
+        <section id="seccion-protocolo-preventivo" class="space-y-6 pt-2">
+            <div class="border-l-4 border-sky-500 pl-4">
+                <h3 class="text-xl font-bold text-white">4. Propuesta de Protocolo Preventivo de Seguridad (Paso 4 Obligatorio)</h3>
+                <p class="text-xs text-slate-400 mt-1">Como ingeniero perito, redacta la norma o prueba técnica que habría evitado la catástrofe.</p>
+            </div>
+
+            <div class="bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-4 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-300 mb-1">Medida Preventiva o Prueba de Validación Sugerida:</label>
+                    <textarea id="input-protocolo-preventivo" oninput="validarPasosYActualizar()" rows="3" placeholder="Describe la prueba de laboratorio, simulación por software o redundancia que debe implementarse obligatoriamente..." class="w-full p-3 bg-slate-950 border border-slate-700 rounded-xl text-slate-200 focus:ring-2 focus:ring-sky-500"></textarea>
+                </div>
+
+                <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
+                    <span class="text-sky-400 font-bold block">🤖 Prompt Recomendado para Auditoría de Seguridad con IA:</span>
+                    <p class="font-mono text-[11px] text-slate-300 leading-relaxed bg-slate-900 p-3 rounded-xl border border-slate-800">
+                        "Actúa como Perito Técnico de Seguridad en Ingeniería. Revisa mi propuesta para prevenir la falla del [CASO SELECCIONADO]. Identifica posibles puntos ciegos, normas aplicables (ISO/NOM) y sugiere pruebas de simulación indispensables antes de la puesta en marcha."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 5: VALIDADOR Y FILTRO DE CUMPLIMIENTO -->
+        <section id="seccion-validador-cumplimiento" class="bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-4 text-xs">
+            <div class="border-l-4 border-red-500 pl-3">
+                <h3 class="text-lg font-bold text-white">5. Lista de Verificación Obligatoria para Revisión del Profesor</h3>
+                <p class="text-slate-400">Verifica el cumplimiento de cada paso. **Si falta alguno, el estatus será "NO SE REVISA"**.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-3 pt-2">
+                <div id="status-card-1" class="p-3 rounded-2xl border bg-slate-900 border-slate-800 space-y-1">
+                    <span class="font-bold text-amber-400 block">Paso 1: Preguntas</span>
+                    <span id="st-text-1" class="text-[11px] text-red-400 block font-semibold">❌ Incompleto</span>
+                </div>
+
+                <div id="status-card-2" class="p-3 rounded-2xl border bg-slate-900 border-slate-800 space-y-1">
+                    <span class="font-bold text-rose-400 block">Paso 2: Caso Seleccionado</span>
+                    <span id="st-text-2" class="text-[11px] text-emerald-400 block font-semibold">✅ Cargado</span>
+                </div>
+
+                <div id="status-card-3" class="p-3 rounded-2xl border bg-slate-900 border-slate-800 space-y-1">
+                    <span class="font-bold text-purple-400 block">Paso 3: Causa Raíz</span>
+                    <span id="st-text-3" class="text-[11px] text-red-400 block font-semibold">❌ Pendiente</span>
+                </div>
+
+                <div id="status-card-4" class="p-3 rounded-2xl border bg-slate-900 border-slate-800 space-y-1">
+                    <span class="font-bold text-sky-400 block">Paso 4: Protocolo</span>
+                    <span id="st-text-4" class="text-[11px] text-red-400 block font-semibold">❌ Incompleto</span>
+                </div>
+
+                <div id="status-card-5" class="p-3 rounded-2xl border bg-slate-900 border-slate-800 space-y-1">
+                    <span class="font-bold text-teal-400 block">Paso 5: Ficha Datos</span>
+                    <span id="st-text-5" class="text-[11px] text-red-400 block font-semibold">❌ Incompleto</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 6: ENTREGABLE PARA EL CUADERNO -->
+        <section id="entregable-cuaderno-final" class="space-y-6 pt-2">
+            <div class="border-l-4 border-teal-500 pl-4">
+                <h3 class="text-xl font-bold text-white">6. Ficha Resumen de Peritaje Técnico (Paso 5 Obligatorio)</h3>
+                <p class="text-xs text-slate-400 mt-1">Genera tu informe consolidado listo para transcribir a tu libreta de apuntes.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- FORMULARIO DE DATOS DEL ALUMNO -->
+                <div class="lg:col-span-4 bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-3 text-xs">
+                    <h4 class="font-bold text-white text-sm">✍️ Datos del Alumno</h4>
+
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">Nombre Completo:</label>
+                        <input type="text" id="alumno-nombre-casos" oninput="validarPasosYActualizar()" placeholder="Ej: Ana María Sánchez" class="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-200">
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">Grupo de Bachillerato:</label>
+                        <input type="text" id="alumno-grupo-casos" oninput="validarPasosYActualizar()" placeholder="Ej: Grupo 602" class="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-200">
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">Dictamen del Perito Estudiantil:</label>
+                        <textarea id="alumno-dictamen-casos" oninput="validarPasosYActualizar()" rows="3" placeholder="Sintetiza en 2 renglones la conclusión del peritaje y la lección ética/técnica..." class="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-200"></textarea>
+                    </div>
+
+                    <button type="button" onclick="copiarFichaCuaderno()" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-2.5 rounded-xl shadow transition cursor-pointer">
+                        📋 Copiar Ficha Completa
+                    </button>
+                </div>
+
+                <!-- VISTA PREVIA FORMATO CUADERNO -->
+                <div class="lg:col-span-8 bg-slate-950 p-6 rounded-3xl border border-slate-800 flex flex-col justify-between space-y-4 shadow-xl">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                        <span class="text-xs font-bold text-teal-400 uppercase tracking-wider">Vista Previa - Transcripción a Cuaderno</span>
+                        <span class="text-[10px] text-slate-400">Universidad William Osler & UAGRO • 2026</span>
+                    </div>
+
+                    <div id="ficha-preview-casos" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 font-mono text-xs text-slate-300 leading-relaxed overflow-y-auto max-h-[360px] whitespace-pre-wrap">
+                        <!-- Se llena dinámicamente -->
+                    </div>
+
+                    <p class="text-[11px] text-slate-400">
+                        📌 Copia esta ficha consolidada en tu libreta de tareas para la revisión presencial del Módulo Especial de Fallas.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- PIE INSTITUCIONAL -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-6 mt-12 text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p>Universidad William Osler & UAGRO • Programa Académico Bachillerato</p>
+            <p class="text-slate-400 font-medium">Catedrático: L.I. Luis Arturo López Vergara • Zihuatanejo, Guerrero</p>
+        </div>
+    </footer>
+
+    <!-- LÓGICA JAVASCRIPT INTEGRADA -->
+    <script>
+        let causaRaizChart = null;
+        let casoCargado = true;
+
+        const casosData = {
+            tacoma: {
+                titulo: "Puente Tacoma Narrows (1940)",
+                rama: "Ingeniería Civil / Estructural",
+                mecanismo: "Flameo aerodinámico (resonancia aeroelástica) provocado por vientos de 68 km/h al no considerar la flexibilidad torsional del tablero de viga continua.",
+                cronologia: "07:00 AM: Vientos moderados generan ondular vertical. 09:30 AM: La torsión se amplifica violentamente alcanzando ángulos de 45°. 11:00 AM: Colapso del tramo central.",
+                leccion: "Implementación obligatoria de pruebas de túnel de viento para diseños de puentes colgantes y secciones aerodinámicas abiertas.",
+                factores: [
+                    { nombre: 'Omisión de pruebas aerodinámicas', porc: 45 },
+                    { nombre: 'Flexibilidad excesiva del tablero', porc: 30 },
+                    { nombre: 'Materiales rígidos no disipativos', porc: 15 },
+                    { nombre: 'Falta de normatividad eólica', porc: 10 }
+                ]
+            },
+            ariane: {
+                titulo: "Cohete Ariane 5 - Vuelo 501 (1996)",
+                rama: "Ingeniería en Sistemas / Software",
+                mecanismo: "Desbordamiento de entero (Integer Overflow). La conversión de un número flotante de 64 bits a un entero de 16 bits sin protección provocó una excepción no capturada en el sistema inercial.",
+                cronologia: "00:30s: Despegue nominal. 00:36s: El software del Ariane 4 reutilizado genera fallo por aceleración superior. 00:39s: Autodestrucción automática por pérdida de rumbo.",
+                leccion: "Cero suposiciones al reutilizar código de versiones anteriores. Pruebas de simulación de bordes de datos y manejo obligatorio de excepciones críticas.",
+                factores: [
+                    { nombre: 'Reutilización no probada de código', porc: 40 },
+                    { nombre: 'Falta de manejo de excepciones', porc: 35 },
+                    { nombre: 'Simulación de vuelo incompleta', porc: 15 },
+                    { nombre: 'Diseño de pruebas de bordes débil', porc: 10 }
+                ]
+            },
+            deepwater: {
+                titulo: "Plataforma Deepwater Horizon (2010)",
+                rama: "Ingeniería en Petróleos / Mecánica",
+                mecanismo: "Falla de la válvula de prevención de reventones (BOP) e interpretación errónea de pruebas de presión negativa en el pozo marino.",
+                cronologia: "20:00 PM: Inyección de cemento defectuosa. 21:40 PM: Fuga de metano alcanza el puente principal generando explosión. Falla del sellado submarino.",
+                leccion: "Independencia de los sistemas de seguridad, auditorías estrictas de cementación y redundancia triple en sistemas hidráulicos submarinos.",
+                factores: [
+                    { nombre: 'Interpretación de pruebas errónea', porc: 35 },
+                    { nombre: 'Falla mecánica de la válvula BOP', porc: 30 },
+                    { nombre: 'Aceleración de tiempos por costos', porc: 20 },
+                    { nombre: 'Alertas tempranas ignoradas', porc: 15 }
+                ]
+            },
+            chernobyl: {
+                titulo: "Reactor Chernóbil - Unidad 4 (1986)",
+                rama: "Ingeniería Industrial / Nuclear",
+                mecanismo: "Inestabilidad por coeficiente de reactividad positivo a baja potencia durante una prueba mal programada y desactivación de sistemas automáticos de emergencia.",
+                cronologia: "01:23:04 AM: Inicio de prueba de turbina. 01:23:40 AM: Intento de apagado de emergencia (AZ-5) insertando barras de control con punta de grafito que aumentaron la reactividad. Explosión de vapor.",
+                leccion: "Diseño intrínsecamente seguro (coeficientes negativos), prohibición absoluta de desactivar sistemas de protección y cultura estricta de seguridad operativa.",
+                factores: [
+                    { nombre: 'Violación de procedimientos de prueba', porc: 40 },
+                    { nombre: 'Defecto en diseño de barras de control', porc: 30 },
+                    { nombre: 'Desactivación de sistemas de emergencia', porc: 20 },
+                    { nombre: 'Falta de contención secundaria', porc: 10 }
+                ]
+            }
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            initCausaRaizChart();
+            cargarCasoFalla();
+            validarPasosYActualizar();
+        });
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function initCausaRaizChart() {
+            const ctx = document.getElementById('causaRaizChart').getContext('2d');
+            causaRaizChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Factor A', 'Factor B', 'Factor C', 'Factor D'],
+                    datasets: [{
+                        data: [40, 30, 20, 10],
+                        backgroundColor: ['#f43f5e', '#fb923c', '#a855f7', '#38bdf8'],
+                        borderColor: '#0f172a',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#cbd5e1', font: { size: 10, family: 'Inter' } } }
+                    }
+                }
+            });
+        }
+
+        function cargarCasoFalla() {
+            const key = document.getElementById('select-caso-fallas').value;
+            const data = casosData[key];
+
+            document.getElementById('panel-caso-detalles').innerHTML = `
+                <h4 class="font-bold text-rose-400 text-sm border-b border-slate-800 pb-1">${data.titulo}</h4>
+                <p class="text-slate-300"><strong>Área Especializada:</strong> ${data.rama}</p>
+                <p class="text-slate-300"><strong>Mecanismo Técnico de Falla:</strong> ${data.mecanismo}</p>
+            `;
+
+            document.getElementById('caso-cronologia-titulo').innerText = `Cronología: ${data.titulo}`;
+            document.getElementById('caso-rama-badge').innerText = data.rama;
+            document.getElementById('caso-cronologia-texto').innerText = data.cronologia;
+            document.getElementById('caso-leccion-texto').innerText = data.leccion;
+
+            // Actualizar Lista de Factores
+            const lista = document.getElementById('causa-raiz-lista');
+            lista.innerHTML = data.factores.map(f => `
+                <div class="flex justify-between items-center bg-slate-900 p-2 rounded-lg border border-slate-800">
+                    <span>${f.nombre}:</span>
+                    <span class="font-bold text-rose-400">${f.porc}%</span>
+                </div>
+            `).join('');
+
+            // Actualizar Chart
+            if (causaRaizChart) {
+                causaRaizChart.data.labels = data.factores.map(f => f.nombre);
+                causaRaizChart.data.datasets[0].data = data.factores.map(f => f.porc);
+                causaRaizChart.update();
+            }
+
+            validarPasosYActualizar();
+        }
+
+        function validarPasosYActualizar() {
+            const p1 = document.getElementById('cuaderno-casos-p1').value.trim();
+            const p2 = document.getElementById('cuaderno-casos-p2').value.trim();
+            const p3 = document.getElementById('cuaderno-casos-p3').value.trim();
+            const p4 = document.getElementById('cuaderno-casos-p4').value.trim();
+
+            const paso1Ok = (p1.length > 5 && p2.length > 5 && p3.length > 5 && p4.length > 5);
+            const paso2Ok = casoCargado;
+            const paso3Ok = document.getElementById('check-paso3-causa').checked;
+            const paso4Ok = (document.getElementById('input-protocolo-preventivo').value.trim().length > 10);
+
+            const nombre = document.getElementById('alumno-nombre-casos').value.trim();
+            const grupo = document.getElementById('alumno-grupo-casos').value.trim();
+            const dictamen = document.getElementById('alumno-dictamen-casos').value.trim();
+            const paso5Ok = (nombre.length > 3 && grupo.length >= 2 && dictamen.length > 5);
+
+            actualizarEstadoPaso('st-text-1', 'status-card-1', paso1Ok);
+            actualizarEstadoPaso('st-text-2', 'status-card-2', paso2Ok);
+            actualizarEstadoPaso('st-text-3', 'status-card-3', paso3Ok);
+            actualizarEstadoPaso('st-text-4', 'status-card-4', paso4Ok);
+            actualizarEstadoPaso('st-text-5', 'status-card-5', paso5Ok);
+
+            let total = 0;
+            if (paso1Ok) total += 20;
+            if (paso2Ok) total += 20;
+            if (paso3Ok) total += 20;
+            if (paso4Ok) total += 20;
+            if (paso5Ok) total += 20;
+
+            const badge = document.getElementById('porcentaje-cumplimiento-badge');
+            badge.innerText = `${total}%`;
+
+            if (total === 100) {
+                badge.className = "font-black text-emerald-400 text-base animate-pulse";
+            } else {
+                badge.className = "font-black text-red-400 text-base";
+            }
+
+            actualizarFichaCuaderno(total);
+        }
+
+        function actualizarEstadoPaso(textId, cardId, ok) {
+            const txt = document.getElementById(textId);
+            const card = document.getElementById(cardId);
+            if (ok) {
+                txt.innerText = "✅ Cumplido";
+                txt.className = "text-[11px] text-emerald-400 block font-semibold";
+                card.className = "p-3 rounded-2xl border bg-emerald-950/20 border-emerald-500/40 space-y-1";
+            } else {
+                txt.innerText = "❌ Pendiente";
+                txt.className = "text-[11px] text-red-400 block font-semibold";
+                card.className = "p-3 rounded-2xl border bg-slate-900 border-slate-800 space-y-1";
+            }
+        }
+
+        function actualizarFichaCuaderno(totalPorcentaje) {
+            const nombre = document.getElementById('alumno-nombre-casos').value || "[Tu Nombre]";
+            const grupo = document.getElementById('alumno-grupo-casos').value || "[Tu Grupo]";
+            const p1 = document.getElementById('cuaderno-casos-p1').value || "(Pendiente de responder)";
+            const p2 = document.getElementById('cuaderno-casos-p2').value || "(Pendiente de responder)";
+            const p3 = document.getElementById('cuaderno-casos-p3').value || "(Pendiente de responder)";
+            const p4 = document.getElementById('cuaderno-casos-p4').value || "(Pendiente de responder)";
+            const dictamen = document.getElementById('alumno-dictamen-casos').value || "(Escribe el dictamen del perito estudiantil)";
+            const protocolo = document.getElementById('input-protocolo-preventivo').value || "(Escribe la propuesta de protocolo preventivo)";
+
+            const key = document.getElementById('select-caso-fallas').value;
+            const casoData = casosData[key];
+
+            const estatusRevision = (totalPorcentaje === 100)
+                ? "🟢 ESTATUS DE REVISIÓN: [ CUMPLIÓ EL 100% DE PASOS - ACTIVIDAD HABILITADA PARA REVISIÓN ]"
+                : "🔴 ESTATUS DE REVISIÓN: [ INCOMPLETO - ACTIVIDAD NO SE REVISA HASTA ALCANZAR EL 100% ]";
+
+            const text = `=======================================================
+REPORTE DE PERITAJE TÉCNICO POST-MORTEM DE FALLAS
+Universidad William Osler & UAGRO • Bachillerato (Edición 2026)
+Catedrático: L.I. Luis Arturo López Vergara
+=======================================================
+DATOS DEL ESTUDIANTE PERITO:
+• Nombre: ${nombre}
+• Grupo: ${grupo}
+• Fecha: ${new Date().toLocaleDateString('es-MX')}
+
+${estatusRevision}
+
+-------------------------------------------------------
+BLOQUE 1: RESPUESTAS DE ANÁLISIS FORENSE EN CUADERNO
+-------------------------------------------------------
+1. Innovación surgida del estudio de fallas:
+   R: ${p1}
+
+2. Error de diseño vs Falta de pruebas/simulación:
+   R: ${p2}
+
+3. Consecuencias en software crítico reutilizado:
+   R: ${p3}
+
+4. Factor de Redundancia e Inmunidad a Fallas:
+   R: ${p4}
+
+-------------------------------------------------------
+BLOQUE 2: CASO DE ESTUDIO HISTÓRICO ANALIZADO
+-------------------------------------------------------
+• Caso Evaludo: ${casoData.titulo} (${casoData.rama})
+• Mecanismo Físico/Técnico de Falla: ${casoData.mecanismo}
+• Lección Adoptada por la Industria: ${casoData.leccion}
+
+-------------------------------------------------------
+BLOQUE 3: PROTOCOLO PREVENTIVO DE SEGURIDAD PROPUESTO
+-------------------------------------------------------
+"${protocolo}"
+
+-------------------------------------------------------
+BLOQUE 4: DICTAMEN FINAL DEL PERITO ESTUDIANTIL
+-------------------------------------------------------
+"${dictamen}"
+=======================================================`;
+
+            document.getElementById('ficha-preview-casos').innerText = text;
+        }
+
+        function copiarFichaCuaderno() {
+            const text = document.getElementById('ficha-preview-casos').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("¡Ficha de Peritaje Técnico copiada con éxito! Transcríbela o pégala en tu libreta de apuntes.");
+            });
+        }
+    </script>
+</body>
+</html>
