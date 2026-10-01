@@ -73,6 +73,68 @@ mindmap
       Análisis post-mortem
     Sustentabilidad y Ética
       Matriz EIA
+---
+
+## 🗺️ 3. Mapa de Unidades y Módulos
+
+### 📘 Unidad I: ¿Qué es la Ingeniería? (`docs/`)
+* **Fundamentos:** Origen, historia, evolución y pensamiento ingenieril.
+* **Recursos:** Guías teóricas, lecturas de apoyo y rúbricas de evaluación institucionales.
+
+### ⚙️ Unidad II: El Proceso de Ingeniería (`simulador.html`)
+* **Metodología:** Bitácora interactiva de 5 clases para proyectos colaborativos en equipo.
+* **Prototipado:** Planteamiento del problema, criterios de diseño, restricciones y simulación con prompts.
+
+### 👷‍♂️ Unidad III: Ramas de la Ingeniería e Identidad (`vocacional.html`)
+* **Dinámica:** *"Vístete del Ingeniero que quieres ser"*.
+* **Orientación:** Cuestionario vocacional de 6 preguntas, catálogo de 10 especialidades y creador de credencial oficial con casco institucional.
+
+### 💬 Unidad IV: Banco de Prompts y Framework de IA (`banco-de-prompts.html`)
+* **Protocolo:** Framework de 5 elementos (*Rol, Tarea, Contexto, Formato, Restricción*).
+* **Módulos Especiales:** Carga y foto-análisis multimodal de imágenes, auditoría antialucinaciones (*Fact-Checking*) y comparativa dual *ChatGPT vs Gemini*.
+
+### 🏙️ Unidad VII: Aplicaciones de la Ingeniería e IA (`simulador-unidad7.html`)
+* **Simulación:** Dashboard *"Urban-Eng + AI Impact"* con interruptor para activar la capa de transformación por IA en sectores urbanos.
+* **Análisis:** Timeline 24h (*"Día en 2035"*), radar de profesiones del futuro (Chart.js) y preguntas detonadoras en cuaderno.
+
+### 🍃 Unidad V: Ética, Sustentabilidad y Gestión del Riesgo (`simulador-unidad5.html`)
+* **Evaluación:** Dashboard de Evaluación de Impacto Ambiental y Social (EIA) con sliders interactivos.
+* **Resiliencia:** Análisis de infraestructura para la Costa de Guerrero ante sismos y huracanes, junto con un laboratorio de dilemas éticos.
+
+### 💵 Unidad VI: Pensamiento Lógico, Métricas y Costos (`simulador-unidad6.html`)
+* **Finanzas Técnicas:** Calculadora de presupuestos en Pesos Mexicanos ($ MXN) con margen del 15% para imprevistos.
+* **Proyecciones:** Resolución de problemas de estimación de Fermi y gráfico de Tiempo de Retorno de Inversión (ROI).
+
+### 🔬 Módulo Especial: Análisis Forense de Fallas (`estudio-casos.html`)
+* **Laboratorio:** Peritaje técnico post-mortem de desastres históricos (*Tacoma Narrows, Ariane 5, Deepwater Horizon, Chernóbil*).
+* **Dictamen:** Diagrama de causa raíz en dona (Chart.js), propuesta de protocolo preventivo y dictamen de perito estudiantil.
+
+---
+
+## 🛡️ 4. Mecanismo Estricto de Revisión (Filtro 100%)
+
+Para garantizar la disciplina académica y la completitud del trabajo presencial, los módulos `Unidad V`, `Unidad VI`, `Unidad VII` y el `Módulo Especial` cuentan con un **Filtro Automático de Revisión**:
+
+```text
+                        [ INICIO DE LA ACTIVIDAD ]
+                                    │
+                                    ▼
+       [ Paso 1: Preguntas ] ➔ [ Paso 2: Simulador / Calculadora ]
+                                    │
+                                    ▼
+       [ Paso 3: Análisis ]  ➔ [ Paso 4: Dilema / ROI / Protocolo ]
+                                    │
+                                    ▼
+                   [ Paso 5: Datos del Alumno y Dictamen ]
+                                    │
+                                    ▼
+               ¿Porcentaje de Cumplimiento == 100%?
+                            /         \
+                       SÍ  /           \  NO
+                          /             \
+      🟢 [ ACTIVIDAD HABILITADA ]     🔴 [ ACTIVIDAD NO SE REVISA ]
+      Estatus en Ficha:               Estatus en Ficha:
+      "CUMPLIÓ EL 100% DE PASOS"      "INCOMPLETO - NO SE REVISA"
       Dilemas profesionales
       Resiliencia sísmica
     Rigurosidad Técnica
