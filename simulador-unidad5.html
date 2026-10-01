@@ -1,1 +1,623 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unidad V: Ética, Sustentabilidad y Gestión del Riesgo | William Osler</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', 'Poppins', sans-serif; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 550px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 280px;
+        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans leading-relaxed min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
 
+    <!-- ENCABEZADO INSTITUCIONAL -->
+    <header class="bg-slate-950 border-b border-slate-800 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-emerald-600/20 border border-emerald-500/30 p-2 rounded-xl text-emerald-400 font-bold text-sm tracking-wider">
+                    WM OSLER
+                </div>
+                <div>
+                    <h1 class="font-bold text-base sm:text-lg text-white tracking-wide">Unidad V: Ética, Sustentabilidad y Gestión del Riesgo</h1>
+                    <p class="text-xs text-slate-400">Evaluación de Impacto Ambiental, Resiliencia y Dictamen Ético</p>
+                </div>
+            </div>
+            <div class="text-right bg-slate-900/80 px-3.5 py-1.5 rounded-xl border border-slate-800 text-xs">
+                <p class="font-semibold text-emerald-400">Catedrático: L.I. Luis Arturo López Vergara</p>
+                <p class="text-[10px] text-slate-400">Bachillerato • Zihuatanejo, Guerrero • Edición 2026</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- BARRA DE NAVEGACIÓN -->
+    <nav class="bg-slate-950/90 border-b border-slate-800 sticky top-[61px] z-40 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex overflow-x-auto space-x-2 py-2.5 text-xs font-semibold scrollbar-none">
+                <a href="index.html" class="py-1.5 px-3 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition whitespace-nowrap">
+                    🏠 Portal Hub
+                </a>
+                <button type="button" onclick="scrollToSection('seccion-preguntas-eticas')" class="py-1.5 px-3 rounded-lg text-amber-300 bg-amber-950/40 border border-amber-800/60 transition whitespace-nowrap font-bold">
+                    📝 1. Preguntas en Cuaderno
+                </button>
+                <button type="button" onclick="scrollToSection('simulador-eia')" class="py-1.5 px-3 rounded-lg text-emerald-300 bg-emerald-950/50 border border-emerald-800/60 transition whitespace-nowrap font-bold">
+                    🍃 2. Matriz de Impacto EIA
+                </button>
+                <button type="button" onclick="scrollToSection('resiliencia-riesgos')" class="py-1.5 px-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition whitespace-nowrap">
+                    🌀 3. Riesgos e Infraestructura
+                </button>
+                <button type="button" onclick="scrollToSection('dilemas-eticos')" class="py-1.5 px-3 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition whitespace-nowrap">
+                    ⚖️ 4. Laboratorio de Dilemas Éticos
+                </button>
+                <button type="button" onclick="scrollToSection('seccion-validador-cumplimiento')" class="py-1.5 px-3 rounded-lg text-red-300 bg-red-950/50 border border-red-800/60 transition whitespace-nowrap font-bold">
+                    🛡️ 5. Filtro de Revisión (100%)
+                </button>
+                <button type="button" onclick="scrollToSection('entregable-cuaderno-final')" class="py-1.5 px-3 rounded-lg text-teal-300 bg-teal-950/50 border border-teal-800/60 transition whitespace-nowrap font-bold">
+                    📌 6. Ficha Final para Cuaderno
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+
+        <!-- BANNER DE PROPÓSITO DE LA UNIDAD V -->
+        <section class="bg-gradient-to-r from-slate-950 via-slate-900 to-emerald-950/50 border border-emerald-500/30 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+                <span class="bg-emerald-500/20 text-emerald-300 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/30 uppercase tracking-wider">
+                    Unidad V • Responsabilidad Profesional y Sustentabilidad
+                </span>
+                <span class="text-xs text-slate-400">Modalidad: Individual / Registro en Cuaderno</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+                "Un excelente diseño técnico es inútil si destruye el entorno o pone en riesgo a la comunidad"
+            </h2>
+            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-4xl">
+                En este módulo aprenderás a calcular la viabilidad ambiental y social de proyectos de ingeniería, prever medidas de mitigación para riesgos regionales (sismos y huracanes) y aplicar el código de ética profesional en situaciones de toma de decisiones.
+            </p>
+        </section>
+
+        <!-- BANNER DE ALERTA DE CUMPLIMIENTO OBLIGATORIO -->
+        <div id="alerta-filtro-revision" class="bg-red-950/80 border-2 border-red-500 p-4 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-xs shadow-lg">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl">⚠️</span>
+                <div>
+                    <span class="font-extrabold text-red-400 uppercase text-sm block">Criterio Estricto de Revisión del Catedrático</span>
+                    <p class="text-slate-200">Para que esta actividad sea tomada en cuenta, el alumno debe **cumplir obligatoriamente el 100% de los 5 pasos**. En caso contrario, **LA ACTIVIDAD NO SE REVISA**.</p>
+                </div>
+            </div>
+            <div class="bg-slate-900 px-4 py-2 rounded-xl border border-red-800/80 text-center">
+                <span class="text-[10px] text-slate-400 block uppercase font-bold">Porcentaje Actual</span>
+                <span id="porcentaje-cumplimiento-badge" class="font-black text-red-400 text-base">0%</span>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 1: PREGUNTAS ÉTICAS PARA EL CUADERNO -->
+        <section id="seccion-preguntas-eticas" class="space-y-6 pt-2">
+            <div class="border-l-4 border-amber-500 pl-4">
+                <h3 class="text-xl font-bold text-white">1. Preguntas Éticas y Sustentables (Paso 1 Obligatorio)</h3>
+                <p class="text-xs text-slate-400 mt-1">Reflexiona y responde en tu libreta de notas estas 4 preguntas de dilema ingenieril.</p>
+            </div>
+
+            <div class="bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2">
+                        <span class="font-bold text-amber-400 text-xs uppercase block">Pregunta 1</span>
+                        <p class="text-slate-200 font-medium">¿Por qué es indispensable que un proyecto de ingeniería evalúe su impacto social y ecológico antes de construir?</p>
+                        <textarea id="cuaderno-u5-p1" oninput="validarPasosYActualizar()" rows="2" placeholder="Escribe tu reflexión sobre sostenibilidad y comunidad..." class="w-full p-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-300 focus:ring-1 focus:ring-amber-500"></textarea>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2">
+                        <span class="font-bold text-amber-400 text-xs uppercase block">Pregunta 2</span>
+                        <p class="text-slate-200 font-medium">¿Qué riesgos naturales (sismos, huracanes, inundaciones) debe considerar un ingeniero al diseñar obras en la Costa de Guerrero?</p>
+                        <textarea id="cuaderno-u5-p2" oninput="validarPasosYActualizar()" rows="2" placeholder="Analiza el entorno sísmico y meteorológico regional..." class="w-full p-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-300 focus:ring-1 focus:ring-amber-500"></textarea>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2">
+                        <span class="font-bold text-amber-400 text-xs uppercase block">Pregunta 3</span>
+                        <p class="text-slate-200 font-medium">Si un proyecto genera ganancias altas pero contamina un río local, ¿cuál debe ser la postura del ingeniero responsable?</p>
+                        <textarea id="cuaderno-u5-p3" oninput="validarPasosYActualizar()" rows="2" placeholder="Responde según el código de ética y la ley ambiental..." class="w-full p-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-300 focus:ring-1 focus:ring-amber-500"></textarea>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2">
+                        <span class="font-bold text-amber-400 text-xs uppercase block">Pregunta 4</span>
+                        <p class="text-slate-200 font-medium">¿De qué forma la economía circular y el reciclaje de materiales reducen la huella ecológica en obras e industria?</p>
+                        <textarea id="cuaderno-u5-p4" oninput="validarPasosYActualizar()" rows="2" placeholder="Menciona reuso de concreto, agua tratada o chatarra electrónica..." class="w-full p-2 bg-slate-950 border border-slate-800 rounded-xl text-slate-300 focus:ring-1 focus:ring-amber-500"></textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: SIMULADOR DE EVALUACIÓN DE IMPACTO AMBIENTAL Y SOCIAL (EIA) -->
+        <section id="simulador-eia" class="space-y-6 pt-2">
+            <div class="border-l-4 border-emerald-500 pl-4">
+                <h3 class="text-xl font-bold text-white">2. Dashboard de Evaluación de Impacto Ambiental y Social (Paso 2 Obligatorio)</h3>
+                <p class="text-xs text-slate-400 mt-1">Ajusta las variables operativas del proyecto seleccionado para simular su viabilidad ecológica y dictamen ético.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 bg-slate-800 p-6 rounded-3xl border border-slate-700">
+                <!-- CONTROLES DE PROYECTO Y SLIDERS -->
+                <div class="lg:col-span-6 space-y-4 text-xs">
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">Selecciona el Proyecto a Auditar:</label>
+                        <select id="select-proyecto-eia" onchange="calcularEIA()" class="w-full p-2.5 bg-slate-950 text-slate-200 border border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500">
+                            <option value="solar">Parque Solar Fotovoltaico en Zona Rural</option>
+                            <option value="puente">Puente y Vialidad Costera Resiliente</option>
+                            <option value="agua">Planta de Tratamiento de Agua Residuales</option>
+                            <option value="datacenter">Centro de Datos e Infraestructura Digital</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-3 bg-slate-900 p-4 rounded-2xl border border-slate-800">
+                        <div>
+                            <div class="flex justify-between text-slate-300 font-semibold mb-1">
+                                <span>Impacto Ecológico / Deforestación:</span>
+                                <span id="val-impacto-eco" class="text-amber-400">40%</span>
+                            </div>
+                            <input type="range" id="slider-impacto-eco" min="10" max="90" value="40" oninput="calcularEIA()" class="w-full accent-amber-500 cursor-pointer">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-slate-300 font-semibold mb-1">
+                                <span>Beneficio Social / Empleo Local:</span>
+                                <span id="val-beneficio-soc" class="text-emerald-400">70%</span>
+                            </div>
+                            <input type="range" id="slider-beneficio-soc" min="10" max="90" value="70" oninput="calcularEIA()" class="w-full accent-emerald-500 cursor-pointer">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-slate-300 font-semibold mb-1">
+                                <span>Mitigación de Riesgos Naturales (Sismos/Clima):</span>
+                                <span id="val-mitigacion-riesgo" class="text-sky-400">60%</span>
+                            </div>
+                            <input type="range" id="slider-mitigacion-riesgo" min="10" max="90" value="60" oninput="calcularEIA()" class="w-full accent-sky-500 cursor-pointer">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GRÁFICO RADAR Y DICTAMEN -->
+                <div class="lg:col-span-6 flex flex-col justify-between space-y-3">
+                    <div class="chart-container">
+                        <canvas id="eiaChart"></canvas>
+                    </div>
+
+                    <div id="dictamen-eia-box" class="p-3.5 rounded-2xl border text-xs font-mono leading-relaxed">
+                        <!-- Dictamen dinámico -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: GESTIÓN DEL RIESGO E INFRAESTRUCTURA RESILIENTE -->
+        <section id="resiliencia-riesgos" class="space-y-6 pt-2">
+            <div class="border-l-4 border-sky-500 pl-4">
+                <h3 class="text-xl font-bold text-white">3. Infraestructura Resiliente en Zonas de Riesgo (Paso 3 Obligatorio)</h3>
+                <p class="text-xs text-slate-400 mt-1">Explora las soluciones ingenieriles para amortiguar desastres naturales regionales.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                <div class="bg-slate-800 p-5 rounded-3xl border border-slate-700 space-y-2">
+                    <span class="text-2xl block">🌋</span>
+                    <h4 class="font-bold text-white text-sm">Resiliencia Sísmica (Ing. Civil)</h4>
+                    <p class="text-slate-300">Uso de aisladores de base elásticos y amortiguadores viscosos en edificios y puentes para disipar la energía de sismos de gran magnitud.</p>
+                </div>
+
+                <div class="bg-slate-800 p-5 rounded-3xl border border-slate-700 space-y-2">
+                    <span class="text-2xl block">🌀</span>
+                    <h4 class="font-bold text-white text-sm">Protección Ante Huracanes (Ing. Civil/Ambiental)</h4>
+                    <p class="text-slate-300">Diseño aerodinámico de cubiertas, sistemas de drenaje pluvial de alto flujo y restauración de manglares como barreras naturales marinas.</p>
+                </div>
+
+                <div class="bg-slate-800 p-5 rounded-3xl border border-slate-700 space-y-2">
+                    <span class="text-2xl block">⚡</span>
+                    <h4 class="font-bold text-white text-sm">Redundancia Energética y Datos (Sistemas/Eléctrica)</h4>
+                    <p class="text-slate-300">Microrredes solares autónomas con respaldo de baterías e infraestructura subterránea protegida contra vientos de categoría 5.</p>
+                </div>
+            </div>
+            <div class="text-right">
+                <label class="inline-flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-xl border border-slate-700 text-xs font-semibold cursor-pointer">
+                    <input type="checkbox" id="check-paso3-riesgos" onchange="validarPasosYActualizar()" class="rounded text-emerald-500 focus:ring-emerald-500">
+                    <span>He revisado y analizado las medidas de resiliencia sísmica y meteorológica</span>
+                </label>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: LABORATORIO DE DILEMAS ÉTICOS -->
+        <section id="dilemas-eticos" class="space-y-6 pt-2">
+            <div class="border-l-4 border-purple-500 pl-4">
+                <h3 class="text-xl font-bold text-white">4. Laboratorio de Dilemas Éticos en Ingeniería (Paso 4 Obligatorio)</h3>
+                <p class="text-xs text-slate-400 mt-1">Toma una postura frente a situaciones reales donde se confrontan costos, tiempos y responsabilidad profesional.</p>
+            </div>
+
+            <div class="bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-4 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-300 mb-1">Selecciona un Caso de Estudio Ético:</label>
+                    <select id="select-dilema" onchange="evaluarDilema()" class="w-full p-2.5 bg-slate-950 text-slate-200 border border-slate-700 rounded-xl focus:ring-2 focus:ring-purple-500">
+                        <option value="1">Caso 1: Reducción de costos en acero estructural para acelerar la entrega</option>
+                        <option value="2">Caso 2: Vertido temporal de aguas no tratadas por falla de presupuesto</option>
+                        <option value="3">Caso 3: Obsolescencia programada en software de monitoreo de incendios</option>
+                    </select>
+                </div>
+
+                <div id="panel-dilema-detalle" class="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-3">
+                    <!-- Detalle del dilema dinámico -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 5: VALIDADOR Y FILTRO DE CUMPLIMIENTO -->
+        <section id="seccion-validador-cumplimiento" class="bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-4 text-xs">
+            <div class="border-l-4 border-red-500 pl-3">
+                <h3 class="text-lg font-bold text-white">5. Lista de Verificación Obligatoria para Revisión del Profesor</h3>
+                <p class="text-slate-400">Verifica el cumplimiento de cada paso. **Si falta alguno, el estatus será "NO SE REVISA"**.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-3 pt-2">
+                <div id="status-card-1" class="p-3 rounded-2xl border bg-slate-900 border-slate-800 space-y-1">
+                    <span class="font-bold text-amber-400 block">Paso 1: Preguntas</span>
+                    <span id="st-text-1" class="text-[11px] text-red-400 block font-semibold">❌ Incompleto</span>
+                </div>
+
+                <div id="status-card-2" class="p-3 rounded-2xl border bg-slate-900 border-slate-800 space-y-1">
+                    <span class="font-bold text-emerald-400 block">Paso 2: Matriz EIA</span>
+                    <span id="st-text-2" class="text-[11px] text-emerald-400 block font-semibold">✅ Simulado</span>
+                </div>
+
+                <div id="status-card-3" class="p-3 rounded-2xl border bg-slate-900 border-slate-800 space-y-1">
+                    <span class="font-bold text-sky-400 block">Paso 3: Riesgos</span>
+                    <span id="st-text-3" class="text-[11px] text-red-400 block font-semibold">❌ Pendiente</span>
+                </div>
+
+                <div id="status-card-4" class="p-3 rounded-2xl border bg-slate-900 border-slate-800 space-y-1">
+                    <span class="font-bold text-purple-400 block">Paso 4: Dilema</span>
+                    <span id="st-text-4" class="text-[11px] text-emerald-400 block font-semibold">✅ Resuelto</span>
+                </div>
+
+                <div id="status-card-5" class="p-3 rounded-2xl border bg-slate-900 border-slate-800 space-y-1">
+                    <span class="font-bold text-teal-400 block">Paso 5: Ficha Datos</span>
+                    <span id="st-text-5" class="text-[11px] text-red-400 block font-semibold">❌ Incompleto</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 6: ENTREGABLE PARA EL CUADERNO -->
+        <section id="entregable-cuaderno-final" class="space-y-6 pt-2">
+            <div class="border-l-4 border-teal-500 pl-4">
+                <h3 class="text-xl font-bold text-white">6. Ficha Resumen de Dictamen Ético (Paso 5 Obligatorio)</h3>
+                <p class="text-xs text-slate-400 mt-1">Genera tu documento consolidado listo para transcribir y firmar en tu libreta.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- FORMULARIO DE DATOS DEL ALUMNO -->
+                <div class="lg:col-span-4 bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-3 text-xs">
+                    <h4 class="font-bold text-white text-sm">✍️ Datos del Alumno</h4>
+
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">Nombre Completo:</label>
+                        <input type="text" id="alumno-nombre-u5" oninput="validarPasosYActualizar()" placeholder="Ej: Juan Carlos Pérez" class="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-200">
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">Grupo de Bachillerato:</label>
+                        <input type="text" id="alumno-grupo-u5" oninput="validarPasosYActualizar()" placeholder="Ej: Grupo 602" class="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-200">
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-slate-300 mb-1">Compromiso Ético Profesional:</label>
+                        <textarea id="alumno-compromiso-u5" oninput="validarPasosYActualizar()" rows="3" placeholder="Sintetiza en 2 renglones tu compromiso como futuro profesionista responsable..." class="w-full p-2.5 bg-slate-950 border border-slate-700 rounded-xl text-slate-200"></textarea>
+                    </div>
+
+                    <button type="button" onclick="copiarFichaCuaderno()" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-2.5 rounded-xl shadow transition cursor-pointer">
+                        📋 Copiar Ficha Completa
+                    </button>
+                </div>
+
+                <!-- VISTA PREVIA FORMATO CUADERNO -->
+                <div class="lg:col-span-8 bg-slate-950 p-6 rounded-3xl border border-slate-800 flex flex-col justify-between space-y-4 shadow-xl">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                        <span class="text-xs font-bold text-teal-400 uppercase tracking-wider">Vista Previa - Transcripción a Cuaderno</span>
+                        <span class="text-[10px] text-slate-400">Universidad William Osler • 2026</span>
+                    </div>
+
+                    <div id="ficha-preview-u5" class="bg-slate-900 p-4 rounded-2xl border border-slate-800 font-mono text-xs text-slate-300 leading-relaxed overflow-y-auto max-h-[360px] whitespace-pre-wrap">
+                        <!-- Se llena dinámicamente -->
+                    </div>
+
+                    <p class="text-[11px] text-slate-400">
+                        📌 Copia esta ficha consolidada en tu libreta de tareas para la revisión presencial de la Unidad V.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- PIE INSTITUCIONAL -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-6 mt-12 text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p>Universidad William Osler • Programa Académico Bachillerato</p>
+            <p class="text-slate-400 font-medium">Catedrático: L.I. Luis Arturo López Vergara • Zihuatanejo, Guerrero</p>
+        </div>
+    </footer>
+
+    <!-- LÓGICA JAVASCRIPT INTEGRADA -->
+    <script>
+        let eiaChart = null;
+        let eiaSimulado = false;
+
+        const dilemasData = {
+            1: {
+                titulo: "Caso 1: Materiales Estructurales de Menor Costo",
+                situacion: "El proveedor propone cambiar el tipo de acero especificado en los planos por uno de menor precio sin certificación para reducir costos un 20% y cumplir la fecha de entrega.",
+                opcionCorrecta: "Rechazar el cambio. El código de ética establece que la seguridad humana precede a los costos o calendarios de obra.",
+                posturaEtica: "Incumplir especificaciones estructurales pone en riesgo vidas humanas en una zona de alta sismicidad."
+            },
+            2: {
+                titulo: "Caso 2: Vertido Temporal de Residuos",
+                situacion: "Por falta de presupuesto inmediato, se sugiere descargar aguas residuales parcialmente tratadas a la bahía durante dos semanas mientras se aprueban fondos.",
+                opcionCorrecta: "Pausar el proceso o aplicar solución temporal de contención aprobada. Está prohibido contaminar ecosistemas locales.",
+                posturaEtica: "El impacto ambiental acumulado daña la flora, fauna marina y la salud comunitaria."
+            },
+            3: {
+                titulo: "Caso 3: Falla Conocida en Software de Alerta",
+                situacion: "El equipo detecta un error menor de falso positivo en el módulo de detección de incendios a dos días del lanzamiento del producto comercial.",
+                opcionCorrecta: "Notificar a la dirección y corregir el fallo antes del despliegue oficial.",
+                posturaEtica: "La transparencia en sistemas informáticos críticos previene fallas catastróficas en situaciones reales."
+            }
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            initEIAChart();
+            calcularEIA();
+            evaluarDilema();
+            validarPasosYActualizar();
+        });
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function initEIAChart() {
+            const ctx = document.getElementById('eiaChart').getContext('2d');
+            eiaChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: [
+                        'Viabilidad Ecológica',
+                        'Beneficio Social',
+                        'Mitigación de Riesgos',
+                        'Cumplimiento Normativo',
+                        'Sustentabilidad Futura'
+                    ],
+                    datasets: [{
+                        label: 'Índice de Sustentabilidad',
+                        data: [60, 70, 60, 80, 75],
+                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                        borderColor: '#10b981',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#10b981'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#334155' },
+                            grid: { color: '#1e293b' },
+                            pointLabels: { font: { size: 9, family: 'Inter' }, color: '#94a3b8' },
+                            ticks: { display: false, max: 100 }
+                        }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function calcularEIA() {
+            eiaSimulado = true;
+            const eco = parseInt(document.getElementById('slider-impacto-eco').value);
+            const soc = parseInt(document.getElementById('slider-beneficio-soc').value);
+            const ries = parseInt(document.getElementById('slider-mitigacion-riesgo').value);
+
+            document.getElementById('val-impacto-eco').innerText = `${eco}%`;
+            document.getElementById('val-beneficio-soc').innerText = `${soc}%`;
+            document.getElementById('val-mitigacion-riesgo').innerText = `${ries}%`;
+
+            const viabilidadEco = 100 - eco;
+            const cumplimientoNorma = Math.round((viabilidadEco + ries) / 2);
+            const sustentabilidadFutura = Math.round((viabilidadEco + soc + ries) / 3);
+
+            if (eiaChart) {
+                eiaChart.data.datasets[0].data = [
+                    viabilidadEco,
+                    soc,
+                    ries,
+                    cumplimientoNorma,
+                    sustentabilidadFutura
+                ];
+                eiaChart.update();
+            }
+
+            const box = document.getElementById('dictamen-eia-box');
+            if (viabilidadEco >= 50 && ries >= 50) {
+                box.className = "p-3.5 rounded-2xl border bg-emerald-950/40 border-emerald-500/50 text-emerald-300 text-xs font-mono leading-relaxed";
+                box.innerHTML = `✅ <strong>DICTAMEN: PROYECTO APROBADO CON DISTINTIVO VERDE</strong><br>El proyecto cumple con los estándares mínimos de mitigación de impacto ambiental y resiliencia ante desastres.`;
+            } else {
+                box.className = "p-3.5 rounded-2xl border bg-amber-950/40 border-amber-500/50 text-amber-300 text-xs font-mono leading-relaxed";
+                box.innerHTML = `⚠️ <strong>DICTAMEN: CONDICIONADO A PLAN DE MITIGACIÓN OBLIGATORIO</strong><br>El nivel de impacto ambiental o la vulnerabilidad ante riesgos naturales supera los límites aceptables.`;
+            }
+
+            validarPasosYActualizar();
+        }
+
+        function evaluarDilema() {
+            const key = document.getElementById('select-dilema').value;
+            const data = dilemasData[key];
+            const panel = document.getElementById('panel-dilema-detalle');
+
+            panel.innerHTML = `
+                <h4 class="font-bold text-purple-400 text-sm border-b border-slate-800 pb-1">${data.titulo}</h4>
+                <p class="text-slate-300"><strong>Escenario:</strong> ${data.situacion}</p>
+                <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 text-emerald-400">
+                    <strong>Decisión Ética Correcta:</strong> ${data.opcionCorrecta}
+                </div>
+                <p class="text-slate-400 text-[11px]"><strong>Fundamento Profesional:</strong> ${data.posturaEtica}</p>
+            `;
+            validarPasosYActualizar();
+        }
+
+        function validarPasosYActualizar() {
+            const p1 = document.getElementById('cuaderno-u5-p1').value.trim();
+            const p2 = document.getElementById('cuaderno-u5-p2').value.trim();
+            const p3 = document.getElementById('cuaderno-u5-p3').value.trim();
+            const p4 = document.getElementById('cuaderno-u5-p4').value.trim();
+
+            const paso1Ok = (p1.length > 5 && p2.length > 5 && p3.length > 5 && p4.length > 5);
+            const paso2Ok = eiaSimulado;
+            const paso3Ok = document.getElementById('check-paso3-riesgos').checked;
+            const paso4Ok = document.getElementById('select-dilema').value !== "";
+
+            const nombre = document.getElementById('alumno-nombre-u5').value.trim();
+            const grupo = document.getElementById('alumno-grupo-u5').value.trim();
+            const compromiso = document.getElementById('alumno-compromiso-u5').value.trim();
+            const paso5Ok = (nombre.length > 3 && grupo.length >= 2 && compromiso.length > 5);
+
+            // Actualizar tarjetas individuales
+            actualizarEstadoPaso('st-text-1', 'status-card-1', paso1Ok);
+            actualizarEstadoPaso('st-text-2', 'status-card-2', paso2Ok);
+            actualizarEstadoPaso('st-text-3', 'status-card-3', paso3Ok);
+            actualizarEstadoPaso('st-text-4', 'status-card-4', paso4Ok);
+            actualizarEstadoPaso('st-text-5', 'status-card-5', paso5Ok);
+
+            // Contador de porcentaje
+            let total = 0;
+            if (paso1Ok) total += 20;
+            if (paso2Ok) total += 20;
+            if (paso3Ok) total += 20;
+            if (paso4Ok) total += 20;
+            if (paso5Ok) total += 20;
+
+            const badge = document.getElementById('porcentaje-cumplimiento-badge');
+            badge.innerText = `${total}%`;
+
+            if (total === 100) {
+                badge.className = "font-black text-emerald-400 text-base animate-pulse";
+            } else {
+                badge.className = "font-black text-red-400 text-base";
+            }
+
+            actualizarFichaCuaderno(total);
+        }
+
+        function actualizarEstadoPaso(textId, cardId, ok) {
+            const txt = document.getElementById(textId);
+            const card = document.getElementById(cardId);
+            if (ok) {
+                txt.innerText = "✅ Cumplido";
+                txt.className = "text-[11px] text-emerald-400 block font-semibold";
+                card.className = "p-3 rounded-2xl border bg-emerald-950/20 border-emerald-500/40 space-y-1";
+            } else {
+                txt.innerText = "❌ Pendiente";
+                txt.className = "text-[11px] text-red-400 block font-semibold";
+                card.className = "p-3 rounded-2xl border bg-slate-900 border-slate-800 space-y-1";
+            }
+        }
+
+        function actualizarFichaCuaderno(totalPorcentaje) {
+            const nombre = document.getElementById('alumno-nombre-u5').value || "[Tu Nombre]";
+            const grupo = document.getElementById('alumno-grupo-u5').value || "[Tu Grupo]";
+            const p1 = document.getElementById('cuaderno-u5-p1').value || "(Pendiente de responder)";
+            const p2 = document.getElementById('cuaderno-u5-p2').value || "(Pendiente de responder)";
+            const p3 = document.getElementById('cuaderno-u5-p3').value || "(Pendiente de responder)";
+            const p4 = document.getElementById('cuaderno-u5-p4').value || "(Pendiente de responder)";
+            const comp = document.getElementById('alumno-compromiso-u5').value || "(Escribe tu compromiso profesional)";
+
+            const eco = document.getElementById('slider-impacto-eco').value;
+            const soc = document.getElementById('slider-beneficio-soc').value;
+            const ries = document.getElementById('slider-mitigacion-riesgo').value;
+            const dilemaKey = document.getElementById('select-dilema').value;
+            const dilemaData = dilemasData[dilemaKey];
+
+            const estatusRevision = (totalPorcentaje === 100)
+                ? "🟢 ESTATUS DE REVISIÓN: [ CUMPLIÓ EL 100% DE PASOS - ACTIVIDAD HABILITADA PARA REVISIÓN ]"
+                : "🔴 ESTATUS DE REVISIÓN: [ INCOMPLETO - ACTIVIDAD NO SE REVISA HASTA ALCANZAR EL 100% ]";
+
+            const text = `=======================================================
+FICHA DE DICTAMEN ÉTICO Y SUSTENTABILIDAD - UNIDAD V
+Universidad William Osler • Bachillerato (Edición 2026)
+Catedrático: L.I. Luis Arturo López Vergara
+=======================================================
+DATOS DEL ESTUDIANTE:
+• Nombre: ${nombre}
+• Grupo: ${grupo}
+• Fecha: ${new Date().toLocaleDateString('es-MX')}
+
+${estatusRevision}
+
+-------------------------------------------------------
+BLOQUE 1: RESPUESTAS ÉTICAS EN CUADERNO
+-------------------------------------------------------
+1. Evaluación previa de impacto social y ecológico:
+   R: ${p1}
+
+2. Riesgos naturales considerados en la Costa de Guerrero:
+   R: ${p2}
+
+3. Postura ética frente a la contaminación rentable:
+   R: ${p3}
+
+4. Aplicación de la economía circular:
+   R: ${p4}
+
+-------------------------------------------------------
+BLOQUE 2: RESULTADOS DE EVALUACIÓN AMBIENTAL (EIA)
+-------------------------------------------------------
+• Nivel de Impacto Ecológico: ${eco}%
+• Beneficio Social Estimado: ${soc}%
+• Nivel de Mitigación de Riesgos: ${ries}%
+• Viabilidad Ecológica Calculada: ${100 - eco}%
+
+-------------------------------------------------------
+BLOQUE 3: ANÁLISIS DE DILEMA ÉTICO PROFESIONAL
+-------------------------------------------------------
+• Caso Evaluado: ${dilemaData.titulo}
+• Decisión Asumida: ${dilemaData.opcionCorrecta}
+
+-------------------------------------------------------
+BLOQUE 4: COMPROMISO ÉTICO DEL ESTUDIANTE
+-------------------------------------------------------
+"${comp}"
+=======================================================`;
+
+            document.getElementById('ficha-preview-u5').innerText = text;
+        }
+
+        function copiarFichaCuaderno() {
+            const text = document.getElementById('ficha-preview-u5').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("¡Ficha de Unidad V copiada con éxito! Transcríbela o pégala en tu libreta de apuntes.");
+            });
+        }
+    </script>
+</body>
+</html>
